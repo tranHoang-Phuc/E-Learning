@@ -536,6 +536,77 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         }
         return 0;
     }
+
+    @Override
+    public List<Course> searchCourse(String infor) {
+        Connection connection = DBContext.getConnection();
+        ArrayList<Course> courselist = new ArrayList<>();
+        String sql = "SELECT * FROM (\n"
+                + "SELECT c.courseId, c.name, cc.name AS category,\n"
+                + "l.name AS level, la.name AS language, c.price AS cost, u.name AS author FROM course c\n"
+                + "JOIN user u ON u.userId = c.authorId\n"
+                + "JOIN coursecategory cc ON cc.courseCategoryId = c.courseCategoryId\n"
+                + "JOIN level l ON l.levelId = c.levelId\n"
+                + "JOIN language la ON la.languageId = c.languageId\n"
+                + "WHERE c.name LIKE ? \n"
+                + ") t\n";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + infor + "%");
+            
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Course course = new Course();
+                course.setCourseId(rs.getInt("courseId"));
+                course.setName(rs.getString("name"));
+                CourseCategory courseCategory = new CourseCategory();
+                courseCategory.setName(rs.getString("category"));
+                course.setCategory(courseCategory);
+                Level level = new Level();
+                level.setName(rs.getString("level"));
+                course.setLevel(level);
+                Language language = new Language();
+                language.setName(rs.getString("language"));
+                course.setLanguage(language);
+                course.setPrice(rs.getLong("cost"));
+                User author = new User();
+                author.setName(rs.getString("author"));
+                course.setAuthor(author);
+                courselist.add(course);
+            }
+            return courselist;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return null;
+    }
+
+    @Override
+    public int countSearchRecord(String infor) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT COUNT(*) AS numOfRecord FROM (\n"
+                + "SELECT c.courseId, c.name, cc.name AS category,\n"
+                + "l.name AS level, la.name AS language, c.price AS cost, u.name AS author FROM course c\n"
+                + "JOIN user u ON u.userId = c.authorId\n"
+                + "JOIN coursecategory cc ON cc.courseCategoryId = c.courseCategoryId\n"
+                + "JOIN level l ON l.levelId = c.levelId\n"
+                + "JOIN language la ON la.languageId = c.languageId\n"
+                + "WHERE c.name LIKE ? ) t";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + infor  +"%");
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("numOfRecord");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
     
     
 }

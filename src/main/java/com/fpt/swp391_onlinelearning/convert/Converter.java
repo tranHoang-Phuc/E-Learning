@@ -9,7 +9,7 @@ import com.fpt.swp391_onlinelearning.dto.BlogCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.BlogDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
-import com.fpt.swp391_onlinelearning.dto.CourseRegisterationDTO;
+import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
 import com.fpt.swp391_onlinelearning.dto.DurationDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
 import com.fpt.swp391_onlinelearning.dto.LanguageDTO;
@@ -534,8 +534,8 @@ public class Converter {
         return courseDTO;
     }
 
-    public static CourseRegisterationDTO toDto(CourseRegistration registeration) {
-        CourseRegisterationDTO courseRegisterationDTO = new CourseRegisterationDTO();
+    public static CourseRegistrationDTO toDto(CourseRegistration registeration) {
+        CourseRegistrationDTO courseRegisterationDTO = new CourseRegistrationDTO();
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setCourseId(registeration.getCourse().getCourseId());
         courseRegisterationDTO.setCourse(courseDTO);
@@ -592,6 +592,89 @@ public class Converter {
         dto.setLanguage(la);
         
         return dto;
+    }
+    
+    public static UserDTO toDTO1(User user) {
+        UserDTO userDTO = new UserDTO();
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setEmail(user.getAccount().getEmail());
+        userDTO.setAccount(accountDTO);
+        return userDTO;
+    }
+
+    public static CourseDTO toDTO2(Course course) {
+        CourseDTO cdto = new CourseDTO();
+        cdto.setName(course.getName());
+        CourseCategoryDTO ccdto = new CourseCategoryDTO();
+        ccdto.setName(course.getCategory().getName());
+        cdto.setCategory(ccdto);
+        DurationDTO ddto = new DurationDTO();
+        ddto.setName(course.getDuration().getName());
+        cdto.setDuration(ddto);
+        cdto.setPrice(course.getPrice());
+        return cdto;
+    }
+
+    public static CourseDTO toDTO4(Course course) {
+        CourseDTO cdto = new CourseDTO();
+        cdto.setCourseId(course.getCourseId());
+        cdto.setName(course.getName());
+
+        LevelDTO leveldto = new LevelDTO();
+        leveldto.setName(course.getLevel().getName());
+        cdto.setLevel(leveldto);
+
+        LanguageDTO languageDTO = new LanguageDTO();
+        languageDTO.setName(course.getLanguage().getName());
+        cdto.setLanguage(languageDTO);
+
+        cdto.setImg(course.getImg());
+        cdto.setDescription(course.getDescription());
+        UserDTO author = new UserDTO();
+        author.setImg(course.getAuthor().getImg());
+        author.setName(course.getAuthor().getName());
+        cdto.setAuthor(author);
+
+        CourseCategoryDTO ccdto = new CourseCategoryDTO();
+        ccdto.setName(course.getCategory().getName());
+        cdto.setCategory(ccdto);
+        DurationDTO ddto = new DurationDTO();
+        ddto.setName(course.getDuration().getName());
+        cdto.setDuration(ddto);
+        cdto.setPrice(course.getPrice());
+        
+        return cdto;
+    }
+
+    public static CourseRegistrationDTO toDTO1(CourseRegistration courseRegistration) {
+        CourseRegistrationDTO courseRegistrationDTO = new CourseRegistrationDTO();
+        courseRegistrationDTO.setCourseRegisterationId(courseRegistration.getCourseRegisterationId());
+
+        UserDTO udto = Converter.toDTO1(courseRegistration.getUser());
+        courseRegistrationDTO.setUser(udto);
+
+        CourseDTO cdto = Converter.toDTO2(courseRegistration.getCourse());
+        courseRegistrationDTO.setCourse(cdto);
+
+        courseRegistrationDTO.setCreatedTime(courseRegistration.getCreatedTime());
+
+        return courseRegistrationDTO;
+    }
+    
+    public static CourseRegistrationDTO toDTO2(CourseRegistration courseRegisteration){
+        CourseRegistrationDTO courseRegisterationDTO = new CourseRegistrationDTO();
+        courseRegisteration.setCourseRegisterationId(courseRegisteration.getCourseRegisterationId());
+        
+        UserDTO udto = Converter.toDTO(courseRegisteration.getUser());
+        courseRegisterationDTO.setUser(udto);
+        
+        CourseDTO cdto = Converter.toDTO4(courseRegisteration.getCourse());
+        courseRegisterationDTO.setCourse(cdto);
+        
+        courseRegisterationDTO.setCreatedTime(courseRegisteration.getCreatedTime());
+        
+        return courseRegisterationDTO;
+              
     }
     
 }

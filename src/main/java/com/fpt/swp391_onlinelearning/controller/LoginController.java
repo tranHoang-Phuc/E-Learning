@@ -52,7 +52,7 @@ public class LoginController extends HttpServlet {
                     HttpSession session = req.getSession();
                     session.setAttribute("session", account);
                     session.setAttribute("user", userdto);
-                    resp.sendRedirect(req.getContextPath() + "/view/home.jsp");
+                    resp.sendRedirect(req.getContextPath() + "/home");
                 }
             } else {
                 req.getRequestDispatcher("view/login.jsp").forward(req, resp);

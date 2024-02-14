@@ -10,7 +10,7 @@ import java.sql.Date;
  *
  * @author tran Hoang Phuc
  */
-public class CourseRegisterationDTO {
+public class CourseRegistrationDTO {
     private int courseRegisterationId;
     private UserDTO user;
     private CourseDTO course;

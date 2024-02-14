@@ -6,19 +6,18 @@ package com.fpt.swp391_onlinelearning.controller;
 
 import com.fpt.swp391_onlinelearning.baseController.BaseRequiredAuthorizationController;
 import com.fpt.swp391_onlinelearning.dal.CourseDAO;
-import com.fpt.swp391_onlinelearning.dal.CourseRegisterationDAO;
+import com.fpt.swp391_onlinelearning.dal.CourseRegistrationDAO;
 import com.fpt.swp391_onlinelearning.dal.TransactionDAO;
 import com.fpt.swp391_onlinelearning.dal.UserDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
-import com.fpt.swp391_onlinelearning.dto.CourseRegisterationDTO;
+import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
 import com.fpt.swp391_onlinelearning.dto.UserDTO;
-import com.fpt.swp391_onlinelearning.service.CourseRegisterationService;
+import com.fpt.swp391_onlinelearning.service.CourseRegistrationService;
 import com.fpt.swp391_onlinelearning.service.CourseService;
 import com.fpt.swp391_onlinelearning.service.PaymentService;
 import com.fpt.swp391_onlinelearning.service.UserService;
-import com.fpt.swp391_onlinelearning.service.iservice.ICourseRegisterationService;
 import com.fpt.swp391_onlinelearning.service.iservice.IPaymentService;
 import com.fpt.swp391_onlinelearning.service.iservice.IService;
 import com.fpt.swp391_onlinelearning.service.iservice.IUserService;
@@ -28,6 +27,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import com.fpt.swp391_onlinelearning.service.iservice.ICourseRegistrationService;
 
 /**
  *
@@ -38,14 +38,14 @@ public class PayController extends BaseRequiredAuthorizationController {
     private IService<CourseDTO> _iCourseService;
     private IPaymentService _iPaymentService;
     private IUserService _iUserService;
-    private ICourseRegisterationService _iRegisterationService;
+    private ICourseRegistrationService _iRegisterationService;
 
     @Override
     public void init() throws ServletException {
         _iCourseService = CourseService.getInstance(new CourseDAO(), new CourseDAO());
-        _iPaymentService = PaymentService.getInstance(new UserDAO(), new CourseRegisterationDAO(), new TransactionDAO());
+        _iPaymentService = PaymentService.getInstance(new UserDAO(), new CourseRegistrationDAO(), new TransactionDAO());
         _iUserService = UserService.getInstace(new UserDAO(), new UserDAO());
-        _iRegisterationService = CourseRegisterationService.getInstance(new CourseRegisterationDAO());
+        _iRegisterationService = CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO());
     }
 
     @Override
@@ -86,8 +86,8 @@ public class PayController extends BaseRequiredAuthorizationController {
     }
 
     private boolean isRegisterd(int userId, int courseId) {
-        List<CourseRegisterationDTO> registered = _iRegisterationService.getRegisterdCourse(userId);
-        for (CourseRegisterationDTO courseRegisterationDTO : registered) {
+        List<CourseRegistrationDTO> registered = _iRegisterationService.getRegisterdCourse(userId);
+        for (CourseRegistrationDTO courseRegisterationDTO : registered) {
             if (courseRegisterationDTO.getCourse().getCourseId() == courseId) {
                 return true;
             }

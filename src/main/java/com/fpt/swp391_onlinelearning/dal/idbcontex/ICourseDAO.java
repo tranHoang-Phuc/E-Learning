@@ -21,7 +21,12 @@ public interface ICourseDAO {
     public List<Course> getAllCourse(int pageindex, int pagesize, int sort, int ccid, String name, int levelid, int durationid, int languageid);
 
     public Course getCourseDetail(int courseId);
-    
+
     public List<Course> getUserRegisterdCourse(int userId, String searchValue, int categoryId, Date from, Date to, int pageIndex);
+
     public int getNumOfUserRegisterdCourse(int userId, String searchValue, int categoryId, Date from, Date to);
+
+    public List<Course> searchCourse(String infor);
+
+    public int countSearchRecord(String infor);
 }
