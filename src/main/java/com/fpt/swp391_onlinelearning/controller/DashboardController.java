@@ -7,26 +7,24 @@ package com.fpt.swp391_onlinelearning.controller;
 import com.fpt.swp391_onlinelearning.baseController.BaseRequiredAuthorizationController;
 import com.fpt.swp391_onlinelearning.dal.BlogViewDAO;
 import com.fpt.swp391_onlinelearning.dal.CourseRegistrationDAO;
+import com.fpt.swp391_onlinelearning.dal.LessonDAO;
 import com.fpt.swp391_onlinelearning.dal.UserDAO;
+import com.fpt.swp391_onlinelearning.dal.UserLessonDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.BlogViewDTO;
-import com.fpt.swp391_onlinelearning.dto.CourseDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
 import com.fpt.swp391_onlinelearning.service.BlogViewService;
 import com.fpt.swp391_onlinelearning.service.CourseRegistrationService;
 import com.fpt.swp391_onlinelearning.service.UserService;
-import com.fpt.swp391_onlinelearning.service.iservice.IBlogService;
 import com.fpt.swp391_onlinelearning.service.iservice.IBlogViewService;
 import com.fpt.swp391_onlinelearning.service.iservice.ICourseRegistrationService;
 import com.fpt.swp391_onlinelearning.service.iservice.IUserService;
 import com.fpt.swp391_onlinelearning.util.DateUtils;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,7 +42,7 @@ public class DashboardController extends BaseRequiredAuthorizationController {
     public void init()
     {
         _IUserService= UserService.getInstace(new UserDAO(), new UserDAO());
-        _ICourseRegistrationService= CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO());
+        _ICourseRegistrationService = CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO(), new LessonDAO(), new UserLessonDAO());
         _IBlogViewService= BlogViewService.getInstance(new BlogViewDAO());
     }
 

@@ -7,7 +7,6 @@ package com.fpt.swp391_onlinelearning.dal;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.IPostDAO;
 import com.fpt.swp391_onlinelearning.model.Post;
 import com.fpt.swp391_onlinelearning.model.PostCategory;
-import com.fpt.swp391_onlinelearning.model.Slider;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

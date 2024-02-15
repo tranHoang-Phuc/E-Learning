@@ -10,7 +10,6 @@ import com.fpt.swp391_onlinelearning.dal.idbcontex.ISliderDAO;
 import com.fpt.swp391_onlinelearning.dto.SliderDTO;
 import com.fpt.swp391_onlinelearning.model.Slider;
 import com.fpt.swp391_onlinelearning.service.iservice.ISliderService;
-import jakarta.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.util.List;
 

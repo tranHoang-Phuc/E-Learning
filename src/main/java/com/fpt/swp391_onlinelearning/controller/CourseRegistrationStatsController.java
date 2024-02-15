@@ -6,6 +6,8 @@ package com.fpt.swp391_onlinelearning.controller;
 
 import com.fpt.swp391_onlinelearning.baseController.BaseRequiredAuthorizationController;
 import com.fpt.swp391_onlinelearning.dal.CourseRegistrationDAO;
+import com.fpt.swp391_onlinelearning.dal.LessonDAO;
+import com.fpt.swp391_onlinelearning.dal.UserLessonDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
@@ -30,7 +32,7 @@ public class CourseRegistrationStatsController extends BaseRequiredAuthorization
     
     public void init()
     {
-        _iCourseRegistrationService= CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO());
+        _iCourseRegistrationService = CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO(), new LessonDAO(), new UserLessonDAO());
     }
     
     @Override

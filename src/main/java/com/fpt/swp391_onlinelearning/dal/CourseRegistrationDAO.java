@@ -4,6 +4,7 @@
  */
 package com.fpt.swp391_onlinelearning.dal;
 
+import com.fpt.swp391_onlinelearning.dal.idbcontex.ICourseRegistrationDAO;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
 import com.fpt.swp391_onlinelearning.model.Account;
 import com.fpt.swp391_onlinelearning.model.Course;
@@ -18,12 +19,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ICourseRegistrationDAO;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -100,7 +100,7 @@ public class CourseRegistrationDAO implements IDAO<CourseRegistration>, ICourseR
             }
         } catch (SQLException ex) {
             Logger.getLogger(CourseRegistrationDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
+        } finally {
             DBContext.close(connection);
         }
         return null;
@@ -157,18 +157,14 @@ public class CourseRegistrationDAO implements IDAO<CourseRegistration>, ICourseR
                 course.setCourseId(rs.getInt("courseId"));
                 courseRegisteration.setCourse(course);
                 courseRegisterations.add(courseRegisteration);
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(CourseRegistrationDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
+        } finally {
             DBContext.close(connection);
         }
         return courseRegisterations;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new CourseRegistrationDAO().getRegisterdCourse(1).size());
     }
 
     @Override
@@ -216,7 +212,7 @@ public class CourseRegistrationDAO implements IDAO<CourseRegistration>, ICourseR
             }
         } catch (SQLException ex) {
             Logger.getLogger(CourseRegistrationDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
+        } finally {
             DBContext.close(connection);
         }
         return 0;
@@ -429,13 +425,12 @@ public class CourseRegistrationDAO implements IDAO<CourseRegistration>, ICourseR
             }
         } catch (SQLException ex) {
             Logger.getLogger(CourseRegistrationDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
+        } finally {
             DBContext.close(connection);
         }
         return 0;
     }
 
-    
     @Override
     public List<CourseRegistration> getCourseRegistration(int pageIndex, int pageSize, Date from, Date to) {
         Connection connection = DBContext.getConnection();
@@ -642,5 +637,26 @@ public class CourseRegistrationDAO implements IDAO<CourseRegistration>, ICourseR
             Logger.getLogger(CourseRegistrationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return courseRegisterations;
+    }
+
+    @Override
+    public boolean canJoin(int courseId, int userId) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT COUNT(*) AS canJoin FROM swp391_onlinelearning.courseregistration "
+                + "WHERE courseId = ? AND userId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, courseId);
+            stm.setInt(2, userId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("canJoin") > 0;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseRegistrationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return false;
     }
 }

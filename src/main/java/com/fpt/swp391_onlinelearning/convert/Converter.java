@@ -8,12 +8,15 @@ import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.BlogCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.BlogDTO;
 import com.fpt.swp391_onlinelearning.dto.BlogViewDTO;
+import com.fpt.swp391_onlinelearning.dto.ChapterDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
 import com.fpt.swp391_onlinelearning.dto.DurationDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
 import com.fpt.swp391_onlinelearning.dto.LanguageDTO;
+import com.fpt.swp391_onlinelearning.dto.LessonDTO;
+import com.fpt.swp391_onlinelearning.dto.LessonTypeDTO;
 import com.fpt.swp391_onlinelearning.dto.LevelDTO;
 import com.fpt.swp391_onlinelearning.dto.PostCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.PostDTO;
@@ -21,23 +24,27 @@ import com.fpt.swp391_onlinelearning.dto.RoleDTO;
 import com.fpt.swp391_onlinelearning.dto.SliderDTO;
 import com.fpt.swp391_onlinelearning.dto.TransactionDTO;
 import com.fpt.swp391_onlinelearning.dto.UserDTO;
+import com.fpt.swp391_onlinelearning.dto.UserLessonDTO;
 import com.fpt.swp391_onlinelearning.model.Account;
 import com.fpt.swp391_onlinelearning.model.Blog;
 import com.fpt.swp391_onlinelearning.model.BlogCategory;
 import com.fpt.swp391_onlinelearning.model.BlogView;
+import com.fpt.swp391_onlinelearning.model.Chapter;
 import com.fpt.swp391_onlinelearning.model.Course;
 import com.fpt.swp391_onlinelearning.model.CourseCategory;
 import com.fpt.swp391_onlinelearning.model.CourseRegistration;
 import com.fpt.swp391_onlinelearning.model.Duration;
 import com.fpt.swp391_onlinelearning.model.Feature;
 import com.fpt.swp391_onlinelearning.model.Language;
-import com.fpt.swp391_onlinelearning.model.Role;
+import com.fpt.swp391_onlinelearning.model.Lesson;
 import com.fpt.swp391_onlinelearning.model.Level;
 import com.fpt.swp391_onlinelearning.model.Post;
 import com.fpt.swp391_onlinelearning.model.PostCategory;
+import com.fpt.swp391_onlinelearning.model.Role;
 import com.fpt.swp391_onlinelearning.model.Slider;
 import com.fpt.swp391_onlinelearning.model.Transaction;
 import com.fpt.swp391_onlinelearning.model.User;
+import com.fpt.swp391_onlinelearning.model.UserLesson;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -876,5 +883,44 @@ public class Converter {
         postCategory.setPostCategoryId(postDTO.getPostCategory().getPostCategoryId());
         post.setPostCategory(postCategory);
         return post;
+    }
+    
+    public static ChapterDTO toDto(Chapter chapter) {
+        ChapterDTO dto = new ChapterDTO();
+        dto.setChapterId(chapter.getChapterId());
+        dto.setName(chapter.getName());
+        return dto;
+    }
+    
+    public static LessonDTO toDto(Lesson lesson) {
+        LessonDTO dto = new LessonDTO();
+        dto.setLessonId(lesson.getLessonId());
+        dto.setName(lesson.getName());
+        dto.setContent(lesson.getContent());
+        
+        LessonTypeDTO lt = new LessonTypeDTO();
+        lt.setTypeId(lesson.getType().getTypeId());
+        dto.setType(lt);
+        
+        dto.setDuration(lesson.getDuration());
+        ChapterDTO c = new ChapterDTO();
+        c.setName(lesson.getChapter().getName());
+        c.setChapterId(lesson.getChapter().getChapterId());
+        dto.setChapter(c);
+        return dto;
+    }
+    
+    public static UserLessonDTO toDto(UserLesson ul) {
+        UserLessonDTO dto = new UserLessonDTO();
+        LessonDTO l = toDto(ul.getLesson());
+        dto.setLesson(l);
+        
+        UserDTO udto = new UserDTO();
+        udto.setUserId(ul.getUser().getUserId());
+        dto.setUser(udto);
+        
+        dto.setUserLessonId(ul.getUserLessonId());
+        dto.setFinish(ul.isFinish());
+        return dto;
     }
 }

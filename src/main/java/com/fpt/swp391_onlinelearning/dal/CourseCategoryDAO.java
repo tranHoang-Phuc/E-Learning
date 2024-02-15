@@ -4,9 +4,7 @@
  */
 package com.fpt.swp391_onlinelearning.dal;
 
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ICourseDAO;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
-import com.fpt.swp391_onlinelearning.model.Course;
 import com.fpt.swp391_onlinelearning.model.CourseCategory;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ICourseCategoryDAO;
 import java.sql.Connection;
 
 /**

@@ -516,7 +516,7 @@
                                     <td><label for="date_to">Date To:</label></td>
                                     <td><input type="date" id="date_to" name="date_to" value="${requestScope.dateTo}">
                                         <span style="margin-left: 5%;">
-                                            <button type="submit" style="color:white; background-color: black;margin-bottom: 11px;
+                                            <button type="submit" style="color:white; background-color: black;margin-bottom: 0px;
                                                     height: 30px; margin-left: 2%; padding: 0px 5px;" class="fa fa-search text-primary"></button>
                                         </span></td>
 

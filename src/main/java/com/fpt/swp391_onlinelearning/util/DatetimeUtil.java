@@ -102,10 +102,4 @@ public class DatetimeUtil {
         return dates;
     }
 
-    public static void main(String[] args) {
-        String currentDate = "2024-01-31";
-        java.sql.Date followingDate = getFollowingDate(currentDate);
-        System.out.println("Current Date: " + currentDate);
-        System.out.println("Following Date: " + followingDate);
-    }
 }

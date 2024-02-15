@@ -6,6 +6,8 @@ package com.fpt.swp391_onlinelearning.controller;
 
 import com.fpt.swp391_onlinelearning.baseController.BaseRequiredAuthorizationController;
 import com.fpt.swp391_onlinelearning.dal.CourseRegistrationDAO;
+import com.fpt.swp391_onlinelearning.dal.LessonDAO;
+import com.fpt.swp391_onlinelearning.dal.UserLessonDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
@@ -27,7 +29,7 @@ public class EnrollmentsDetailDashboardController extends BaseRequiredAuthorizat
 
     @Override
    public void init() throws ServletException {
-        _iCourseRegisterationService = CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO());
+        _iCourseRegisterationService = CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO(), new LessonDAO(), new UserLessonDAO());
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {

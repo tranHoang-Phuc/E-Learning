@@ -5,7 +5,6 @@
 package com.fpt.swp391_onlinelearning.dal;
 
 import com.fpt.swp391_onlinelearning.dal.idbcontex.ICourseDAO;
-
 import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
 import com.fpt.swp391_onlinelearning.model.Course;
 import com.fpt.swp391_onlinelearning.model.CourseCategory;
@@ -18,7 +17,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -533,6 +531,8 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return 0;
     }
@@ -604,6 +604,8 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return 0;
     }

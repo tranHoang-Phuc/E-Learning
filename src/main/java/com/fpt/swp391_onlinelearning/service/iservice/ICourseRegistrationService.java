@@ -14,18 +14,19 @@ import java.util.Map;
  * @author tran Hoang Phuc
  */
 public interface ICourseRegistrationService {
+
     public List<CourseRegistrationDTO> getRegisterdCourse(int id);
-    
+
     public int countNumberOfPageSearch(String email, String courseName, int category, int duration, Date startTime, Date endTime);
 
     public List<CourseRegistrationDTO> searchCourseRegistrations(String email, String courseName, int category, int duration, Date startTime, Date endTime, int pageIndex);
 
     public List<Integer> getCountRegList();
-    
+
     public List<Integer> getTotalIncomeList();
-    
+
     public boolean addNewEnrollments(int userId, String[] courses);
-    
+
     public long getTotalIncome(String email, String courseName, int category, int duration, Date startTime, Date endTime);
 
     public List<CourseRegistrationDTO> getCourseRegistrationDTO(int pageIndex, int pageSize, Date from, Date to);
@@ -45,5 +46,7 @@ public interface ICourseRegistrationService {
     public int getMonthRevenue(int currentMonth);
 
     public int getTotalRegistrationRevenus(Date from, Date to);
-    
+
+    public boolean canJoin(int courseId, int userId);
+
 }

@@ -8,9 +8,6 @@ import com.fpt.swp391_onlinelearning.dal.AccountDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.service.AccountService;
 import com.fpt.swp391_onlinelearning.service.iservice.IAccountService;
-import com.fpt.swp391_onlinelearning.service.iservice.IService;
-import com.fpt.swp391_onlinelearning.util.CookieUtils;
-import com.fpt.swp391_onlinelearning.util.SessionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -30,8 +27,6 @@ public abstract class BaseRequiredAuthenticationController extends HttpServlet {
 
     public boolean isRequiredAuthenticated(HttpServletRequest req) {
         _iAccountService = AccountService.getInstance(new AccountDAO(), new AccountDAO());
-      //  _iService = AccountService.getInstance(new AccountDAO(), new AccountDAO());
-
         AccountDTO account = (AccountDTO) req.getSession().getAttribute("session");
         if (account != null) {
             return true;

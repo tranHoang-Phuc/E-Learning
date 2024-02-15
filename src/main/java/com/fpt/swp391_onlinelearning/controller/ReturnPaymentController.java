@@ -9,10 +9,11 @@ import com.fpt.swp391_onlinelearning.dal.CourseDAO;
 import com.fpt.swp391_onlinelearning.dal.CourseRegistrationDAO;
 import com.fpt.swp391_onlinelearning.dal.TransactionDAO;
 import com.fpt.swp391_onlinelearning.dal.UserDAO;
+import com.fpt.swp391_onlinelearning.dal.UserLessonDAO;
+import com.fpt.swp391_onlinelearning.dal.LessonDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
-import com.fpt.swp391_onlinelearning.dto.TransactionDTO;
 import com.fpt.swp391_onlinelearning.dto.UserDTO;
 import com.fpt.swp391_onlinelearning.service.CourseService;
 import com.fpt.swp391_onlinelearning.service.PaymentService;
@@ -41,7 +42,7 @@ public class ReturnPaymentController extends BaseRequiredAuthorizationController
     @Override
     public void init() throws ServletException {
         _iCourseService = CourseService.getInstance(new CourseDAO(), new CourseDAO());
-        _iPaymentService = PaymentService.getInstance(new UserDAO(), new CourseRegistrationDAO(), new TransactionDAO());
+        _iPaymentService = PaymentService.getInstance(new UserDAO(), new CourseRegistrationDAO(), new TransactionDAO(), new UserLessonDAO(), new LessonDAO());
         _iUserService = UserService.getInstace(new UserDAO(), new UserDAO());
     }
 

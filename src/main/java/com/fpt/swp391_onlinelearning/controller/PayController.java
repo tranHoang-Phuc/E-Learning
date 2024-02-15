@@ -9,6 +9,8 @@ import com.fpt.swp391_onlinelearning.dal.CourseDAO;
 import com.fpt.swp391_onlinelearning.dal.CourseRegistrationDAO;
 import com.fpt.swp391_onlinelearning.dal.TransactionDAO;
 import com.fpt.swp391_onlinelearning.dal.UserDAO;
+import com.fpt.swp391_onlinelearning.dal.UserLessonDAO;
+import com.fpt.swp391_onlinelearning.dal.LessonDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
@@ -18,6 +20,7 @@ import com.fpt.swp391_onlinelearning.service.CourseRegistrationService;
 import com.fpt.swp391_onlinelearning.service.CourseService;
 import com.fpt.swp391_onlinelearning.service.PaymentService;
 import com.fpt.swp391_onlinelearning.service.UserService;
+import com.fpt.swp391_onlinelearning.service.iservice.ICourseRegistrationService;
 import com.fpt.swp391_onlinelearning.service.iservice.IPaymentService;
 import com.fpt.swp391_onlinelearning.service.iservice.IService;
 import com.fpt.swp391_onlinelearning.service.iservice.IUserService;
@@ -27,7 +30,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-import com.fpt.swp391_onlinelearning.service.iservice.ICourseRegistrationService;
 
 /**
  *
@@ -43,9 +45,9 @@ public class PayController extends BaseRequiredAuthorizationController {
     @Override
     public void init() throws ServletException {
         _iCourseService = CourseService.getInstance(new CourseDAO(), new CourseDAO());
-        _iPaymentService = PaymentService.getInstance(new UserDAO(), new CourseRegistrationDAO(), new TransactionDAO());
+        _iPaymentService = PaymentService.getInstance(new UserDAO(), new CourseRegistrationDAO(), new TransactionDAO(), new UserLessonDAO(), new LessonDAO());
         _iUserService = UserService.getInstace(new UserDAO(), new UserDAO());
-        _iRegisterationService = CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO());
+        _iRegisterationService = CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO(), new LessonDAO(), new UserLessonDAO());
     }
 
     @Override
@@ -59,7 +61,7 @@ public class PayController extends BaseRequiredAuthorizationController {
             req.setAttribute("user", userDto);
             req.getRequestDispatcher("view/payment.jsp").forward(req, resp);
         } else {
-            resp.getWriter().print("Registered");
+            resp.sendRedirect(req.getContextPath() + "/coursecontent?courseId=" + courseId);
         }
 
     }
@@ -74,13 +76,13 @@ public class PayController extends BaseRequiredAuthorizationController {
         if (!isRegisterd(userDto.getUserId(), courseId)) {
             if (decision.equals("true")) {
                 _iPaymentService.pay(amount, course, userDto);
-                resp.getWriter().print("Registered");
+                resp.sendRedirect(req.getContextPath() + "/coursecontent?courseId=" + courseId);
             } else {
                 req.getSession().setAttribute("courseId", courseId);
                 resp.sendRedirect(decision);
             }
         } else {
-            resp.getWriter().print("Registered");
+            resp.sendRedirect(req.getContextPath() + "/coursecontent?courseId=" + courseId);
         }
 
     }

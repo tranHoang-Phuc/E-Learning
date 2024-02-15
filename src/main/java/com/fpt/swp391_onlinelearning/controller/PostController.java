@@ -20,7 +20,6 @@ import com.fpt.swp391_onlinelearning.service.iservice.IPostService;
 import com.fpt.swp391_onlinelearning.service.iservice.ISliderService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;

@@ -126,8 +126,5 @@ public class TransactionDAO implements IDAO<Transaction>, ITransactionDAO {
         return 0;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new TransactionDAO().getNumOfTransaction(2, 1, Date.valueOf("2024-01-12"), Date.valueOf("2024-02-01")));
-    }
 
 }

@@ -5,13 +5,16 @@
 package com.fpt.swp391_onlinelearning.service;
 
 import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
+import com.fpt.swp391_onlinelearning.dal.idbcontex.ILessonDAO;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.IUserDAO;
+import com.fpt.swp391_onlinelearning.dal.idbcontex.IUserLessonDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
 import com.fpt.swp391_onlinelearning.dto.UserDTO;
 import com.fpt.swp391_onlinelearning.model.Account;
 import com.fpt.swp391_onlinelearning.model.Course;
 import com.fpt.swp391_onlinelearning.model.CourseRegistration;
+import com.fpt.swp391_onlinelearning.model.Lesson;
 import com.fpt.swp391_onlinelearning.model.Transaction;
 import com.fpt.swp391_onlinelearning.model.User;
 import com.fpt.swp391_onlinelearning.service.iservice.IPaymentService;
@@ -45,19 +48,24 @@ public class PaymentService implements IPaymentService {
     private IUserDAO _iUserDAO;
     private IDAO<CourseRegistration> _iCourseRegisterationDAO;
     private IDAO<Transaction> _iTransactionDAO;
+    private IUserLessonDAO _iUserLessonDAO;
+    private ILessonDAO _iLessonDAO;
 
-    public static PaymentService getInstance(IUserDAO _iUserDAO, IDAO<CourseRegistration> _iCourseRegisterationDAO, IDAO<Transaction> _iTransactionDAO) {
+    public static PaymentService getInstance(IUserDAO _iUserDAO, IDAO<CourseRegistration> _iCourseRegisterationDAO, IDAO<Transaction> _iTransactionDAO, IUserLessonDAO _iUserLessonDAO, ILessonDAO _iLessonDAO) {
         if (paymentService == null) {
-            paymentService = new PaymentService(_iUserDAO, _iCourseRegisterationDAO, _iTransactionDAO);
+            paymentService = new PaymentService(_iUserDAO, _iCourseRegisterationDAO, _iTransactionDAO, _iUserLessonDAO, _iLessonDAO);
         }
         return paymentService;
     }
 
-    public PaymentService(IUserDAO _iUserDAO, IDAO<CourseRegistration> _iCourseRegisterationDAO, IDAO<Transaction> _iTransactionDAO) {
+    public PaymentService(IUserDAO _iUserDAO, IDAO<CourseRegistration> _iCourseRegisterationDAO, IDAO<Transaction> _iTransactionDAO, IUserLessonDAO _iUserLessonDAO, ILessonDAO _iLessonDAO) {
         this._iUserDAO = _iUserDAO;
         this._iCourseRegisterationDAO = _iCourseRegisterationDAO;
         this._iTransactionDAO = _iTransactionDAO;
+        this._iUserLessonDAO = _iUserLessonDAO;
+        this._iLessonDAO = _iLessonDAO;
     }
+    
 
     @Override
     public String payForCourse(HttpServletRequest req, long price, AccountDTO dto, CourseDTO course) throws ServletException, IOException {
@@ -185,6 +193,8 @@ public class PaymentService implements IPaymentService {
         courseRegisteration.setCourse(c);
         courseRegisteration.setUser(u);
         _iCourseRegisterationDAO.insert(courseRegisteration);
+        List<Lesson> lessons = _iLessonDAO.getLessonsByCourse(course.getCourseId());
+        _iUserLessonDAO.addUserLessons(user.getUserId(), lessons);
     }
 
 }

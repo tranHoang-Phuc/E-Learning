@@ -113,7 +113,7 @@
                 <div class="breadcrumb-row">
                     <div class="container">
                         <ul class="list-inline">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="home">Home</a></li>
                             <li>Profile</li>
                         </ul>
                     </div>
@@ -199,10 +199,10 @@
                                                                         <div class="cours-bx">
                                                                             <div class="action-box">
                                                                                 <img src="${c.img}" alt="">
-                                                                                <a href="coursedetail?id=${c.courseId}" class="btn">JOIN</a>
+                                                                                <a href="coursecontent?courseId=${c.courseId}" class="btn">JOIN</a>
                                                                             </div>
                                                                             <div class="info-bx text-center">
-                                                                                <h5><a href="coursedetail?id=${c.courseId}">${c.name}</a></h5>
+                                                                                <h5><a href="coursecontent?courseId=${c.courseId}">${c.name}</a></h5>
                                                                                 <span>${c.getCategory().getName()}</span>
                                                                             </div>
                                                                         </div>

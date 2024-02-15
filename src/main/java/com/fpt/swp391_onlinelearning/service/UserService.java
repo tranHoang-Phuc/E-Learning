@@ -69,9 +69,6 @@ public class UserService implements IService<UserDTO>, IUserService {
         return Converter.toDTO(iUserDAO.getUserByAccountId(accId));
     }
     
-    public static void main(String[] args) {
-        System.out.println(new UserService(new UserDAO(),new UserDAO()).getUserByAccountId(1).getName());
-    }
 
     @Override
     public void updateUser(UserDTO udto) {

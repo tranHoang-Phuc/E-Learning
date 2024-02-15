@@ -30,7 +30,6 @@ public abstract class BaseRequiredAuthorizationController extends BaseRequiredVe
         Set<FeatureDTO> featureDtos = _iFeatureService.getFeatureByRole(account, url);
         account.getRole().setFeatures(featureDtos);
         return !featureDtos.isEmpty();
-        //   return true;
     }
 
     @Override

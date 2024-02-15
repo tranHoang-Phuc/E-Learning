@@ -5,18 +5,21 @@
 package com.fpt.swp391_onlinelearning.service;
 
 import com.fpt.swp391_onlinelearning.convert.Converter;
+import com.fpt.swp391_onlinelearning.dal.idbcontex.ICourseRegistrationDAO;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
+import com.fpt.swp391_onlinelearning.dal.idbcontex.ILessonDAO;
+import com.fpt.swp391_onlinelearning.dal.idbcontex.IUserLessonDAO;
 import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
 import com.fpt.swp391_onlinelearning.model.CourseRegistration;
-import java.util.ArrayList;
-import java.util.List;
+import com.fpt.swp391_onlinelearning.model.Lesson;
 import com.fpt.swp391_onlinelearning.service.iservice.ICourseRegistrationService;
 import com.fpt.swp391_onlinelearning.service.iservice.IService;
-import java.sql.Date;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ICourseRegistrationDAO;
 import com.fpt.swp391_onlinelearning.util.DateUtils;
 import com.fpt.swp391_onlinelearning.util.DatetimeUtil;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,16 +31,19 @@ public class CourseRegistrationService implements IService<CourseRegistrationDTO
     private static CourseRegistrationService courseRegisterationService;
     private ICourseRegistrationDAO _iCourseRegistrationDAO;
     private IDAO<CourseRegistration> _iDao;
+    private ILessonDAO _iLessonDAO;
+    private IUserLessonDAO _iUserLessonDAO;
 
-    public CourseRegistrationService(ICourseRegistrationDAO _iCourseRegistrationDAO, IDAO<CourseRegistration> _iDao) {
+    public CourseRegistrationService(ICourseRegistrationDAO _iCourseRegistrationDAO, IDAO<CourseRegistration> _iDao, ILessonDAO _iLessonDAO, IUserLessonDAO _iUserLessonDAO) {
         this._iCourseRegistrationDAO = _iCourseRegistrationDAO;
         this._iDao = _iDao;
-
+        this._iLessonDAO= _iLessonDAO;
+        this._iUserLessonDAO = _iUserLessonDAO;
     }
 
-    public static CourseRegistrationService getInstance(ICourseRegistrationDAO _iCourseRegistration, IDAO<CourseRegistration> _iDao) {
+    public static CourseRegistrationService getInstance(ICourseRegistrationDAO _iCourseRegistration, IDAO<CourseRegistration> _iDao,  ILessonDAO _iLessonDAO, IUserLessonDAO _iUserLessonDAO) {
         if (courseRegisterationService == null) {
-            courseRegisterationService = new CourseRegistrationService(_iCourseRegistration, _iDao);
+            courseRegisterationService = new CourseRegistrationService(_iCourseRegistration, _iDao, _iLessonDAO, _iUserLessonDAO);
         }
         return courseRegisterationService;
     }
@@ -90,6 +96,11 @@ public class CourseRegistrationService implements IService<CourseRegistrationDTO
 
     @Override
     public boolean addNewEnrollments(int userId, String[] courses) {
+        for (String course : courses) {
+            int courseId = Integer.parseInt(course);
+             List<Lesson> lessons = _iLessonDAO.getLessonsByCourse(courseId);
+             _iUserLessonDAO.addUserLessons(userId, lessons);
+        }
         return _iCourseRegistrationDAO.addNewEnrollments(userId, courses);
     }
 
@@ -211,6 +222,11 @@ public class CourseRegistrationService implements IService<CourseRegistrationDTO
             courseRegisterationDTOs.add(crdto);
         }
         return courseRegisterationDTOs;
+    }
+
+    @Override
+    public boolean canJoin(int courseId, int userId) {
+        return _iCourseRegistrationDAO.canJoin(courseId, userId);
     }
 
 }

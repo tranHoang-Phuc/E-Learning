@@ -11,6 +11,8 @@ import com.fpt.swp391_onlinelearning.dal.CourseDAO;
 import com.fpt.swp391_onlinelearning.dal.CourseRegistrationDAO;
 import com.fpt.swp391_onlinelearning.dal.DurationDAO;
 import com.fpt.swp391_onlinelearning.dal.UserDAO;
+import com.fpt.swp391_onlinelearning.dal.UserLessonDAO;
+import com.fpt.swp391_onlinelearning.dal.LessonDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
@@ -49,7 +51,7 @@ public class AddNewEnrrollmentsController extends BaseRequiredAuthorizationContr
     
     @Override
     public void init() throws ServletException {
-        _iCourseRegisterationService = CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO());
+        _iCourseRegisterationService = CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO(), new LessonDAO(), new UserLessonDAO());
         _iDurationService = DurationService.getInstance(new DurationDAO(), new DurationDAO());
         _iDurationService = DurationService.getInstance(new DurationDAO(), new DurationDAO());
         _iCourseCategoryService = CourseCategoryService.getInstance(new CourseCategoryDAO());

@@ -6,13 +6,10 @@ package com.fpt.swp391_onlinelearning.service;
 
 import com.fpt.swp391_onlinelearning.convert.Converter;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.IBlogDAO;
-import com.fpt.swp391_onlinelearning.dto.BlogCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.BlogDTO;
 import com.fpt.swp391_onlinelearning.model.Blog;
-import com.fpt.swp391_onlinelearning.model.BlogCategory;
 import com.fpt.swp391_onlinelearning.service.iservice.IBlogService;
 import com.fpt.swp391_onlinelearning.service.iservice.IService;
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 

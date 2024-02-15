@@ -57,10 +57,6 @@ public class AccountDAO implements IDAO<Account>, IAccountDAO {
         return null;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new AccountDAO().get(1).getPass());
-    }
-
     @Override
     public boolean update(Account t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
