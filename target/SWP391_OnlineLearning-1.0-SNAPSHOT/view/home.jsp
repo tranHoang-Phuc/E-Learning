@@ -152,7 +152,7 @@
                                              data-bgparallax="10" 
                                              class="rev-slidebg" 
                                              data-no-retina />
-
+                                        <a href="  ">
                                         <!-- LAYER NR. 1 -->
                                         <div class="tp-caption tp-shape tp-shapewrapper " 
                                              id="slide-${i}00-layer-1" 
@@ -278,7 +278,8 @@
                                              data-paddingbottom="[12,12,12,12]"
                                              data-paddingleft="[30,35,35,15]"
                                              style="z-index: 8; white-space: nowrap; outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; border-radius:30px;">CONTACT US</div>
-                                    </li>
+                                        </a>
+                                        </li>
 
                                 </c:forEach>
 
