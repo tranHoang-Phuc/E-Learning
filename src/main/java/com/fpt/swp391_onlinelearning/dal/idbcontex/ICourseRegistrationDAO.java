@@ -6,7 +6,9 @@ package com.fpt.swp391_onlinelearning.dal.idbcontex;
 
 import com.fpt.swp391_onlinelearning.model.CourseRegistration;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -26,5 +28,13 @@ public interface ICourseRegistrationDAO {
     public boolean addNewEnrollments(int userId, String[] courses);
     
     public long getTotalIncome(String email, String courseName, int category, int duration, Date startTime, Date endTime);
+
+    public List<CourseRegistration> getCourseRegistration(int pageIndex, int pageSize,Date from, Date to);
+    public int getCourseRegistrationAmount(Date from, Date to);
+    public int getTotalRegistrationRevenus(Date from, Date to);
+    public int getCourseRegistrationAmount(Date date);
+    public int getMonthRevenue(int month);
+    public Map<CourseRegistration, Integer> getCoursesTrend(int periodOfDays);
+    public List<CourseRegistration> getCourseRegistration(Date from, Date to);
 
 }

@@ -7,6 +7,7 @@ package com.fpt.swp391_onlinelearning.service.iservice;
 import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -26,5 +27,23 @@ public interface ICourseRegistrationService {
     public boolean addNewEnrollments(int userId, String[] courses);
     
     public long getTotalIncome(String email, String courseName, int category, int duration, Date startTime, Date endTime);
+
+    public List<CourseRegistrationDTO> getCourseRegistrationDTO(int pageIndex, int pageSize, Date from, Date to);
+
+    public List<CourseRegistrationDTO> getCourseRegistrationDTO(Date from, Date to);
+
+    public int getCourseRegistrationAmount(Date from, Date to);
+
+    public List<Integer> getCourseRegistrationAmount();
+
+    public List<Integer> getMonthlyRevenueList();
+
+    public Map<CourseRegistrationDTO, Integer> getCoursesTrend(int daysOfCourseTrend);
+
+    public int getNumberOfRemainningCourse(Map<CourseRegistrationDTO, Integer> courseTrend, int daysOfCourseTrend);
+
+    public int getMonthRevenue(int currentMonth);
+
+    public int getTotalRegistrationRevenus(Date from, Date to);
     
 }

@@ -9,9 +9,11 @@ import com.fpt.swp391_onlinelearning.dal.idbcontex.IUserDAO;
 import com.fpt.swp391_onlinelearning.model.Account;
 import com.fpt.swp391_onlinelearning.model.User;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -153,6 +155,135 @@ public class UserDAO extends DBContext implements IUserDAO, IDAO<User> {
         } finally{
             DBContext.close(connection);
         }
+    }
+
+    @Override
+    public List<User> getUserRegistrationInfo(int pageSize, int pageIndex, Date startDate, Date endDate) {
+        Connection connection = DBContext.getConnection();
+        try {
+            List<User> userList = new ArrayList<User>();
+
+            String sql = "SELECT accId, email,createdTime, registeredTime, name\n"
+                    + "FROM (SELECT ROW_NUMBER() OVER (ORDER BY a.registeredTime desc) AS rownum, a.accId,a.email,a.createdTime,a.registeredTime,u.name\n"
+                    + "FROM account a JOIN `user` AS u\n"
+                    + "On a.accId=u.accId\n"
+                    + "WHERE a.registeredTime BETWEEN ? AND ?) AS t\n"
+                    + "WHERE rownum >= (? -1)*? + 1 AND rownum<= ? * ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, startDate);
+            stm.setDate(2, endDate);
+            stm.setInt(3, pageIndex);
+            stm.setInt(4, pageSize);
+            stm.setInt(5, pageIndex);
+            stm.setInt(6, pageSize);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                User u = new User();
+
+                Account a = new Account();
+                a.setAccId(rs.getInt("accId"));
+                a.setEmail(rs.getString("email"));
+                a.setCreatedTime(rs.getTime("createdTime"));
+                a.setRegisteredTime(rs.getDate("registeredTime"));
+
+                u.setAccount(a);
+                u.setName(rs.getString("name"));
+
+                userList.add(u);
+            }
+            return userList;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return null;
+    }
+
+    @Override
+    public int userCount(Date startDate, Date endDate) {
+        Connection connection = DBContext.getConnection();
+        try {
+            String sql = "SELECT COUNT(*) as total FROM\n"
+                    + "(SELECT a.accId,a.email,a.createdTime,a.registeredTime,u.name\n"
+                    + "FROM account a JOIN `user` AS u\n"
+                    + "On a.accId=u.accId\n"
+                    + "WHERE a.registeredTime BETWEEN ? AND ?) AS t";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, startDate);
+            stm.setDate(2, endDate);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+            return 0;
+        } catch (SQLException ex) {
+            return 0;
+        } finally {
+            DBContext.close(connection);
+        }
+
+    }
+
+    @Override
+    public int userCount(Date date) {
+        Connection connection = DBContext.getConnection();
+        try {
+            String sql = "SELECT COUNT(*) as total FROM\n"
+                    + "(SELECT a.accId,a.email,a.createdTime,a.registeredTime,u.name\n"
+                    + "FROM account a JOIN `user` AS u\n"
+                    + "On a.accId=u.accId\n"
+                    + "WHERE a.registeredTime =?) AS t";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, date);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+            return 0;
+        } catch (SQLException ex) {
+            return 0;
+        } finally {
+            DBContext.close(connection);
+        }
+    }
+
+    @Override
+    public List<User> getUserRegistrationInfo(Date startDate, Date endDate) {
+        Connection connection = DBContext.getConnection();
+        try {
+            List<User> userList = new ArrayList<User>();
+
+            String sql = "SELECT a.accId,a.email,a.createdTime,a.registeredTime,u.name\n"
+                    + "FROM account a JOIN `user` AS u\n"
+                    + "On a.accId=u.accId\n"
+                    + "WHERE a.registeredTime BETWEEN ? AND ?\n"
+                    + "ORDER BY a.registeredTime desc";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, startDate);
+            stm.setDate(2, endDate);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                User u = new User();
+
+                Account a = new Account();
+                a.setAccId(rs.getInt("accId"));
+                a.setEmail(rs.getString("email"));
+                a.setCreatedTime(rs.getTime("createdTime"));
+                a.setRegisteredTime(rs.getDate("registeredTime"));
+
+                u.setAccount(a);
+                u.setName(rs.getString("name"));
+
+                userList.add(u);
+            }
+            return userList;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return null;
     }
 
 }

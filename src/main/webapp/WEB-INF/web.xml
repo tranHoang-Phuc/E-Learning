@@ -84,6 +84,23 @@
         <servlet-name>EnrollmentDetail</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.EnrollmentsDetailDashboardController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DashboardController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.DashboardController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserRegistrationStatisticsController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.UserRegistrationStatisticsController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CourseRegistrationStatsController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.CourseRegistrationStatsController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RevenusStatController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.RevenusStatController</servlet-class>
+    </servlet>
+    
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -167,6 +184,22 @@
     <servlet-mapping>
         <servlet-name>EnrollmentDetail</servlet-name>
         <url-pattern>/dashboard/enrollmentdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardController</servlet-name>
+        <url-pattern>/dashboard/report</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserRegistrationStatisticsController</servlet-name>
+        <url-pattern>/dashboard/userregisterStat</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CourseRegistrationStatsController</servlet-name>
+        <url-pattern>/dashboard/courseregistrationStats</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RevenusStatController</servlet-name>
+        <url-pattern>/dashboard/revenusStats</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

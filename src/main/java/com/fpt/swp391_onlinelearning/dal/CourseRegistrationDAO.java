@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.ICourseRegistrationDAO;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -431,5 +433,214 @@ public class CourseRegistrationDAO implements IDAO<CourseRegistration>, ICourseR
             DBContext.close(connection);
         }
         return 0;
+    }
+
+    
+    @Override
+    public List<CourseRegistration> getCourseRegistration(int pageIndex, int pageSize, Date from, Date to) {
+        Connection connection = DBContext.getConnection();
+        List<CourseRegistration> courseRegisterations = new ArrayList<>();
+        try {
+            String sql = "SELECT registerId, userId,courseId,createdTime , coursename, username, email,price\n"
+                    + "FROM (SELECT ROW_NUMBER() OVER (ORDER BY cr.createdTime desc) AS rownum, cr.registerId,cr.userId,cr.courseId,cr.createdTime,c.name AS coursename, u.name AS username, a.email,c.price\n"
+                    + "FROM courseregistration as cr, `user` AS u, course AS c, account AS a \n"
+                    + "WHERE cr.userId=u.userId and cr.courseId=c.courseId and u.accId=a.accId and cr.createdTime BETWEEN ? AND ?  ) AS t\n"
+                    + "WHERE rownum >= (? -1)*? + 1 AND rownum<= ? * ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, from);
+            stm.setDate(2, to);
+            stm.setInt(3, pageIndex);
+            stm.setInt(4, pageSize);
+            stm.setInt(5, pageIndex);
+            stm.setInt(6, pageSize);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                CourseRegistration cr = new CourseRegistration();
+                cr.setCourseRegisterationId(rs.getInt("registerId"));
+                cr.setCreatedTime(rs.getDate("createdTime"));
+
+                Course c = new Course();
+                c.setCourseId(rs.getInt("courseId"));
+                c.setName(rs.getString("coursename"));
+                c.setPrice(rs.getInt("price"));
+                cr.setCourse(c);
+
+                User u = new User();
+                u.setUserId(rs.getInt("userId"));
+                u.setName(rs.getString("username"));
+                Account a = new Account();
+                a.setEmail(rs.getString("email"));
+                u.setAccount(a);
+                cr.setUser(u);
+
+                courseRegisterations.add(cr);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseRegistrationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return courseRegisterations;
+    }
+
+    @Override
+    public int getCourseRegistrationAmount(Date from, Date to) {
+        Connection connection = DBContext.getConnection();
+        try {
+            String sql = "SELECT COUNT(*) AS total\n"
+                    + "FROM (SELECT ROW_NUMBER() OVER (ORDER BY cr.createdTime desc) AS rownum, cr.registerId,cr.userId,cr.courseId,cr.createdTime,c.name AS coursename, u.name AS username, a.email, c.price\n"
+                    + "FROM courseregistration as cr, `user` AS u, course AS c, account AS a \n"
+                    + "WHERE cr.userId=u.userId and cr.courseId=c.courseId and u.accId=a.accId and cr.createdTime BETWEEN ? AND ?  ) AS t";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, from);
+            stm.setDate(2, to);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+            return 0;
+        } catch (SQLException ex) {
+            return 0;
+        } finally {
+            DBContext.close(connection);
+        }
+    }
+
+    @Override
+    public int getTotalRegistrationRevenus(Date from, Date to) {
+        Connection connection = DBContext.getConnection();
+        try {
+            String sql = "SELECT SUM(price) AS total\n"
+                    + "FROM (SELECT ROW_NUMBER() OVER (ORDER BY cr.createdTime desc) AS rownum, cr.registerId,cr.userId,cr.courseId,cr.createdTime,c.name AS coursename, u.name AS username, a.email, c.price\n"
+                    + "FROM courseregistration as cr, `user` AS u, course AS c, account AS a \n"
+                    + "WHERE cr.userId=u.userId and cr.courseId=c.courseId and u.accId=a.accId and cr.createdTime BETWEEN ? AND ? ) AS t";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, from);
+            stm.setDate(2, to);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+            return 0;
+        } catch (SQLException ex) {
+            return 0;
+        } finally {
+            DBContext.close(connection);
+        }
+    }
+
+    @Override
+    public int getCourseRegistrationAmount(Date date) {
+        Connection connection = DBContext.getConnection();
+        try {
+            String sql = "SELECT COUNT(*) AS total\n"
+                    + "FROM (SELECT ROW_NUMBER() OVER (ORDER BY cr.createdTime desc) AS rownum, cr.registerId,cr.userId,cr.courseId,cr.createdTime,c.name AS coursename, u.name AS username, a.email, c.price\n"
+                    + "FROM courseregistration as cr, `user` AS u, course AS c, account AS a \n"
+                    + "WHERE cr.userId=u.userId and cr.courseId=c.courseId and u.accId=a.accId and cr.createdTime =?) AS t";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, date);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+            return 0;
+        } catch (SQLException ex) {
+            return 0;
+        } finally {
+            DBContext.close(connection);
+        }
+    }
+
+    @Override
+    public int getMonthRevenue(int month) {
+        Connection connection = DBContext.getConnection();
+        try {
+            String sql = "SELECT IFNUll(SUM(price),0) AS total\n"
+                    + "FROM (SELECT ROW_NUMBER() OVER (ORDER BY cr.createdTime desc) AS rownum, cr.registerId,cr.userId,cr.courseId,cr.createdTime,c.name AS coursename, u.name AS username, a.email, c.price\n"
+                    + "FROM courseregistration as cr, `user` AS u, course AS c, account AS a\n"
+                    + "WHERE cr.userId=u.userId and cr.courseId=c.courseId and u.accId=a.accId AND YEAR(cr.createdTime)=YEAR(CURDATE()) AND MONTH(cr.createdTime) = ?) AS t";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, month);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+            return 0;
+        } catch (SQLException ex) {
+            return 0;
+        } finally {
+            DBContext.close(connection);
+        }
+    }
+
+    @Override
+    public Map<CourseRegistration, Integer> getCoursesTrend(int periodOfDays) {
+        Connection connection = DBContext.getConnection();
+        Map<CourseRegistration, Integer> courseTrend = new HashMap<>();
+        try {
+            String sql = "SELECT COUNT(*) AS numOfRegister,c.courseId,c.name\n"
+                    + "FROM courseregistration AS cr, course AS c\n"
+                    + "WHERE c.courseId=cr.courseId AND cr.createdTime >= DATE_SUB(NOW(), INTERVAL ? DAY) AND cr.createdTime <= NOW()\n"
+                    + "GROUP BY c.name\n"
+                    + "ORDER BY numOfRegister desc\n"
+                    + "LIMIT 5";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, periodOfDays);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Course c = new Course();
+                c.setName(rs.getString("name"));
+                c.setCourseId(rs.getInt("courseId"));
+                CourseRegistration cr = new CourseRegistration();
+                cr.setCourse(c);
+                courseTrend.put(cr, rs.getInt("numOfRegister"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseRegistrationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return courseTrend;
+    }
+
+    @Override
+    public List<CourseRegistration> getCourseRegistration(Date from, Date to) {
+        Connection connection = DBContext.getConnection();
+        List<CourseRegistration> courseRegisterations = new ArrayList<>();
+        try {
+            String sql = "SELECT cr.registerId,cr.userId,cr.courseId,cr.createdTime,c.name AS coursename, u.name AS username, a.email,c.price\n"
+                    + "FROM courseregistration as cr, `user` AS u, course AS c, account AS a \n"
+                    + "WHERE cr.userId=u.userId and cr.courseId=c.courseId and u.accId=a.accId and cr.createdTime BETWEEN ? AND ?\n"
+                    + "ORDER BY cr.createdTime desc ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setDate(1, from);
+            stm.setDate(2, to);
+
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                CourseRegistration cr = new CourseRegistration();
+                cr.setCourseRegisterationId(rs.getInt("registerId"));
+                cr.setCreatedTime(rs.getDate("createdTime"));
+
+                Course c = new Course();
+                c.setCourseId(rs.getInt("courseId"));
+                c.setName(rs.getString("coursename"));
+                c.setPrice(rs.getInt("price"));
+                cr.setCourse(c);
+
+                User u = new User();
+                u.setUserId(rs.getInt("userId"));
+                u.setName(rs.getString("username"));
+                Account a = new Account();
+                a.setEmail(rs.getString("email"));
+                u.setAccount(a);
+                cr.setUser(u);
+
+                courseRegisterations.add(cr);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseRegistrationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return courseRegisterations;
     }
 }

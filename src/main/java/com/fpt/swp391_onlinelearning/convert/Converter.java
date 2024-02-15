@@ -7,6 +7,7 @@ package com.fpt.swp391_onlinelearning.convert;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.BlogCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.BlogDTO;
+import com.fpt.swp391_onlinelearning.dto.BlogViewDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
@@ -22,6 +23,7 @@ import com.fpt.swp391_onlinelearning.dto.UserDTO;
 import com.fpt.swp391_onlinelearning.model.Account;
 import com.fpt.swp391_onlinelearning.model.Blog;
 import com.fpt.swp391_onlinelearning.model.BlogCategory;
+import com.fpt.swp391_onlinelearning.model.BlogView;
 import com.fpt.swp391_onlinelearning.model.Course;
 import com.fpt.swp391_onlinelearning.model.CourseCategory;
 import com.fpt.swp391_onlinelearning.model.CourseRegistration;
@@ -676,5 +678,71 @@ public class Converter {
         return courseRegisterationDTO;
               
     }
+    public static CourseRegistrationDTO toDto2(CourseRegistration registeration) {
+        CourseRegistrationDTO courseRegisterationDTO = new CourseRegistrationDTO();
+        CourseDTO courseDTO = new CourseDTO();
+        courseDTO.setCourseId(registeration.getCourse().getCourseId());
+        courseDTO.setName(registeration.getCourse().getName());
+        courseDTO.setPrice(registeration.getCourse().getPrice());
+        courseRegisterationDTO.setCourse(courseDTO);
+        UserDTO user = new UserDTO();
+        user.setUserId(registeration.getUser().getUserId());
+        AccountDTO adto= new AccountDTO();
+        adto.setEmail(registeration.getUser().getAccount().getEmail());
+        user.setAccount(adto);
+        courseRegisterationDTO.setUser(user);
+        courseRegisterationDTO.setCourseRegisterationId(registeration.getCourseRegisterationId());
+        courseRegisterationDTO.setCreatedTime(registeration.getCreatedTime());
+        return courseRegisterationDTO;
+    }
+    public static UserDTO toDTO2(User u)
+    {
+        UserDTO udto= new UserDTO();
+        
+        AccountDTO adto= new AccountDTO();
+        adto.setAccId(u.getAccount().getAccId());
+        adto.setEmail(u.getAccount().getEmail());
+        adto.setCreatedTime(u.getAccount().getCreatedTime());
+        adto.setRegisteredTime(u.getAccount().getRegisteredTime());
+        
+        udto.setAccount(adto);
+        udto.setName(u.getName());
+        
+        return udto;
+    }
+    public static CourseRegistrationDTO toTrendCourseDTO(CourseRegistration c)
+    {
+        CourseDTO cdto= new CourseDTO();
+        cdto.setCourseId(c.getCourse().getCourseId());
+        cdto.setName(c.getCourse().getName());
+        CourseRegistrationDTO crdto= new CourseRegistrationDTO();
+        crdto.setCourse(cdto);
+        return crdto;
+    }
     
+    public static BlogViewDTO toDTO(BlogView bv)
+    {
+        BlogViewDTO bvdto= new BlogViewDTO();
+        BlogDTO bdto= new BlogDTO();
+        bdto.setTitle(bv.getBlog().getTitle());
+        bdto.setBlogId(bv.getBlog().getBlogId());
+        bvdto.setBlog(bdto);
+        return bvdto;
+    }
+    public static BlogView toDomain(BlogViewDTO bvdto)
+    {
+        BlogView bv= new BlogView();
+        Blog b= new Blog();
+        b.setBlogId(bvdto.getBlog().getBlogId());
+        if(bvdto.getUser()!=null)
+        {
+            User u = new User();
+            u.setUserId(bvdto.getUser().getUserId());
+            bv.setUser(u);
+        }
+        bv.setBlog(b);
+        bv.setViewTime(bvdto.getViewTime());
+        return bv;
+                
+    }
 }

@@ -12,6 +12,7 @@ com\fpt\swp391_onlinelearning\dto\AccountDTO.class
 com\fpt\swp391_onlinelearning\controller\EditProfileController.class
 com\fpt\swp391_onlinelearning\controller\AddNewEnrrollmentsController.class
 com\fpt\swp391_onlinelearning\service\iservice\ICourseRegistrationService.class
+com\fpt\swp391_onlinelearning\dto\BlogViewDTO.class
 com\fpt\swp391_onlinelearning\dal\idbcontex\ICourseRegistrationDAO.class
 com\fpt\swp391_onlinelearning\dto\ChapterDTO.class
 com\fpt\swp391_onlinelearning\dal\idbcontex\ILanguageDAO.class
@@ -20,6 +21,7 @@ com\fpt\swp391_onlinelearning\controller\TransactionHistoryController.class
 com\fpt\swp391_onlinelearning\controller\SetPasswordController.class
 com\fpt\swp391_onlinelearning\service\iservice\IPaymentService.class
 com\fpt\swp391_onlinelearning\util\URLUtils.class
+com\fpt\swp391_onlinelearning\dal\BlogViewDAO.class
 com\fpt\swp391_onlinelearning\model\BlogCategory.class
 com\fpt\swp391_onlinelearning\util\SessionUtil.class
 com\fpt\swp391_onlinelearning\service\iservice\IFeatureService.class
@@ -49,8 +51,10 @@ com\fpt\swp391_onlinelearning\service\LevelService.class
 com\fpt\swp391_onlinelearning\model\Transaction.class
 com\fpt\swp391_onlinelearning\service\UserService.class
 com\fpt\swp391_onlinelearning\dal\idbcontex\IAccountDAO.class
+com\fpt\swp391_onlinelearning\service\iservice\IBlogViewService.class
 com\fpt\swp391_onlinelearning\controller\CourseDashboardController.class
 com\fpt\swp391_onlinelearning\model\Slider.class
+com\fpt\swp391_onlinelearning\controller\CourseRegistrationStatsController.class
 com\fpt\swp391_onlinelearning\model\Chapter.class
 com\fpt\swp391_onlinelearning\controller\EnrollmentsDashboardController.class
 com\fpt\swp391_onlinelearning\controller\ReSendEmailController.class
@@ -64,11 +68,13 @@ com\fpt\swp391_onlinelearning\util\DatetimeUtil.class
 com\fpt\swp391_onlinelearning\model\Role.class
 com\fpt\swp391_onlinelearning\dto\BlogCategoryDTO.class
 com\fpt\swp391_onlinelearning\service\BlogService.class
+com\fpt\swp391_onlinelearning\model\BlogView.class
 com\fpt\swp391_onlinelearning\service\iservice\IBlogCategoryService.class
 com\fpt\swp391_onlinelearning\service\iservice\IDurationService.class
 com\fpt\swp391_onlinelearning\dal\LevelDAO.class
 com\fpt\swp391_onlinelearning\controller\EnrollmentsDetailDashboardController.class
 com\fpt\swp391_onlinelearning\model\User.class
+com\fpt\swp391_onlinelearning\util\DateUtils.class
 com\fpt\swp391_onlinelearning\util\VnpayUtil.class
 com\fpt\swp391_onlinelearning\baseController\BaseRequiredAuthenticationController.class
 com\fpt\swp391_onlinelearning\dal\CourseCategoryDAO.class
@@ -79,12 +85,14 @@ com\fpt\swp391_onlinelearning\controller\ReturnPaymentController.class
 com\fpt\swp391_onlinelearning\service\iservice\IService.class
 com\fpt\swp391_onlinelearning\service\CourseCategoryService.class
 com\fpt\swp391_onlinelearning\model\CourseCategory.class
+com\fpt\swp391_onlinelearning\controller\DashboardController.class
 com\fpt\swp391_onlinelearning\service\iservice\ISliderService.class
 com\fpt\swp391_onlinelearning\util\EmailUtil.class
 com\fpt\swp391_onlinelearning\dto\CourseRegistrationDTO.class
 com\fpt\swp391_onlinelearning\dto\PostDTO.class
 com\fpt\swp391_onlinelearning\dto\LessonTypeDTO.class
 com\fpt\swp391_onlinelearning\model\Course.class
+com\fpt\swp391_onlinelearning\service\BlogViewService.class
 com\fpt\swp391_onlinelearning\service\iservice\IAccountService.class
 com\fpt\swp391_onlinelearning\dal\SliderDAO.class
 com\fpt\swp391_onlinelearning\util\CookieUtils.class
@@ -114,7 +122,9 @@ com\fpt\swp391_onlinelearning\dal\idbcontex\IDAO.class
 com\fpt\swp391_onlinelearning\dto\SliderDTO.class
 com\fpt\swp391_onlinelearning\dal\AccountDAO.class
 com\fpt\swp391_onlinelearning\dto\DurationDTO.class
+com\fpt\swp391_onlinelearning\controller\RevenusStatController.class
 com\fpt\swp391_onlinelearning\controller\HomeController.class
+com\fpt\swp391_onlinelearning\controller\UserRegistrationStatisticsController.class
 com\fpt\swp391_onlinelearning\service\LanguageService.class
 com\fpt\swp391_onlinelearning\util\GenerateUtil.class
 com\fpt\swp391_onlinelearning\dal\FeatureDAO.class
@@ -122,6 +132,7 @@ com\fpt\swp391_onlinelearning\model\Feature.class
 com\fpt\swp391_onlinelearning\dal\idbcontex\IDurationDAO.class
 com\fpt\swp391_onlinelearning\dto\BlogDTO.class
 com\fpt\swp391_onlinelearning\controller\CourseDetailController.class
+com\fpt\swp391_onlinelearning\dal\idbcontex\IBlogViewDAO.class
 com\fpt\swp391_onlinelearning\dal\BlogDAO.class
 com\fpt\swp391_onlinelearning\dal\TransactionDAO.class
 com\fpt\swp391_onlinelearning\controller\LoginController.class

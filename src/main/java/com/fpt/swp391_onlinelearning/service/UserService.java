@@ -12,6 +12,9 @@ import com.fpt.swp391_onlinelearning.dto.UserDTO;
 import com.fpt.swp391_onlinelearning.model.User;
 import com.fpt.swp391_onlinelearning.service.iservice.IService;
 import com.fpt.swp391_onlinelearning.service.iservice.IUserService;
+import com.fpt.swp391_onlinelearning.util.DateUtils;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,6 +77,51 @@ public class UserService implements IService<UserDTO>, IUserService {
     public void updateUser(UserDTO udto) {
         User u= Converter.toUserDomain(udto);
         iUserDAO.updateUser(u);
+    }
+
+    @Override
+    public List<UserDTO> getUserDTORegister(int pageSize, int pageIndex, Date startDate, Date endDate) {
+        List<UserDTO> userdtoList= new ArrayList<>();
+        List<User> userList= iUserDAO.getUserRegistrationInfo(pageSize, pageIndex, startDate, endDate);
+        
+        for(User u: userList)
+        {
+            UserDTO udto= new UserDTO();
+            udto= Converter.toDTO2(u);
+            userdtoList.add(udto);
+        }
+        return userdtoList;
+    }
+
+    @Override
+    public int userDTOCount(Date startDate, Date endDate) {
+        return iUserDAO.userCount(startDate, endDate);
+    }
+
+    @Override
+    public List<Integer> userDTOCount() {
+        List<Integer> userRegistersInCurrentWeek = new ArrayList<>();
+        List<Date> datesOfCurrentWeek= DateUtils.getDatesOfCurrentWeek();
+        for(Date date: datesOfCurrentWeek)
+        {
+            userRegistersInCurrentWeek.add(iUserDAO.userCount(date));   
+        }
+        
+        return userRegistersInCurrentWeek;
+    }
+
+    @Override
+    public List<UserDTO> getUserDTORegister(Date startDate, Date endDate) {
+        List<UserDTO> userdtoList= new ArrayList<>();
+        List<User> userList= iUserDAO.getUserRegistrationInfo(startDate, endDate);
+        
+        for(User u: userList)
+        {
+            UserDTO udto= new UserDTO();
+            udto= Converter.toDTO2(u);
+            userdtoList.add(udto);
+        }
+        return userdtoList;
     }
 
 }

@@ -5,6 +5,8 @@
 package com.fpt.swp391_onlinelearning.dal.idbcontex;
 
 import com.fpt.swp391_onlinelearning.model.User;
+import java.sql.Date;
+import java.util.List;
 
 /**
  *
@@ -16,4 +18,12 @@ public interface IUserDAO {
     public void updateBalance(User u);
 
     public void updateUser(User u);
+
+    public List<User> getUserRegistrationInfo(int pageSize, int pageIndex, Date startDate, Date endDate);
+
+    public int userCount(Date startDate, Date endDate);
+
+    public int userCount(Date date);
+
+    public List<User> getUserRegistrationInfo(Date startDate, Date endDate);
 }
