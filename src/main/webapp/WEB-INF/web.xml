@@ -13,6 +13,18 @@
         <servlet-class>com.fpt.swp391_onlinelearning.controller.RegisterController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SliderController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.SliderController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.PostController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostDetailController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.PostDetailController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ForgotPassword</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.ForgotPasswordController</servlet-class>
     </servlet>
@@ -168,6 +180,18 @@
     <servlet-mapping>
         <servlet-name>RegisteredCourseController</servlet-name>
         <url-pattern>/enroll</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostDetailController</servlet-name>
+        <url-pattern>/postdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostController</servlet-name>
+        <url-pattern>/dashboard/post</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SliderController</servlet-name>
+        <url-pattern>/dashboard/slider</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CourseDashboardController</servlet-name>

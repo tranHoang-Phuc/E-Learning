@@ -4,15 +4,29 @@
  */
 package com.fpt.swp391_onlinelearning.dto;
 
+import java.sql.Date;
+
 /**
  *
  * @author phuc2
  */
 public class SliderDTO {
-    private int sliderID;
+
+    private int sliderId;
     private String img;
     private String title;
+    private String description;
+    private int status;
+    private Date createdTime;
     private PostDTO post;
+
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
+    }
 
     public PostDTO getPost() {
         return post;
@@ -21,15 +35,13 @@ public class SliderDTO {
     public void setPost(PostDTO post) {
         this.post = post;
     }
-    private String description;
-    private int status;
 
-    public int getSliderID() {
-        return sliderID;
+    public int getSliderId() {
+        return sliderId;
     }
 
-    public void setSliderID(int sliderID) {
-        this.sliderID = sliderID;
+    public void setSliderId(int sliderId) {
+        this.sliderId = sliderId;
     }
 
     public String getImg() {
@@ -48,8 +60,6 @@ public class SliderDTO {
         this.title = title;
     }
 
-    
-
     public String getDescription() {
         return description;
     }
@@ -66,6 +76,4 @@ public class SliderDTO {
         this.status = status;
     }
 
-    
-    
 }

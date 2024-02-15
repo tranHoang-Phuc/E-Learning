@@ -5,6 +5,7 @@
 package com.fpt.swp391_onlinelearning.dal.idbcontex;
 
 import com.fpt.swp391_onlinelearning.model.Slider;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -13,4 +14,9 @@ import java.util.List;
  */
 public interface ISliderDAO extends IDAO<Slider> {
     public List<Slider> getListOfSlider();
+    public List<Slider> searchListSlider(String searchInput, Date timeFrom, Date timeTo, int pageIndex);
+
+    public int countNumberOfPageSearchSlider(String searchInput, Date timeFrom, Date timeTo);
+
+    public boolean updatePostId(int postId);
 }

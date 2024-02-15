@@ -15,6 +15,7 @@ import com.fpt.swp391_onlinelearning.dto.DurationDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
 import com.fpt.swp391_onlinelearning.dto.LanguageDTO;
 import com.fpt.swp391_onlinelearning.dto.LevelDTO;
+import com.fpt.swp391_onlinelearning.dto.PostCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.PostDTO;
 import com.fpt.swp391_onlinelearning.dto.RoleDTO;
 import com.fpt.swp391_onlinelearning.dto.SliderDTO;
@@ -33,6 +34,7 @@ import com.fpt.swp391_onlinelearning.model.Language;
 import com.fpt.swp391_onlinelearning.model.Role;
 import com.fpt.swp391_onlinelearning.model.Level;
 import com.fpt.swp391_onlinelearning.model.Post;
+import com.fpt.swp391_onlinelearning.model.PostCategory;
 import com.fpt.swp391_onlinelearning.model.Slider;
 import com.fpt.swp391_onlinelearning.model.Transaction;
 import com.fpt.swp391_onlinelearning.model.User;
@@ -329,7 +331,7 @@ public class Converter {
 
     public static SliderDTO toDTO(Slider s) {
         SliderDTO sdto = new SliderDTO();
-        sdto.setSliderID(s.getSliderID());
+        sdto.setSliderId(s.getSliderId());
         sdto.setImg(s.getImg());
         sdto.setTitle(s.getTitle());
         sdto.setDescription(s.getDescription());
@@ -343,7 +345,7 @@ public class Converter {
 
     public static Slider toDomain(SliderDTO sdto) {
         Slider domain = new Slider();
-        domain.setSliderID(sdto.getSliderID());
+        domain.setSliderId(sdto.getSliderId());
         domain.setImg(sdto.getImg());
         domain.setTitle(sdto.getTitle());
         domain.setDescription(sdto.getDescription());
@@ -744,5 +746,135 @@ public class Converter {
         bv.setViewTime(bvdto.getViewTime());
         return bv;
                 
+    }
+    public static PostDTO toDto4(Post post) {
+        PostDTO dTO = new PostDTO();
+        dTO.setPostId(post.getPostId());
+        dTO.setTitle(post.getTitle());
+        return dTO;
+    }
+
+    public static SliderDTO toDto4(Slider slider) {
+        SliderDTO sliderDTO = new SliderDTO();
+        if (slider.getImg() != null) {
+            sliderDTO.setImg(slider.getImg());
+        }
+        if (slider.getPost() != null) {
+            sliderDTO.setPost(toDto4(slider.getPost()));
+        }
+        sliderDTO.setSliderId(slider.getSliderId());
+        sliderDTO.setStatus(slider.getStatus());
+        if (slider.getCreatedTime() != null) {
+            sliderDTO.setCreatedTime(slider.getCreatedTime());
+        }
+        sliderDTO.setDescription(slider.getDescription());
+        sliderDTO.setTitle(slider.getTitle());
+        return sliderDTO;
+    }
+
+    public static List<SliderDTO> toDto4(List<Slider> sliders) {
+        List<SliderDTO> dTOs = new ArrayList<>();
+        for (int i = 0; i < sliders.size(); i++) {
+            dTOs.add(toDto4(sliders.get(i)));
+        }
+        return dTOs;
+    }
+
+    public static List<PostDTO> toPostDto3(List<Post> posts) {
+        List<PostDTO> dTOs = new ArrayList<>();
+        for (int i = 0; i < posts.size(); i++) {
+            dTOs.add(toDto4(posts.get(i)));
+        }
+        return dTOs;
+    }
+
+    public static Slider toSliderInsertDomain(SliderDTO sliderDTO) {
+        Slider slider = new Slider();
+        slider.setImg(sliderDTO.getImg());
+        slider.setTitle(sliderDTO.getTitle());
+        slider.setStatus(sliderDTO.getStatus());
+        slider.setDescription(sliderDTO.getDescription());
+        slider.setCreatedTime(sliderDTO.getCreatedTime());
+        Post post = new Post();
+        post.setPostId(sliderDTO.getPost().getPostId());
+        slider.setPost(post);
+        return slider;
+    }
+
+    public static Slider toSliderUpdateDomain(SliderDTO sliderDTO) {
+        Slider slider = new Slider();
+        slider.setImg(sliderDTO.getImg());
+        slider.setTitle(sliderDTO.getTitle());
+        slider.setStatus(sliderDTO.getStatus());
+        slider.setDescription(sliderDTO.getDescription());
+        slider.setSliderId(sliderDTO.getSliderId());
+        Post post = new Post();
+        post.setPostId(sliderDTO.getPost().getPostId());
+        slider.setPost(post);
+        return slider;
+    }
+
+    public static PostDTO toDto5(Post post) {
+        PostDTO dTO = new PostDTO();
+        dTO.setPostId(post.getPostId());
+        dTO.setTitle(post.getTitle());
+        if (post.getCreatedTime() != null) {
+            dTO.setCreatedTime(post.getCreatedTime());
+        }
+        if (post.getContent() != null) {
+            dTO.setContent(post.getContent());
+        }
+        dTO.setStatus(post.getStatus());
+        PostCategoryDTO categoryDTO = new PostCategoryDTO();
+        categoryDTO.setPostCategoryId(post.getPostCategory().getPostCategoryId());
+        categoryDTO.setName(post.getPostCategory().getName());
+        dTO.setPostCategory(categoryDTO);
+        return dTO;
+    }
+
+    public static List<PostDTO> toPostDto4(List<Post> posts) {
+        List<PostDTO> dTOs = new ArrayList<>();
+        for (int i = 0; i < posts.size(); i++) {
+            dTOs.add(toDto5(posts.get(i)));
+        }
+        return dTOs;
+    }
+
+    public static PostCategoryDTO toDto3(PostCategory category) {
+        PostCategoryDTO dTO = new PostCategoryDTO();
+        dTO.setPostCategoryId(category.getPostCategoryId());
+        dTO.setName(category.getName());
+        return dTO;
+    }
+
+    public static List<PostCategoryDTO> toPostCategoryDto3(List<PostCategory> categorys) {
+        List<PostCategoryDTO> dTOs = new ArrayList<>();
+        for (int i = 0; i < categorys.size(); i++) {
+            dTOs.add(toDto3(categorys.get(i)));
+        }
+        return dTOs;
+    }
+
+    public static Post toPostUpdateDomain(PostDTO postDTO) {
+        Post post = new Post();
+        post.setTitle(postDTO.getTitle());
+        post.setStatus(postDTO.getStatus());
+        post.setContent(postDTO.getContent());
+        post.setPostId(postDTO.getPostId());
+        PostCategory postCategory = new PostCategory();
+        postCategory.setPostCategoryId(postDTO.getPostCategory().getPostCategoryId());
+        post.setPostCategory(postCategory);
+        return post;
+    }
+    public static Post toPostInserteDomain(PostDTO postDTO) {
+        Post post = new Post();
+        post.setTitle(postDTO.getTitle());
+        post.setStatus(postDTO.getStatus());
+        post.setContent(postDTO.getContent());
+        post.setCreatedTime(postDTO.getCreatedTime());
+        PostCategory postCategory = new PostCategory();
+        postCategory.setPostCategoryId(postDTO.getPostCategory().getPostCategoryId());
+        post.setPostCategory(postCategory);
+        return post;
     }
 }
