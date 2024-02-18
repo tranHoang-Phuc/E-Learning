@@ -229,4 +229,19 @@ public class CourseRegistrationService implements IService<CourseRegistrationDTO
         return _iCourseRegistrationDAO.canJoin(courseId, userId);
     }
 
+    @Override
+    public List<CourseRegistrationDTO> getUserRecentlyCourse(int numOfCourse, int userID) {
+        List<CourseRegistrationDTO> userRecentlyCourse= new ArrayList<>();
+        List<CourseRegistration> recentlyCourse= _iCourseRegistrationDAO.getUserRecentlyCourse(numOfCourse, userID);
+        for(CourseRegistration cr: recentlyCourse)
+        {
+            CourseRegistrationDTO crdto= new CourseRegistrationDTO();
+            crdto= Converter.toDTO3(cr);
+            userRecentlyCourse.add(crdto);
+        }
+        
+        return userRecentlyCourse;
+        
+    }
+
 }

@@ -45,5 +45,7 @@ public interface ICourseRegistrationDAO {
     public List<CourseRegistration> getCourseRegistration(Date from, Date to);
 
     public boolean canJoin(int courseId, int userId);
+    
+    public List<CourseRegistration> getUserRecentlyCourse(int numberOfCourse, int userId);
 
 }

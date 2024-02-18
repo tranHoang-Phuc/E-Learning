@@ -102,6 +102,16 @@
                 height: 200px; /* Thay th? giá tr? này b?ng kích th??c mong mu?n */
                 object-fit: cover;
             }
+            
+            .col-md-12 heading-bx left{
+                position: relative;
+            }
+            #enroll-btn{
+                position: absolute;
+                right: 1px;
+                top: 1px;
+                padding: 10px;
+            }
         </style>
     </head>
     <body id="bg">
@@ -342,6 +352,45 @@
                     </div>
                     <!-- Our Services END -->
 
+                    <!-- My Courses -->
+                    
+                    <c:if test="${sessionScope.user ne null and requestScope.userRecentlyCourse.size()>0}">
+                        <div class="section-area section-sp2 popular-courses-bx">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12 heading-bx left">
+                                        <h2 class="title-head">My recently <span>Courses</span></h2>
+                                        <p>Enjoy our course to have the best experience</p>
+                                        <a id="enroll-btn" href="enroll"><button class="btn">View more</button></a>
+                                    </div>
+                                        
+                                </div>
+                                <div class="row">
+    
+                                        <c:forEach items="${requestScope.userRecentlyCourse}" var="c"> 
+                                            <div id="content" class="col-md-3 col-lg-3 col-sm-3 m-b30">
+                                                <div class="cours-bx">
+                                                    <div class="action-box">
+                                                        <img src="${c.course.img}" alt="">
+                                                        <a href="coursecontent?courseId=${c.course.courseId}" class="btn">JOIN</a>
+                                                    </div>
+                                                    <div class="info-bx text-center">
+                                                        <h5><a href="coursecontent?courseId=${c.course.courseId}">${c.course.name}</a></h5>
+                                                        <span>${c.course.category.name}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+
+
+    
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+                    
+                    <!-- My Courses END -->
+                    
                     <!-- Popular Courses -->
                     <div class="section-area section-sp2 popular-courses-bx">
                         <div class="container">

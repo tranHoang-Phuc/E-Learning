@@ -48,5 +48,8 @@ public interface ICourseRegistrationService {
     public int getTotalRegistrationRevenus(Date from, Date to);
 
     public boolean canJoin(int courseId, int userId);
+    
+    public List<CourseRegistrationDTO> getUserRecentlyCourse(int numOfCourse, int userID);
+
 
 }

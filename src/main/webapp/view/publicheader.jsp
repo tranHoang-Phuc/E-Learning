@@ -141,6 +141,11 @@
                                                         <li><a href="home">Help </a>
 								
 							</li>
+                                                        <c:if test="${sessionScope.session ne null and sessionScope.session.role.roleId ne 1}">
+                                                            <li><a href="dashboard">Dashboard </a>
+								
+                                                            </li>
+                                                        </c:if>
 							
 						</ul>
 						<div class="nav-social-link">

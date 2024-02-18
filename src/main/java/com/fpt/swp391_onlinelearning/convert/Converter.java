@@ -1159,4 +1159,22 @@ public class Converter {
 
         return u;
     }
+
+    public static CourseRegistrationDTO toDTO3(CourseRegistration cr) {
+        CourseRegistrationDTO crdto= new CourseRegistrationDTO();
+        CourseDTO cdto= new CourseDTO();
+        cdto.setCourseId(cr.getCourse().getCourseId());
+        cdto.setName(cr.getCourse().getName());
+        cdto.setImg(cr.getCourse().getImg());
+        CourseCategoryDTO ccdto= new CourseCategoryDTO();
+        ccdto.setCourseCategoryId(cr.getCourse().getCategory().getCourseCategoryId());
+        ccdto.setName(cr.getCourse().getCategory().getName());
+        cdto.setCategory(ccdto);
+        UserDTO udto= new UserDTO();
+        udto.setUserId(cr.getUser().getUserId());
+        crdto.setCourse(cdto);
+        crdto.setUser(udto);
+                
+        return crdto;
+    }
 }

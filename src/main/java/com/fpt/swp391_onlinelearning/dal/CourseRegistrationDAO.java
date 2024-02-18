@@ -659,4 +659,45 @@ public class CourseRegistrationDAO implements IDAO<CourseRegistration>, ICourseR
         }
         return false;
     }
+
+    @Override
+    public List<CourseRegistration> getUserRecentlyCourse(int numberOfCourse, int userId) {
+        Connection connection = DBContext.getConnection();
+        List<CourseRegistration> userRecentlyCourse= new ArrayList<>();
+        try {
+            String sql = "SELECT c.courseId, c.name AS coursename,c.img ,c.courseCategoryId,cc.name AS coursecategoryname,cr.userId, cr.createdTime\n"
+                    + "FROM courseregistration AS cr, course AS c, coursecategory AS cc\n"
+                    + "WHERE cr.userId= ? AND c.courseId=cr.courseId AND cc.courseCategoryId=c.courseCategoryId and c.isActivated=1\n"
+                    + "ORDER BY cr.createdTime DESC\n"
+                    + "LIMIT ?";
+            PreparedStatement stm= connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            stm.setInt(2, numberOfCourse);
+            ResultSet rs= stm.executeQuery();
+            while(rs.next())
+            {
+                Course c= new Course();
+                c.setCourseId(rs.getInt("courseId"));
+                c.setName(rs.getString("coursename"));
+                c.setImg(rs.getString("img"));
+                CourseCategory cc= new CourseCategory();
+                cc.setCourseCategoryId(rs.getInt("courseCategoryId"));
+                cc.setName(rs.getString("coursecategoryname"));
+                CourseRegistration cr= new CourseRegistration();
+                User u= new User();
+                u.setUserId(rs.getInt("userId"));
+                cr.setUser(u);
+                cr.setCreatedTime(rs.getDate("createdTime"));
+                c.setCategory(cc);
+                cr.setCourse(c);
+                
+                userRecentlyCourse.add(cr);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return userRecentlyCourse;
+    }
 }
