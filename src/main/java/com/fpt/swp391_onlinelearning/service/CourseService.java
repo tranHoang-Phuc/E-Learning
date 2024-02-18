@@ -90,7 +90,12 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
     @Override
     public CourseDTO getCourseDetail(int courseId) {
         Course cdto = _iCourseDAO.getCourseDetail(courseId);
-        return Converter.toDTO3(cdto);
+        if (cdto != null) {
+            return Converter.toDTO3(cdto);
+
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -141,5 +146,46 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
             toDate = Date.valueOf(to);
         }
         return _iCourseDAO.getNumOfUserRegisterdCourse(user.getUserId(), searchValue, category, fromDate, toDate);
+    }
+    
+    @Override
+    public List<CourseDTO> getAllCoursesPagger(String pageIndex, String searchInfor, String level, String category, String duration, String language) {
+        String dataSearch = "";
+        if (searchInfor != null) {
+            dataSearch = searchInfor.trim();
+        }
+        System.out.println(dataSearch);
+        int page = pageIndex == null || pageIndex.trim().length() == 0 ? 1 : Integer.parseInt(pageIndex);
+        int levelId = level == null || level.trim().length() == 0 ? 0 : Integer.parseInt(level);
+        int categoryId = category == null || category.trim().length() == 0 ? 0 : Integer.parseInt(category);
+        int durationId = duration == null || duration.trim().length() == 0 ? 0 : Integer.parseInt(duration);
+        int languageId = language == null || language.trim().length() == 0 ? 0 : Integer.parseInt(language);
+        return Converter.toDTOList(_iCourseDAO.getAllCoursesPagger(page, dataSearch, levelId, categoryId, durationId, languageId));
+    }
+
+    @Override
+    public int getTotalRecord(String searchInfor, String level, String category, String duration, String language) {
+        String dataSearch = "";
+        if (searchInfor != null && searchInfor.trim().length() == 0) {
+            dataSearch = searchInfor;
+        }
+        int levelId = level == null || level.trim().length() == 0 ? 0 : Integer.parseInt(level);
+        int categoryId = category == null || category.trim().length() == 0 ? 0 : Integer.parseInt(category);
+        int durationId = duration == null || duration.trim().length() == 0 ? 0 : Integer.parseInt(duration);
+        int languageId = language == null || language.trim().length() == 0 ? 0 : Integer.parseInt(language);
+        return _iCourseDAO.getTotalRecord(dataSearch, levelId, categoryId, durationId, languageId);
+    }
+
+    @Override
+    public void changeCourseStatus(String courseId, String status) {
+        int course = Integer.parseInt(courseId);
+        System.out.println(status);
+        boolean changeStatus = !(status == null || status.trim().length() == 0);
+        _iCourseDAO.changeCourseStatus(course, changeStatus);
+    }
+
+    @Override
+    public CourseDTO getCourseDetailAll(int courseId) {
+        return Converter.toDTO3(_iCourseDAO.getCourseDetailAll(courseId));
     }
 }

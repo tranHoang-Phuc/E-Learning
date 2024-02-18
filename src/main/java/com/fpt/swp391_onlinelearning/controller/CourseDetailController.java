@@ -36,13 +36,13 @@ import java.util.List;
  * @author quang
  */
 public class CourseDetailController extends HttpServlet {
-
+    
     private ICourseService iCourseService;
     private IService<CourseCategoryDTO> iCategoryService;
     private static ILevelService levelService;
     private static IDurationService durationService;
     private static ILanguageService languageService;
-
+    
     @Override
     public void init() throws ServletException {
         iCourseService = CourseService.getInstance(new CourseDAO(), new CourseDAO());
@@ -51,25 +51,30 @@ public class CourseDetailController extends HttpServlet {
         durationService = DurationService.getInstance(new DurationDAO(), new DurationDAO());
         languageService = LanguageService.getInstance(new LanguageDAO(), new LanguageDAO());
     }
-
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String courseIdString = req.getParameter("id");
         int courseId = Integer.parseInt(courseIdString);
         List<CourseCategoryDTO> categoryDTOs = iCategoryService.getAll();
-        CourseDTO cdto = (CourseDTO) iCourseService.getCourseDetail(courseId);
-        List<LevelDTO> level = levelService.getAllLevel();
-
-        List<DurationDTO> duration = durationService.getAllDuration();
-
-        List<LanguageDTO> language = languageService.getAllLanguage();
-        req.setAttribute("level", level);
-        req.setAttribute("language", language);
-        req.setAttribute("duration", duration);
-        req.setAttribute("courseId", courseId);
-        req.setAttribute("cdto", cdto);
-        req.setAttribute("category", categoryDTOs);
-        req.getRequestDispatcher("view/coursedetail.jsp").forward(req, resp);
+        CourseDTO cdto = iCourseService.getCourseDetail(courseId);
+        if (cdto != null) {
+            List<LevelDTO> level = levelService.getAllLevel();
+            
+            List<DurationDTO> duration = durationService.getAllDuration();
+            
+            List<LanguageDTO> language = languageService.getAllLanguage();
+            req.setAttribute("level", level);
+            req.setAttribute("language", language);
+            req.setAttribute("duration", duration);
+            req.setAttribute("courseId", courseId);
+            req.setAttribute("cdto", cdto);
+            req.setAttribute("category", categoryDTOs);
+            req.getRequestDispatcher("view/coursedetail.jsp").forward(req, resp);
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/courselist");
+        }
+        
     }
-
+    
 }

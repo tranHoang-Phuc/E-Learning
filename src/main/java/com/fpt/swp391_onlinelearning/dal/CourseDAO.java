@@ -610,5 +610,232 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         return 0;
     }
     
-    
+    @Override
+    public List<Course> getAllCoursesPagger(int pageIndex, String searchInfor, int level, int category, int duration, int language) {
+        List<Course> course = new ArrayList<>();
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT t.courseId, t.coursename, t.courseCategoryId, t.price, t.levelId, \n"
+                + "       t.levelname, t.durationId, t.durationname, t.authorId, t.username, \n"
+                + "       t.languageId, t.languagename, t.description, t.createdTime, t.img, t.isActivated, \n"
+                + "       t.coursecategoyname \n"
+                + "FROM (\n"
+                + "    SELECT ROW_NUMBER() OVER (ORDER BY c.createdTime DESC) AS rownum, c.isActivated,\n"
+                + "           c.courseId, c.name as coursename, c.courseCategoryId, c.price, \n"
+                + "           c.levelId, l.name as levelname, c.durationId, d.name as durationname, \n"
+                + "           c.authorId, u.name as username, c.languageId, lan.name as languagename, \n"
+                + "           c.description, c.createdTime, c.img, cc.name as coursecategoyname\n"
+                + "    FROM course c\n"
+                + "    JOIN coursecategory cc ON c.courseCategoryId = cc.courseCategoryId\n"
+                + "    JOIN `level` l ON c.levelId = l.levelId\n"
+                + "    JOIN duration d  ON c.durationId = d.durationId\n"
+                + "    JOIN `user` u ON c.authorId = u.userId\n"
+                + "    JOIN `language` lan ON c.languageId = lan.languageId\n"
+                + "    WHERE (c.name LIKE ? OR u.name LIKE ?) ";
+        if (level != 0) {
+            sql += "AND c.levelId = ? ";
+        }
+        if (category != 0) {
+            sql += "AND c.courseCategoryId = ? ";
+        }
+        if (duration != 0) {
+            sql += "AND c.durationId = ? ";
+        }
+        if (language != 0) {
+            sql += "AND c.languageId = ? ";
+        }
+        sql += ") t WHERE t.rownum >= (?-1)*9+1 AND t.rownum <= ?*9;";
+
+        try {
+            int paramIndex = 1;
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(paramIndex++, "%" + searchInfor + "%");
+            stm.setString(paramIndex++, "%" + searchInfor + "%");
+            if (level != 0) {
+                stm.setInt(paramIndex++, level);
+            }
+            if (category != 0) {
+                stm.setInt(paramIndex++, category);
+            }
+            if (duration != 0) {
+                stm.setInt(paramIndex++, duration);
+            }
+            if (language != 0) {
+                stm.setInt(paramIndex++, language);
+            }
+            stm.setInt(paramIndex++, pageIndex);
+            stm.setInt(paramIndex, pageIndex);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Course c = new Course();
+                c.setIsActivated(rs.getBoolean("isActivated"));
+                c.setCourseId(rs.getInt("courseId"));
+                c.setName(rs.getString("coursename"));
+                c.setPrice(rs.getLong("price"));
+                c.setImg(rs.getString("img"));
+                Level cl = new Level();
+                cl.setLevelId(rs.getInt("levelId"));
+                cl.setName(rs.getString("levelname"));
+                c.setLevel(cl);
+                CourseCategory courseCategory = new CourseCategory();
+                courseCategory.setCourseCategoryId(rs.getInt("courseCategoryId"));
+                courseCategory.setName(rs.getString("coursecategoyname"));
+                c.setCategory(courseCategory);
+                course.add(c);
+                Duration durationC = new Duration();
+                durationC.setDurationId(rs.getInt("durationId"));
+                durationC.setName(rs.getString("durationname"));
+                c.setDuration(durationC);
+
+                Language language1 = new Language();
+                language1.setLanguageId(rs.getInt("languageId"));
+                language1.setName(rs.getString("languagename"));
+                c.setLanguage(language1);
+
+                User author = new User();
+                author.setName(rs.getString("username"));
+                c.setAuthor(author);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return course;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new CourseDAO().getAllCoursesPagger(1, "12", 0, 0, 0, 0).size());
+    }
+    @Override
+    public int getTotalRecord(String searchInfor, int level, int category, int duration, int language) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT COUNT(*) AS numOfRecord\n"
+                + "   FROM course c\n"
+                + "    JOIN coursecategory cc ON c.courseCategoryId = cc.courseCategoryId\n"
+                + "    JOIN `level` l ON c.levelId = l.levelId\n"
+                + "    JOIN duration d  ON c.durationId = d.durationId\n"
+                + "    JOIN `user` u ON c.authorId = u.userId\n"
+                + "    JOIN `language` lan ON c.languageId = lan.languageId\n"
+                + "    WHERE (c.name LIKE ? OR u.name LIKE ?) ";
+        if (level != 0) {
+            sql += "AND c.levelId = ? ";
+        }
+        if (category != 0) {
+            sql += "AND c.courseCategoryId = ? ";
+        }
+        if (duration != 0) {
+            sql += "AND c.durationId = ? ";
+        }
+        if (language != 0) {
+            sql += "AND c.languageId = ? ";
+        }
+        try {
+            int paramIndex = 1;
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(paramIndex++, "%" + searchInfor + "%");
+            stm.setString(paramIndex++, "%" + searchInfor + "%");
+            if (level != 0) {
+                stm.setInt(paramIndex++, level);
+            }
+            if (category != 0) {
+                stm.setInt(paramIndex++, category);
+            }
+            if (duration != 0) {
+                stm.setInt(paramIndex++, duration);
+            }
+            if (language != 0) {
+                stm.setInt(paramIndex, language);
+            }
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("numOfRecord");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return 0;
+    }
+
+    @Override
+    public void changeCourseStatus(int courseId, boolean status) {
+        Connection connecion = DBContext.getConnection();
+        String sql = "UPDATE `swp391_onlinelearning`.`course` \n"
+                + "SET isActivated = ? WHERE  `courseId`= ?;";
+        try {
+            PreparedStatement stm = connecion.prepareStatement(sql);
+            stm.setBoolean(1, status);
+            stm.setInt(2, courseId);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connecion);
+        }
+
+    }
+
+    @Override
+    public Course getCourseDetailAll(int courseId) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT c.courseId, c.name AS courseName, cc.name AS coursecategory, "
+                + "c.courseCategoryId, lv.name AS `level` ,c.levelId , c.price, d.name AS duration,\n"
+                + "c.durationId, u.name AS authorname,c.authorId, u.img AS imgAuthor, "
+                + "l.name AS `language`,c.languageId, c.description, c.img\n"
+                + "FROM course c\n"
+                + "JOIN coursecategory cc ON c.courseCategoryId = cc.courseCategoryId\n"
+                + "JOIN `user` u ON c.authorId = u.userId\n"
+                + "JOIN `language` l ON c.languageId = l.languageId\n"
+                + "JOIN `level` lv ON c.levelId = lv.levelId\n"
+                + "JOIN duration d ON c.durationId = d.durationId\n"
+                + "WHERE c.courseId=?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, courseId);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+
+                Course c = new Course();
+                c.setCourseId(rs.getInt("courseId"));
+                c.setName(rs.getString("courseName"));
+                c.setDescription(rs.getString("description"));
+                c.setImg(rs.getString("img"));
+                c.setPrice(rs.getInt("price"));
+
+                CourseCategory cc = new CourseCategory();
+                cc.setName(rs.getString("coursecategory"));
+                cc.setCourseCategoryId(rs.getInt("courseCategoryId"));
+                c.setCategory(cc);
+
+                User u = new User();
+                u.setName(rs.getString("authorname"));
+                u.setUserId(rs.getInt("authorId"));
+                u.setImg(rs.getString("imgAuthor"));
+                c.setAuthor(u);
+
+                Level l = new Level();
+                l.setName(rs.getString("level"));
+                l.setLevelId(rs.getInt("levelId"));
+                c.setLevel(l);
+
+                Duration d = new Duration();
+                d.setName(rs.getString("duration"));
+                d.setDurationId(rs.getInt("durationId"));
+                c.setDuration(d);
+
+                Language lg = new Language();
+                lg.setLanguageId(rs.getInt("languageId"));
+                lg.setName(rs.getString("language"));
+                c.setLanguage(lg);
+
+                return c;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return null;
+    }
 }

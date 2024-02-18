@@ -30,4 +30,12 @@ public interface ICourseService {
     
     public int getNumRegisteredCourseByUserId(UserDTO user, AccountDTO acc, 
             String searchValue, String categoryId, String from, String to);
+    
+    public List<CourseDTO> getAllCoursesPagger(String pageIndex, String searchInfor, String level, String category, String duration, String language);
+
+    public int getTotalRecord(String searchInfor, String level, String category, String duration, String language);
+
+    public void changeCourseStatus(String courseId, String status);
+
+    public CourseDTO getCourseDetailAll(int courseId);
 }

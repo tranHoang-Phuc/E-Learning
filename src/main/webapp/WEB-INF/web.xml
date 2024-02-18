@@ -12,6 +12,14 @@
         <servlet-name>CourseContentController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.CourseContentController</servlet-class>
     </servlet>
+     <servlet>
+        <servlet-name>CourseDetailDashboardController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.CourseDetailDashboardController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CourseContentDashboardController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.CourseContentDashboardController</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>LessonStudyController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.LessonStudyController</servlet-class>
@@ -263,6 +271,14 @@
     <servlet-mapping>
         <servlet-name>SettingListController</servlet-name>
         <url-pattern>/dashboard/settingList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CourseDetailDashboardController</servlet-name>
+        <url-pattern>/dashboard/coursedetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CourseContentDashboardController</servlet-name>
+        <url-pattern>/dashboard/coursecontent</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

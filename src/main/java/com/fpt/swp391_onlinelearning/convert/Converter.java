@@ -421,7 +421,80 @@ public class Converter {
         if (course.getDescription() != null) {
             coursedto.setDescription(course.getDescription());
         }
+        if (course.isIsActivated() == true) {
+            coursedto.setIsActivated(course.isIsActivated());
+        }
+        if (course.getDuration() != null) {
+            DurationDTO durationDTO = new DurationDTO();
+            durationDTO.setName(course.getDuration().getName());
+            coursedto.setDuration(durationDTO);
+        }
+        if (course.getLanguage() != null) {
+            LanguageDTO languageDTO = new LanguageDTO();
+            languageDTO.setName(course.getLanguage().getName());
+            coursedto.setLanguage(languageDTO);
+        }
+        if (course.getAuthor() != null) {
+            UserDTO author = new UserDTO();
+            author.setName(course.getAuthor().getName());
+            coursedto.setAuthor(author);
+        }
         return coursedto;
+    }
+
+    public static CourseDTO toCourseDTO(Course course) {
+        CourseDTO coursedto = new CourseDTO();
+        coursedto.setCourseId(course.getCourseId());
+        if (course.getName() != null) {
+            coursedto.setName(course.getName());
+        }
+        if (course.getCategory() != null) {
+            coursedto.setCategory(toDTO(course.getCategory()));
+        }
+        coursedto.setPrice(course.getPrice());
+        if (course.getLevel() != null) {
+            coursedto.setLevel(toDTO(course.getLevel()));
+        }
+
+        if (course.getImg() != null) {
+            coursedto.setImg(course.getImg());
+        }
+        if (course.getLanguage() != null) {
+            coursedto.setLanguage(toDTO(course.getLanguage()));
+        }
+        if (course.getDescription() != null) {
+            coursedto.setDescription(course.getDescription());
+        }
+        if (course.isIsActivated() == true) {
+            coursedto.setIsActivated(course.isIsActivated());
+        }
+        if (course.getDuration() != null) {
+            DurationDTO durationDTO = new DurationDTO();
+            durationDTO.setName(course.getDuration().getName());
+            coursedto.setDuration(durationDTO);
+        }
+        if (course.getLanguage() != null) {
+            LanguageDTO languageDTO = new LanguageDTO();
+            languageDTO.setName(course.getLanguage().getName());
+            coursedto.setLanguage(languageDTO);
+        }
+        if (course.getAuthor() != null) {
+            UserDTO author = new UserDTO();
+            author.setName(course.getAuthor().getName());
+            coursedto.setAuthor(author);
+        }
+        return coursedto;
+    }
+
+    public static List<CourseDTO> toDTOList(List<Course> courses) {
+        List<CourseDTO> coursedtos = new ArrayList<>();
+
+        for (int i = 0; i < courses.size(); i++) {
+            CourseDTO cdto = toCourseDTO(courses.get(i));
+            coursedtos.add(cdto);
+        }
+
+        return coursedtos;
     }
 
     public static List<CourseDTO> toDTO(List<Course> courses) {

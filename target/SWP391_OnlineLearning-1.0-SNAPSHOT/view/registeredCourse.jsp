@@ -257,19 +257,19 @@
             function render(id, pageIndex, totalPage, gap, from, to, searchValue, category) {
                 var container = document.getElementById(id);
                 if (pageIndex - gap > 1) {
-                    container.innerHTML += '<a href="enroll?page=1' + '&from=' + from + '&to=' + to + '&dataSearch' + searchValue + '&category' + category + '">First</a> ';
+                    container.innerHTML += '<a href="enroll?page=1' + '&from=' + from + '&to=' + to + '&dataSearch=' + searchValue + '&category=' + category + '">First</a> ';
                 }
                 for (var i = pageIndex - gap; i < pageIndex; i++) {
                     if (i > 0) {
-                        container.innerHTML += '<a href="enroll?page=' + i + '&from=' + from + '&to=' + to + '&dataSearch' + searchValue + '&category' + category + '">' + i + '</a>';
+                        container.innerHTML += '<a href="enroll?page=' + i + '&from=' + from + '&to=' + to + '&dataSearch=' + searchValue + '&category=' + category + '">' + i + '</a>';
                     }
                 }
                 container.innerHTML += '<span>' + pageIndex + '</span>';
                 for (var i = pageIndex + 1; i <= pageIndex + gap && i <= totalPage; i++) {
-                    container.innerHTML += '<a href="enroll?page=' + i + '&from=' + from + '&to=' + to + '&dataSearch' + searchValue + '&category' + category + '">' + i + '</a>';
+                    container.innerHTML += '<a href="enroll?page=' + i + '&from=' + from + '&to=' + to + '&dataSearch=' + searchValue + '&category=' + category + '">' + i + '</a>';
                 }
                 if (pageIndex + gap < totalPage) {
-                    container.innerHTML += '<a href="enroll?page=' + totalPage + '&from=' + from + '&to=' + to + '&dataSearch' + searchValue + '&category' + category + '">Last</a>';
+                    container.innerHTML += '<a href="enroll?page=' + totalPage + '&from=' + from + '&to=' + to + '&dataSearch=' + searchValue + '&category=' + category + '">Last</a>';
                 }
             }
         </script>    

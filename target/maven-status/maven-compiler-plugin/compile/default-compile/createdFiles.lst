@@ -1,3 +1,4 @@
+com\fpt\swp391_onlinelearning\controller\CourseContentDashboardController.class
 com\fpt\swp391_onlinelearning\dal\idbcontex\IBLogCategoryDAO.class
 com\fpt\swp391_onlinelearning\dto\CourseCategoryDTO.class
 com\fpt\swp391_onlinelearning\controller\ForgotPasswordController.class
@@ -11,6 +12,7 @@ com\fpt\swp391_onlinelearning\dal\idbcontex\ILessonDAO.class
 com\fpt\swp391_onlinelearning\dto\LessonDTO.class
 com\fpt\swp391_onlinelearning\controller\ChangePasswordController.class
 com\fpt\swp391_onlinelearning\service\iservice\ICourseService.class
+com\fpt\swp391_onlinelearning\controller\CourseDetailDashboardController.class
 com\fpt\swp391_onlinelearning\dto\AccountDTO.class
 com\fpt\swp391_onlinelearning\controller\EditProfileController.class
 com\fpt\swp391_onlinelearning\controller\AddNewEnrrollmentsController.class

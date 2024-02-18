@@ -17,11 +17,9 @@ import com.fpt.swp391_onlinelearning.dto.LessonDTO;
 import com.fpt.swp391_onlinelearning.dto.UserDTO;
 import com.fpt.swp391_onlinelearning.service.CourseService;
 import com.fpt.swp391_onlinelearning.service.LessonService;
-import com.fpt.swp391_onlinelearning.service.UserLessonService;
 import com.fpt.swp391_onlinelearning.service.UserService;
 import com.fpt.swp391_onlinelearning.service.iservice.ICourseService;
 import com.fpt.swp391_onlinelearning.service.iservice.ILessonService;
-import com.fpt.swp391_onlinelearning.service.iservice.IUserLessonService;
 import com.fpt.swp391_onlinelearning.service.iservice.IUserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,14 +37,12 @@ public class CourseContentController extends BaseRequiredEnrollmentController {
 
     private ICourseService iCourseService;
     private ILessonService iLessonService;
-    private IUserLessonService iUserLessonService;
     private IUserService iUserService;
 
     @Override
     public void init() throws ServletException {
         iCourseService = CourseService.getInstance(new CourseDAO(), new CourseDAO());
         iLessonService = LessonService.getInstance(new LessonDAO(), new LessonDAO());
-        iUserLessonService = UserLessonService.getInstance(new UserLessonDAO());
         iUserService = UserService.getInstace(new UserDAO(), new UserDAO());
     }
 

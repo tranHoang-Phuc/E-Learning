@@ -29,4 +29,13 @@ public interface ICourseDAO {
     public List<Course> searchCourse(String infor);
 
     public int countSearchRecord(String infor);
+       
+    public List<Course> getAllCoursesPagger(int pageIndex, String searchInfor, int level, int category, int duration, int language);
+    
+    public int getTotalRecord(String searchInfor, int level, int category, int duration, int language);
+    
+    public void changeCourseStatus(int courseId, boolean status);
+    
+    public Course getCourseDetailAll(int courseId);
+
 }
