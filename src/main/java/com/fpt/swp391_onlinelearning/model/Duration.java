@@ -12,6 +12,15 @@ public class Duration {
     private int durationId;
     private String name;
     private boolean isActivated;
+     private SettingType type;
+
+    public SettingType getType() {
+        return type;
+    }
+
+    public void setType(SettingType type) {
+        this.type = type;
+    }
 
     public boolean isIsActivated() {
         return isActivated;

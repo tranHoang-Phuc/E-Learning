@@ -9,9 +9,19 @@ package com.fpt.swp391_onlinelearning.model;
  * @author quang
  */
 public class PostCategory {
+
     private int postCategoryId;
     private String name;
     private boolean isActivated;
+    private SettingType type;
+
+    public SettingType getType() {
+        return type;
+    }
+
+    public void setType(SettingType type) {
+        this.type = type;
+    }
 
     public int getPostCategoryId() {
         return postCategoryId;
@@ -36,5 +46,5 @@ public class PostCategory {
     public void setIsActivated(boolean isActivated) {
         this.isActivated = isActivated;
     }
-    
+
 }

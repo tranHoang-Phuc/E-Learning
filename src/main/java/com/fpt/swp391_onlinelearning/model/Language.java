@@ -12,7 +12,15 @@ public class Language {
     private int languageId;
     private String name;
     private boolean isActivated;
+    private SettingType type;
 
+    public SettingType getType() {
+        return type;
+    }
+
+    public void setType(SettingType type) {
+        this.type = type;
+    }
     public boolean isIsActivated() {
         return isActivated;
     }

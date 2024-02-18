@@ -7,6 +7,7 @@ package com.fpt.swp391_onlinelearning.dal;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.IUserDAO;
 import com.fpt.swp391_onlinelearning.model.Account;
+import com.fpt.swp391_onlinelearning.model.Role;
 import com.fpt.swp391_onlinelearning.model.User;
 import java.sql.Connection;
 import java.sql.Date;
@@ -276,5 +277,238 @@ public class UserDAO extends DBContext implements IUserDAO, IDAO<User> {
         }
         return null;
     }
+    @Override
+    public List<User> getAllUser(int pageindex, int pagesize, String info, int roleid, int status) {
+        Connection connection = DBContext.getConnection();
+        List<User> users = new ArrayList<>();
+        try {
+            int paramIndex = 0;
+            StringBuilder bonus = new StringBuilder();
+            List<Object> paramValues = new ArrayList<>();
 
+            if (info != null ) {
+                bonus.append(" AND (a.email LIKE ? or u.name like ? )");
+                paramValues.add("%" + info + "%");
+                paramValues.add("%" + info + "%");
+            }
+
+            if (roleid != 0) {
+                bonus.append(" AND ro.roleId = ?");
+                paramValues.add(roleid);
+            }
+            if (status != 3) {
+                bonus.append(" AND a.isActivated = ?");
+                paramValues.add(status);
+            }
+
+            String sql = "select accId, email, username, dob, gender, phone, roleId, rolename, status,img \n"
+                    + "from (\n"
+                    + "    select row_number() over (order by accId asc) as rownum, a.accId, a.email, u.name AS username, u.dob, u.gender, u.phone, u.img, u.address, u.balance, ro.roleId, ro.name AS rolename, a.createdTime, a.isActivated AS status\n"
+                    + "    from account AS a \n"
+                    + "    join `user` AS u on u.accId = a.accId  \n"
+                    + "    JOIN role AS ro on a.roleId = ro.roleId\n"
+                    + "    WHERE 1=1 " + bonus.toString() + "\n"
+                    + ") t\n"
+                    + "where rownum >= (? - 1) * ? + 1 \n"
+                    + "and rownum <= ? * ?";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            for (Object paramValue : paramValues) {
+                paramIndex++;
+                if (paramValue instanceof Integer) {
+                    stm.setInt(paramIndex, (Integer) paramValue);
+                } else if (paramValue instanceof String) {
+                    stm.setString(paramIndex, (String) paramValue);
+                } else if (paramValue instanceof Boolean) {
+                    stm.setBoolean(paramIndex, (Boolean) paramValue);
+                }
+            }
+            stm.setInt(paramIndex + 1, pageindex);
+            stm.setInt(paramIndex + 2, pagesize);
+            stm.setInt(paramIndex + 3, pageindex);
+            stm.setInt(paramIndex + 4, pagesize);
+
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+
+                user.setName(rs.getString("username"));
+                user.setGender(rs.getBoolean("gender"));
+                user.setDob(rs.getDate("dob"));
+                user.setPhone(rs.getString("phone"));
+
+                Role role = new Role();
+                role.setRoleId(rs.getInt("roleId"));
+                role.setName(rs.getString("rolename"));
+
+                Account account = new Account();
+                account.setAccId(rs.getInt("accId"));
+                account.setEmail(rs.getString("email"));
+                account.setIsActivated(rs.getInt("status"));
+                account.setRole(role);
+
+                user.setAccount(account);
+
+                users.add(user);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return users;
+    }
+    public static void main(String[] args) {
+        System.out.println(new UserDAO().getAllUser(1, 2, "tien", 0, 3).size());
+    }
+    @Override
+    public User getUserById(int accountId) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT u.userId,a.email,u.name,u.dob,u.gender,u.phone,u.img,u.address,u.balance,ro.roleId,ro.name ,a.createdTime,a.isActivated\n"
+                + "FROM `user` AS u \n"
+                + "JOIN account AS a ON u.accId = a.accId \n"
+                + "JOIN role AS ro  ON a.roleId = ro.roleId\n"
+                + "\n"
+                + "WHERE a.accId=?";
+        User user = new User();
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, accountId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+
+                user.setUserId(rs.getInt("u.userId"));
+                user.setName(rs.getString("u.name"));
+                user.setGender(rs.getBoolean("u.gender"));
+                user.setDob(rs.getDate("u.dob"));
+                user.setPhone(rs.getString("u.phone"));
+                user.setImg(rs.getString("u.img"));
+                user.setAddress(rs.getString("u.address"));
+
+                Role role = new Role();
+                role.setRoleId(rs.getInt("ro.roleId"));
+                role.setName(rs.getString("ro.name"));
+
+                Account account = new Account();
+                account.setAccId(accountId);
+                account.setEmail(rs.getString("a.email"));
+                account.setIsActivated(rs.getInt("a.isActivated"));
+                account.setCreatedTime(rs.getDate("a.createdTime"));
+                account.setRole(role);
+
+                user.setAccount(account);
+                user.setBalance(rs.getLong("balance"));
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return user;
+    }
+
+    @Override
+    public User getUserByPhone(String phone) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT userId FROM `user` WHERE phone = ?";
+        User user = new User();
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, phone);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+
+                user.setUserId(rs.getInt("userId"));
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return user;
+    }
+
+    @Override
+    public int getCount(String info, int roleid, int status) {
+        Connection connection = DBContext.getConnection();
+
+        int paramIndex = 0;
+        StringBuilder bonus = new StringBuilder();
+        List<Object> paramValues = new ArrayList<>();
+
+        if (info != null && !"".equals(info)) {
+            bonus.append(" AND a.email LIKE ? AND u.name LIKE ?");
+            paramValues.add("%" + info + "%");
+            paramValues.add("%" + info + "%");
+        }
+        if (roleid != 0) {
+            bonus.append(" AND ro.roleId= ?");
+            paramValues.add(roleid);
+        }
+        if (status != 3) {
+            bonus.append(" AND a.isActivated =?");
+            paramValues.add(status);
+        }
+
+        String sql = "SELECT COUNT(*) AS total_rows\n"
+                + "FROM (\n"
+                + "    SELECT a.accId\n"
+                + "    FROM account AS a \n"
+                + "    JOIN `user` AS u ON u.accId = a.accId  \n"
+                + "    JOIN role AS ro ON a.roleId = ro.roleId\n"
+                + "    WHERE 1=1 " + bonus.toString() + "\n"
+                + ") t;";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            for (Object paramValue : paramValues) {
+                paramIndex++;
+                if (paramValue instanceof Integer) {
+                    stm.setInt(paramIndex, (Integer) paramValue);
+                } else if (paramValue instanceof String) {
+                    stm.setString(paramIndex, (String) paramValue);
+                }
+            }
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total_rows");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return -1;
+    }
+
+    @Override
+    public void blockAccountByRoleId(int roleid) {
+        Connection connection = DBContext.getConnection();
+        try {
+            String sql = "UPDATE account AS a SET a.isActivated = 2  WHERE a.roleId =? ;";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, roleid);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+    }
+
+    @Override
+    public void blockRoleByRoleId(int roleid) {
+        Connection connection = DBContext.getConnection();
+        try {
+            String sql = "UPDATE role AS r SET r.isActived =0 WHERE r.roleId =?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, roleid);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+    }
 }

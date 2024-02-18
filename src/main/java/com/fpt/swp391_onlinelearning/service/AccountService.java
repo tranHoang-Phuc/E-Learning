@@ -189,6 +189,25 @@ public class AccountService implements IService<AccountDTO>, IAccountService {
         accountDAO.updatePassword(a.getAccId(), newPassword);
         
     }
+     @Override
+    public void updateAccountById(AccountDTO a, int id) {
+        Account ac = Converter.toDomain1(a);
+        accountDAO.updateAccountById(ac, id);
+    }
 
+    @Override
+    public boolean insertByAdmin(AccountDTO dto) {
+        Account acc = Converter.toDomain2(dto);
+        acc.setOtp(GenerateUtil.generateOTP());
+        return accountDAO.insertByAdmin(acc);
+        
+    }
+
+    @Override
+    public boolean sendPasswordtoEmail(String email, String pass) {
+        EmailUtil emailUtil = EmailUtil.getMailUtils();
+        String emailContent = "Your password is: " + pass;
+        return emailUtil.sendMail(email, "Your Password", emailContent);
+    }
     
 }

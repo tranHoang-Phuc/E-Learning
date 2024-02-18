@@ -120,6 +120,18 @@
         <servlet-name>RevenusStatController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.RevenusStatController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserListController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.UserListController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserDetailController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.UserDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SettingListController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.SettingListController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CourseContentController</servlet-name>
         <url-pattern>/coursecontent</url-pattern>
@@ -239,6 +251,18 @@
     <servlet-mapping>
         <servlet-name>RevenusStatController</servlet-name>
         <url-pattern>/dashboard/revenusStats</url-pattern>
+    </servlet-mapping>
+        <servlet-mapping>
+        <servlet-name>UserListController</servlet-name>
+        <url-pattern>/dashboard/userList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserDetailController</servlet-name>
+        <url-pattern>/dashboard/userDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SettingListController</servlet-name>
+        <url-pattern>/dashboard/settingList</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

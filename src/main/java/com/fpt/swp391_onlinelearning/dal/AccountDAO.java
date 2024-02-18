@@ -90,7 +90,7 @@ public class AccountDAO implements IDAO<Account>, IAccountDAO {
     @Override
     public Account getLogin(String email, String pass) {
         Connection connection = DBContext.getConnection();
-        String sql = "SELECT `accId`, `email`, `isActivated`, `createdTime`, `registeredTime`, a.`roleId`, r.`name` \n"
+        String sql = "SELECT `accId`, `email`, a.`isActivated`, `createdTime`, `registeredTime`, a.`roleId`, r.`name` \n"
                 + "FROM `swp391_onlinelearning`.`account` a  JOIN `swp391_onlinelearning`.`role` r ON a.`roleId` = r.`roleId`"
                 + "WHERE `email` = ? AND `pass` = ?";
         try {
@@ -196,4 +196,44 @@ public class AccountDAO implements IDAO<Account>, IAccountDAO {
         }
     }
 
+      @Override
+    public void updateAccountById(Account a, int id) {
+        Connection connection = DBContext.getConnection();
+        try {
+            String sql = "    UPDATE account AS a \n"
+                    + "    SET a.isActivated=?,a.roleId=?\n"
+                    + "                    WHERE a.accId=?    ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, a.getIsActivated());
+            stm.setInt(2, a.getRole().getRoleId());
+            stm.setInt(3, id);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+    }
+
+    @Override
+public boolean insertByAdmin(Account acc) {
+    Connection connection = DBContext.getConnection();
+    String sql = "INSERT INTO `swp391_onlinelearning`.`account` (`email`, `createdTime`, `isActivated`, `roleId`,`otp`) VALUES (?, NOW(), ?, ?,?);";
+    try {
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setString(1, acc.getEmail());
+        
+        stm.setInt(2, 0); 
+        stm.setInt(3, acc.getRole().getRoleId());
+        stm.setString(4,acc.getOtp());
+        stm.executeUpdate();
+        return true;
+    } catch (SQLException ex) {
+        Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        return false;
+    } finally {
+        DBContext.close(connection);
+    }
+}
+    
 }

@@ -21,6 +21,8 @@ import com.fpt.swp391_onlinelearning.dto.LevelDTO;
 import com.fpt.swp391_onlinelearning.dto.PostCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.PostDTO;
 import com.fpt.swp391_onlinelearning.dto.RoleDTO;
+import com.fpt.swp391_onlinelearning.dto.SettingDTO;
+import com.fpt.swp391_onlinelearning.dto.SettingTypeDTO;
 import com.fpt.swp391_onlinelearning.dto.SliderDTO;
 import com.fpt.swp391_onlinelearning.dto.TransactionDTO;
 import com.fpt.swp391_onlinelearning.dto.UserDTO;
@@ -41,6 +43,8 @@ import com.fpt.swp391_onlinelearning.model.Level;
 import com.fpt.swp391_onlinelearning.model.Post;
 import com.fpt.swp391_onlinelearning.model.PostCategory;
 import com.fpt.swp391_onlinelearning.model.Role;
+import com.fpt.swp391_onlinelearning.model.Setting;
+import com.fpt.swp391_onlinelearning.model.SettingType;
 import com.fpt.swp391_onlinelearning.model.Slider;
 import com.fpt.swp391_onlinelearning.model.Transaction;
 import com.fpt.swp391_onlinelearning.model.User;
@@ -53,7 +57,7 @@ import java.util.List;
  * @author tran Hoang Phuc
  */
 public class Converter {
-
+    
     public static AccountDTO toDTO(Account account) {
         AccountDTO accountDTO = new AccountDTO();
         if (account != null) {
@@ -922,5 +926,164 @@ public class Converter {
         dto.setUserLessonId(ul.getUserLessonId());
         dto.setFinish(ul.isFinish());
         return dto;
+    }
+     //Tien viet
+    public static Setting toDomain(SettingDTO dto) {
+        Setting domain = new Setting();
+        domain.setName(dto.getName());
+        SettingType st = new SettingType();
+        st.setTypeid(dto.getType().getTypeid());
+        st.setName(dto.getType().getName());
+        domain.setType(st);
+        domain.setOrder(dto.getOrder());
+        domain.setStatus(dto.isStatus());
+        return domain;
+    }
+    //Tien viet
+    public static SettingTypeDTO toDTO(SettingType set) {
+        SettingTypeDTO roleDTO = new SettingTypeDTO();
+        roleDTO.setName(set.getName());
+        roleDTO.setTypeid(set.getTypeid());
+
+        return roleDTO;
+    }
+    //MTien viet
+    public static List<SettingTypeDTO> toSettingTypeDTO(List<SettingType> role) {
+        List<SettingTypeDTO> roledtos = new ArrayList<>();
+
+        for (int i = 0; i < role.size(); i++) {
+            SettingTypeDTO cdto = toDTO(role.get(i));
+            roledtos.add(cdto);
+        }
+        return roledtos;
+    }
+    //MTien viet
+    public static SettingDTO toDTO(Setting set) {
+        SettingDTO roleDTO = new SettingDTO();
+        roleDTO.setName(set.getName());
+        
+        SettingTypeDTO st = new SettingTypeDTO();
+        st.setTypeid(set.getType().getTypeid());
+        st.setName(set.getType().getName());
+        roleDTO.setType(st);
+        roleDTO.setOrder(set.getOrder());
+        roleDTO.setStatus(set.isStatus());
+        return roleDTO;
+    }
+    //MTien viet
+    public static List<SettingDTO> toSettingDTO(List<Setting> role) {
+        List<SettingDTO> roledtos = new ArrayList<>();
+
+        for (int i = 0; i < role.size(); i++) {
+            SettingDTO cdto = toDTO(role.get(i));
+            roledtos.add(cdto);
+        }
+        return roledtos;
+    }
+    //MTien viet
+    public static List<RoleDTO> toRoleDTO(List<Role> role) {
+        List<RoleDTO> roledtos = new ArrayList<>();
+
+        for (int i = 0; i < role.size(); i++) {
+            RoleDTO cdto = toDTO(role.get(i));
+            roledtos.add(cdto);
+        }
+        return roledtos;
+    }
+    
+    public static Account toDomain1(AccountDTO dto) {
+        Account domain = new Account();
+        domain.setAccId(dto.getAccId());
+        domain.setIsActivated(dto.getIsActivated());
+        domain.setOtp(dto.getOtp());
+        Role role = new Role();
+        role.setRoleId(dto.getRole().getRoleId());
+        domain.setRole(role);
+        return domain;
+    }
+    
+    //MTien viet
+    public static Account toDomain2(AccountDTO dto) {
+        Account domain = new Account();
+        domain.setAccId(dto.getAccId());
+        domain.setEmail(dto.getEmail());
+        domain.setIsActivated(dto.getIsActivated());
+        domain.setOtp(dto.getOtp());
+        
+        Role role = new Role();
+        role.setRoleId(dto.getRole().getRoleId());
+        domain.setRole(role);
+        return domain;
+    }
+    //MTien viet
+    public static UserDTO toDTOTien(User user) {
+        UserDTO userDTO = new UserDTO();
+
+        userDTO.setUserId(user.getUserId());
+        userDTO.setName(user.getName());
+        userDTO.setGender(user.isGender());
+        userDTO.setDob(user.getDob());
+        userDTO.setPhone(user.getPhone());
+        userDTO.setImg(user.getImg());
+        userDTO.setAddress(user.getAddress());
+        userDTO.setPostCode(user.getPostCode());
+        userDTO.setBalance(user.getBalance());
+        RoleDTO role = new RoleDTO();
+        role.setRoleId(user.getAccount().getRole().getRoleId());
+        role.setName(user.getAccount().getRole().getName());
+        AccountDTO a = new AccountDTO();
+        a.setAccId(user.getAccount().getAccId());
+        a.setEmail(user.getAccount().getEmail());
+        a.setIsActivated(user.getAccount().getIsActivated());
+        a.setRole(role);
+        a.setCreatedTime(user.getAccount().getCreatedTime());
+        userDTO.setAccount(a);
+
+        return userDTO;
+    }
+    //MTien viet
+    public static UserDTO toDTOTien1(User user) {
+        UserDTO userDTO = new UserDTO();
+
+        
+        userDTO.setPhone(user.getPhone());
+        
+        return userDTO;
+    }
+    //MTien viet
+    public static List<UserDTO> usertoDTO(List<User> user) {
+        List<UserDTO> userdtos = new ArrayList<>();
+
+        for (int i = 0; i < user.size(); i++) {
+            UserDTO cdto = toDTOTien(user.get(i));
+            userdtos.add(cdto);
+        }
+
+        return userdtos;
+    }
+    //MTien viet
+        public static User toDomain2(UserDTO udto) {
+        User u = new User();
+
+        u.setUserId(udto.getUserId());
+        u.setName(udto.getName());
+        u.setGender(udto.isGender());
+        u.setDob(udto.getDob());
+        u.setPhone(udto.getPhone());
+        u.setImg(udto.getImg());
+        u.setAddress(udto.getAddress());
+        u.setPostCode(udto.getPostCode());
+        u.setBalance(udto.getBalance());
+        Role role = new Role();
+        role.setRoleId(udto.getAccount().getRole().getRoleId());
+        role.setName(udto.getAccount().getRole().getName());
+        Account a = new Account();
+        a.setAccId(udto.getAccount().getAccId());
+        a.setEmail(udto.getAccount().getEmail());
+        a.setIsActivated(udto.getAccount().getIsActivated());
+        a.setRole(role);
+        u.setAccount(a);
+
+        return u;
     }
 }

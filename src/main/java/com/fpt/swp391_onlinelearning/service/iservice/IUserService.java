@@ -25,5 +25,16 @@ public interface IUserService {
     public int userDTOCount(Date from, Date to);
 
     public List<Integer> userDTOCount();
+    
+        public List<UserDTO> getAllUser(int pageindex, int pagesize,String info,int roleid,int status);
+    
+    public UserDTO getUserById(int Id);
+    
+    public UserDTO getUserByPhone(String phone);
+    
+    public int getCount(String info ,int roleid,int status);
+    
+        public void blockAccountByRoleId(int roleid);
+    public void blockRoleByRoleId(int roleid);
 
 }

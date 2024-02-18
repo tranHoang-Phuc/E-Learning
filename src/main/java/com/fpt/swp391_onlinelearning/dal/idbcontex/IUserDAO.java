@@ -26,4 +26,16 @@ public interface IUserDAO {
     public int userCount(Date date);
 
     public List<User> getUserRegistrationInfo(Date startDate, Date endDate);
+    
+     
+    public List<User> getAllUser(int pageindex, int pagesize,String info,int roleid,int status);
+    
+    public User getUserById(int Id);
+    
+    public User getUserByPhone(String phone);
+    
+    public int getCount(String info ,int roleid,int status);
+        
+    public void blockAccountByRoleId(int roleid);
+    public void blockRoleByRoleId(int roleid);
 }

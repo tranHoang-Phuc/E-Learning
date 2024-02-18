@@ -21,5 +21,9 @@ public interface IAccountDAO {
     public void updatePassword(int id, String password);
 
     public void updateOTP(int id, String otp);
+    
+        public void updateAccountById(Account a, int id) ;
+    
+    public boolean insertByAdmin(Account acc) ;
 
 }
