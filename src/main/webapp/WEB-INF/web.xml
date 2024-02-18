@@ -12,7 +12,7 @@
         <servlet-name>CourseContentController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.CourseContentController</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>CourseDetailDashboardController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.CourseDetailDashboardController</servlet-class>
     </servlet>
@@ -77,6 +77,10 @@
         <servlet-class>com.fpt.swp391_onlinelearning.controller.BlogListController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>BlogsDashboard</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.BlogsDashboardController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>BlogDetailController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.BlogDetailController</servlet-class>
     </servlet>
@@ -139,6 +143,10 @@
     <servlet>
         <servlet-name>SettingListController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.SettingListController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DashboardNavigatorController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.DashboardNavigatorController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CourseContentController</servlet-name>
@@ -260,7 +268,7 @@
         <servlet-name>RevenusStatController</servlet-name>
         <url-pattern>/dashboard/revenusStats</url-pattern>
     </servlet-mapping>
-        <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>UserListController</servlet-name>
         <url-pattern>/dashboard/userList</url-pattern>
     </servlet-mapping>
@@ -279,6 +287,14 @@
     <servlet-mapping>
         <servlet-name>CourseContentDashboardController</servlet-name>
         <url-pattern>/dashboard/coursecontent</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogsDashboard</servlet-name>
+        <url-pattern>/dashboard/blogs</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardNavigatorController</servlet-name>
+        <url-pattern>/dashboard</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -10,6 +10,7 @@ import com.fpt.swp391_onlinelearning.dto.BlogDTO;
 import com.fpt.swp391_onlinelearning.model.Blog;
 import com.fpt.swp391_onlinelearning.service.iservice.IBlogService;
 import com.fpt.swp391_onlinelearning.service.iservice.IService;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,8 +96,36 @@ public class BlogService implements IService<BlogDTO>, IBlogService{
     @Override
     public BlogDTO getBlogDetail(int blogId) {
         Blog blog = (Blog) iblogdao.getBlogDetail(blogId);
+        if(blog!=null){
+        return Converter.toBlogDTO(blog);
+        } return null;
+    }
+
+    @Override
+    public List<BlogDTO> getSearchList(String title, int blogCategoryId, int pageIndex, String author, Date from, Date to) {
+        List<Blog> blogs = (List<Blog>) iblogdao.getSearchList(title, blogCategoryId, pageIndex, author, from, to);
+        return Converter.toBlogDTO(blogs);
+    }
+
+    @Override
+    public BlogDTO getDetail(int blogId) {
+        Blog blog = (Blog) iblogdao.getDetail(blogId);
         return Converter.toBlogDTO(blog);
     }
 
+    @Override
+    public int countNumberOfPageSearch(String title, int blogCategoryId, String author, Date from, Date to) {
+        int totalRecord = iblogdao.countRecordOfSearchList(title, blogCategoryId, author, from, to);
+        int totalPage = (totalRecord % 8 == 0) ? (totalRecord / 8) : ((totalRecord / 8) + 1);
+        return totalPage;
+    }
+
+    @Override
+    public void changeStatus(String blogId, String status) {
+        int blogIdInt = Integer.parseInt(blogId);
+        boolean statusBoolean = !(status==null);
+        System.out.println(status + " " + blogIdInt);
+        iblogdao.changeStatus(blogIdInt, statusBoolean);
+    }
     
 }

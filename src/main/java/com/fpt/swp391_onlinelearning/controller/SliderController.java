@@ -334,6 +334,7 @@ public class SliderController extends BaseRequiredAuthorizationController {
             req.setAttribute("timeFromSQL", timeFromSQL);
             req.setAttribute("timeToSQL", timeToSQL);
             req.setAttribute("searchInput", searchInput);
+            req.setAttribute("mess", "Added successfull!");
             req.getRequestDispatcher("../view/sliderListDashboard.jsp").forward(req, resp);
         }
     }

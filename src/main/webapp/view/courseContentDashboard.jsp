@@ -264,6 +264,214 @@
                 margin-top:3%;
                 margin-left:2%;
             }
+             * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            .left-sider {
+                width: 250px;
+                height: 100vh;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
+
+            .logo {
+                width: 100%;
+                height: 100px;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .logo img {
+                width: 50%;
+            }
+
+            .navigator {
+                width: 100%;
+                height: calc(100vh - 500px);
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .list-task {
+                width: 100%;
+                height: 100%;
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+            }
+
+            li a {
+                text-decoration: none;
+                color: black;
+                transition: color 0.3s ease-in-out;
+            }
+
+            .list-task li {
+                width: 100%;
+                height: 50px;
+                background-color: #fff;
+                display: flex;
+                justify-content: left;
+                align-items: center;
+                cursor: pointer;
+                transition: all 0.3s ease-in-out;
+                text-align: left;
+            }
+
+            .list-task li:hover {
+                background-color: #4c1864;
+                color: white;
+            }
+
+            .list-task li span {
+                margin-left: 30px;
+                margin-right: 35px;
+            }
+
+            .logout {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .logout a {
+                text-decoration: none;
+                color: black;
+            }
+
+            .right-sider {
+                margin-left: 250px;
+                position: relative;
+            }
+
+            .right-sider .header {
+                display: flex;
+                background: linear-gradient(45deg, rgba(76, 24, 100, 0.85) 0%, rgba(63, 24, 154, 0.85) 100%);
+                height: 10vh;
+            }
+
+            .avatar img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+
+            .header .info {
+                display: flex;
+                position: absolute;
+                right: 30px;
+                top: 20px;
+                color: white;
+            }
+
+            .header .title {
+                position: absolute;
+                left: 40px;
+                top: 28px;
+                color: white;
+            }
+
+            .name .fullname {
+                margin-left: 10px;
+                line-height: 40px;
+            }
+
+            .content{
+                height: 100vh;
+                margin-top: 3%;
+            }
+
+
+
+            .arrow {
+                font-size: 20px;
+                padding: 10px;
+                cursor: pointer;
+            }
+
+            .dropdown-list {
+                display: none;
+                position: absolute;
+                top: 50px;
+                right: 10px;
+                background-color: white;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                width: 150px;
+                z-index: 4;
+            }
+
+            .dropdown-list ul {
+                list-style-type: none;
+                padding: 10px;
+            }
+
+            .dropdown-list ul li {
+                margin-bottom: 10px;
+            }
+
+            .overlay {
+                height: 100%;
+                width: 0;
+                position: fixed;
+                z-index: 2;
+                left: 0;
+                top: 0;
+                background-color: rgb(0, 0, 0);
+                background-color: rgba(0, 0, 0, 0);
+                overflow-x: hidden;
+            }
+            .right-sider {
+                margin-left: 250px;
+                position: relative;
+            }
+
+            .right-sider .header {
+                display: flex;
+                background: linear-gradient(45deg, rgba(76, 24, 100, 0.85) 0%, rgba(63, 24, 154, 0.85) 100%);
+                height: 9vh;
+            }
+
+            .avatar img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+
+            .header .info {
+                display: flex;
+                position: absolute;
+                right: 30px;
+                top: 20px;
+                color: white;
+            }
+
+            .header .title {
+                position: absolute;
+                left: 40px;
+                top: 28px;
+                color: white;
+            }
+
+            .name .fullname {
+                margin-left: 10px;
+                line-height: 40px;
+            }
+            li a {
+                padding-left:0px;
+            }
         </style>
     </head>
 
@@ -276,56 +484,11 @@
             </div>
             <div class="navigator">
                 <ul class="list-task">
-                    <!-- style này là để đánh dấu xem cái nào đang được chọn -->
-
-                    <!--  cái c:if này để phân quyền giao diện tại tính năng mỗi role là khác nhau-->
-                    <c:if test="${sessionScope.session.role.roleId eq 1}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">tv</span><a href="#">Dashboard</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 1}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">person</span><a href="#">Users</a>
-                        </li>
-                    </c:if>
-
-                    <!--style="background-color: #f7b205;"  Cái này để đổi sang màu vàng cái thẻ đang đc chọn -->
-                    <c:if test="${sessionScope.session.role.roleId eq 1}">
-                        <li class="list-item" style="background-color: #f7b205;" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">book</span><a href="#">Courses</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 1}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">two_pager</span><a href="#">Blogs</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 1}">
-                        <li class="list-item"  onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">post_add</span><a href="post">Posts</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 1}">
-                        <li class="list-item"  onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">sliders</span><a href="slider">Sliders</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 1}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">how_to_reg</span><a href="#">Enrollment</a>
-                        </li>
-                    </c:if>
-                    <c:if test="${sessionScope.session.role.roleId eq 1}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">settings</span><a href="#">Setting</a>
-                        </li>
-                    </c:if>
+                    <!-- style này là ?? ?ánh d?u xem cái nào ?ang ???c ch?n -->
+                    <li style="background-color: #f7b205; margin-top: -200px;" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
+                        <span class="material-symbols-outlined">book</span><a>Courses</a>
+                    </li>
+                    <li onclick="goTo('blogs')" class="list-item" style="margin-top: -520px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">person</span><a>Blogs</a></li>
                 </ul>
             </div>
         </div>
@@ -393,6 +556,9 @@
 
         </div>
         <script>
+            function goTo(url) {
+                window.location= url;
+            }
             function toggleDropdown() {
                 var dropdown = document.getElementById("dropdownList");
                 if (dropdown.style.display === "block") {

@@ -109,17 +109,7 @@
                 margin-right: 35px;
             }
 
-            .logout {
-                position: absolute;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-            .logout a {
-                text-decoration: none;
-                color: black;
-            }
+            
 
             .right-sider {
                 margin-left: 250px;
@@ -277,6 +267,133 @@
             .name {
                 margin-left: 10px;
             }
+            li a {
+                padding-left: 0;
+            }
+             * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            .left-sider {
+                width: 250px;
+                height: 100vh;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
+
+            .logo {
+                width: 100%;
+                height: 100px;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .logo a {
+                width: 50%;
+            }
+
+            .navigator {
+                width: 100%;
+                height: calc(100vh - 500px);
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .list-task {
+                width: 100%;
+                height: 100%;
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+            }
+
+            li a {
+                text-decoration: none;
+                color: black;
+                transition: color 0.3s ease-in-out;
+            }
+
+            .list-task li {
+                width: 100%;
+                height: 50px;
+                background-color: #fff;
+                display: flex;
+                justify-content: left;
+                align-items: center;
+                cursor: pointer;
+                transition: all 0.3s ease-in-out;
+                text-align: left;
+            }
+
+            .list-task li:hover {
+                background-color: #4c1864;
+                color: white;
+            }
+
+            .list-task li span {
+                margin-left: 30px;
+                margin-right: 35px;
+            }
+
+            .logout {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .logout a {
+                text-decoration: none;
+                color: black;
+            }
+
+            .right-sider {
+                margin-left: 250px;
+                position: relative;
+            }
+
+            .right-sider .header {
+                display: flex;
+                background: linear-gradient(45deg, rgba(76, 24, 100, 0.85) 0%, rgba(63, 24, 154, 0.85) 100%);
+                height: 9vh;
+            }
+
+            .avatar img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+
+            .header .info {
+                display: flex;
+                position: absolute;
+                right: 30px;
+                top: 20px;
+                color: white;
+            }
+
+            .header .title {
+                position: absolute;
+                left: 40px;
+                top: 28px;
+                color: white;
+            }
+
+            .name .fullname {
+                margin-left: 10px;
+                line-height: 40px;
+            }
         </style>
     </head>
     <body>
@@ -288,57 +405,16 @@
             </div>
             <div class="navigator">
                 <ul class="list-task">
-                    <!-- style này là để đánh dấu xem cái nào đang được chọn -->
+                    <li onclick="goTo('report')" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
+                        <span class="material-symbols-outlined">tv</span><a href="report">Dashboard</a>
+                    </li>
+                    <li onclick="goTo('userList')"class="list-item" style=" margin-top: -30px;"  onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">person</span><a>Users</a></li>
 
-                    <!--  cái c:if này để phân quyền giao diện tại tính năng mỗi role là khác nhau-->
-                    <c:if test="${sessionScope.session.role.roleId eq 3}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">tv</span><a href="#">Dashboard</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 3}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">person</span><a href="#">Users</a>
-                        </li>
-                    </c:if>
-
-                    <!--style="background-color: #f7b205;"  Cái này để đổi sang màu vàng cái thẻ đang đc chọn -->
-                    <c:if test="${sessionScope.session.role.roleId eq 2}">
-                        <li class="list-item"  class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">book</span><a href="#">Courses</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 2}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">two_pager</span><a href="#">Blogs</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 3}">
-                        <li class="list-item" style="background-color: #f7b205;" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">post_add</span><a href="post">Posts</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 3}">
-                        <li class="list-item"  onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">sliders</span><a href="slider">Sliders</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 3}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">how_to_reg</span><a href="#">Enrollment</a>
-                        </li>
-                    </c:if>
-                    <c:if test="${sessionScope.session.role.roleId eq 2}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">settings</span><a href="#">Setting</a>
-                        </li>
-                    </c:if>
-
+                    <li  class="list-item" style=" background-color: #f7b205;margin-top: -30px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">post_add</span><a>Posts</a>
+                    </li>
+                    <li onclick="goTo('slider')" class="list-item" style="margin-top: -30px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">sliders</span><a href="slider">Sliders</a>
+                    </li>
+                    <li onclick="goTo('enrollmentlist')" class="list-item" style="margin-top: -30px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">how_to_reg</span><a href="enrollmentlist">Enrollment</a></li>
                 </ul>
             </div>
         </div>
@@ -368,13 +444,13 @@
                             <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                                 <path
                                     d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                                </svg><a href="editprofile">Profile</a></li>
+                                </svg><a href="../editprofile">Profile</a></li>
                             <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
                                       d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
                                 <path fill-rule="evenodd"
                                       d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
-                                </svg><a href="logout">Logout</a></li>
+                                </svg><a href="../logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -404,8 +480,8 @@
                                             </c:forEach>
                                         </select>
                                     </div>
-                                    Time from: <input type="date"  value="${requestScope.timeFrom}" name="timeFrom"style="margin: 10px 0 10px 106px"><br>
-                                    Time to: <input type="date"  value="${requestScope.timeTo}" name="timeTo" style="margin: 10px 0 10px 126px">
+                                    From: <input type="date"  value="${requestScope.timeFrom}" name="timeFrom"style="margin: 10px 0 10px 143px"><br>
+                                    To: <input type="date"  value="${requestScope.timeTo}" name="timeTo" style="margin: 10px 0 10px 163px">
                                     <span class="input-group-btn">
                                         <button type="submit" style="padding: 0 50px;margin: 10px 0 0 275px;background-color: #f7b205"class="fa fa-search text-primary"></button>
                                     </span> 
@@ -471,7 +547,7 @@
                                                             </svg>
                                                         </button>
                                                     </form>
-                                                    <form action="post?action=delete" method="post">
+                                                    <form action="post?action=delete" method="post" onsubmit="return confirmSubmit()">
                                                         <input type="hidden" name="id" value="${p.postId}" />
                                                         <input type="hidden" name="pageIndex" value="${requestScope.pageIndex}">
                                                         <input type="hidden" name="searchInput" value="${requestScope.searchInput}">
@@ -506,11 +582,22 @@
         </div>                     
 
         <script>
-            function hideMess(){
-                document.getElementById('mess').style.display='none';
-                
+            function goTo(url) {
+                window.location = url;
             }
-            setTimeout('hideMess()',3000);
+            function confirmSubmit() {
+                var confirmed = confirm("Are you sure you want to delete this post?");
+                if (confirmed) {
+                    document.querySelector("form").submit();
+                    return true; // Nếu người dùng xác nhận, cho phép form được gửi đi
+                } else {
+                    return false; // Nếu người dùng hủy bỏ, chặn sự kiện mặc định của form
+                }
+            }
+            function hideMess() {
+                document.getElementById('mess').style.display = 'none';
+            }
+            setTimeout('hideMess()', 3000);
             function toggleDropdown() {
                 var dropdown = document.getElementById("dropdownList");
                 if (dropdown.style.display === "block") {

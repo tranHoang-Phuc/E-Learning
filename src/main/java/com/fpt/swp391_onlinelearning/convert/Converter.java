@@ -545,6 +545,12 @@ public class Converter {
             UserDTO userDTO = toUserDTO(blog.getAuthor());
             blogDTO.setAuthor(userDTO);
         }
+        if(blog.getImg()!=null){
+        blogDTO.setImg(blog.getImg());
+        }
+        if(blog.isIsActivated()==true){
+            blogDTO.setIsActivated(blog.isIsActivated());
+        }
         blogDTO.setImg(blog.getImg());
         return blogDTO;
     }

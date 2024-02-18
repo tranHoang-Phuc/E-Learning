@@ -162,7 +162,7 @@
                                              data-bgparallax="10" 
                                              class="rev-slidebg" 
                                              data-no-retina />
-                                        <a href="  ">
+                                        <a href="postdetail?postId=${h.post.postId}">
                                         <!-- LAYER NR. 1 -->
                                         <div class="tp-caption tp-shape tp-shapewrapper " 
                                              id="slide-${i}00-layer-1" 
@@ -359,7 +359,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12 heading-bx left">
-                                        <h2 class="title-head">My recently <span>Courses</span></h2>
+                                        <h2 class="title-head">My <span>Courses</span></h2>
                                         <p>Enjoy our course to have the best experience</p>
                                         <a id="enroll-btn" href="enroll"><button class="btn">View more</button></a>
                                     </div>

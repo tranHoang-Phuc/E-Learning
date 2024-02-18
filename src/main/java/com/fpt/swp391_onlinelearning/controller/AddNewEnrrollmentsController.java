@@ -10,9 +10,9 @@ import com.fpt.swp391_onlinelearning.dal.CourseCategoryDAO;
 import com.fpt.swp391_onlinelearning.dal.CourseDAO;
 import com.fpt.swp391_onlinelearning.dal.CourseRegistrationDAO;
 import com.fpt.swp391_onlinelearning.dal.DurationDAO;
+import com.fpt.swp391_onlinelearning.dal.LessonDAO;
 import com.fpt.swp391_onlinelearning.dal.UserDAO;
 import com.fpt.swp391_onlinelearning.dal.UserLessonDAO;
-import com.fpt.swp391_onlinelearning.dal.LessonDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
@@ -42,13 +42,13 @@ import java.util.Set;
  * @author Admin
  */
 public class AddNewEnrrollmentsController extends BaseRequiredAuthorizationController {
-    
+
     private ICourseRegistrationService _iCourseRegisterationService;
     private IService<DurationDTO> _iDurationService;
     private IService<CourseCategoryDTO> _iCourseCategoryService;
     private IAccountService _iAccountService;
     private IUserService _iUserService;
-    
+
     @Override
     public void init() throws ServletException {
         _iCourseRegisterationService = CourseRegistrationService.getInstance(new CourseRegistrationDAO(), new CourseRegistrationDAO(), new LessonDAO(), new UserLessonDAO());
@@ -57,9 +57,9 @@ public class AddNewEnrrollmentsController extends BaseRequiredAuthorizationContr
         _iCourseCategoryService = CourseCategoryService.getInstance(new CourseCategoryDAO());
         _iAccountService = AccountService.getInstance(new AccountDAO(), new AccountDAO());
         _iUserService = UserService.getInstace(new UserDAO(), new UserDAO());
-        
+
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
         String email = req.getParameter("email");
@@ -68,35 +68,35 @@ public class AddNewEnrrollmentsController extends BaseRequiredAuthorizationContr
         int durationId = req.getParameter("course_duration") == null ? 0 : Integer.parseInt(req.getParameter("course_duration"));
         Date dateFrom = req.getParameter("date_from") == null ? Date.valueOf("2003-01-01") : Date.valueOf(req.getParameter("date_from"));
         Date dateTo = req.getParameter("date_to") == null ? new Date(System.currentTimeMillis()) : Date.valueOf(req.getParameter("date_to"));
-        
+
         List<DurationDTO> durationList = _iDurationService.getAll();
         List<CourseCategoryDTO> courseCategoryList = _iCourseCategoryService.getAll();
-        
+
         int pageIndex = req.getParameter("page") != null ? Integer.parseInt(req.getParameter("page")) : 1;
         int totalPage = _iCourseRegisterationService.countNumberOfPageSearch(email, courseName, categoryId, durationId, dateFrom, dateTo);
         List<CourseRegistrationDTO> list;
         list = _iCourseRegisterationService.searchCourseRegistrations(email, courseName, categoryId, durationId, dateFrom, dateTo, pageIndex);
-        
+
         List<Integer> countRegList = _iCourseRegisterationService.getCountRegList();
         List<Integer> totalIncomeList = _iCourseRegisterationService.getTotalIncomeList();
-        
+
         req.setAttribute("list", list);
         req.setAttribute("pageIndex", pageIndex);
         req.setAttribute("totalPage", totalPage);
-        
+
         req.setAttribute("durationList", durationList);
         req.setAttribute("courseCategoryList", courseCategoryList);
-        
+
         req.setAttribute("email", email);
         req.setAttribute("courseName", courseName);
         req.setAttribute("courseCategory", categoryId);
         req.setAttribute("courseDuration", durationId);
         req.setAttribute("dateFrom", dateFrom);
         req.setAttribute("dateTo", dateTo);
-        
+
         req.setAttribute("countRegList", countRegList);
         req.setAttribute("totalIncomeList", totalIncomeList);
-        
+
         String emailAdd = req.getParameter("emailAdd");
         String coursename = req.getParameter("coursename") == null || req.getParameter("coursename").trim().length() == 0 ? "" : req.getParameter("coursename");
         CourseDAO courseDAO = new CourseDAO();
@@ -106,7 +106,7 @@ public class AddNewEnrrollmentsController extends BaseRequiredAuthorizationContr
         req.setAttribute("courses", courses);
         req.getRequestDispatcher("../view/enrollmentsDashboard.jsp").forward(req, resp);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
         String email = req.getParameter("email");
@@ -115,31 +115,29 @@ public class AddNewEnrrollmentsController extends BaseRequiredAuthorizationContr
         int durationId = req.getParameter("course_duration") == null ? 0 : Integer.parseInt(req.getParameter("course_duration"));
         Date dateFrom = req.getParameter("date_from") == null ? Date.valueOf("2003-01-01") : Date.valueOf(req.getParameter("date_from"));
         Date dateTo = req.getParameter("date_to") == null ? new Date(System.currentTimeMillis()) : Date.valueOf(req.getParameter("date_to"));
-        
+
         List<DurationDTO> durationList = _iDurationService.getAll();
         List<CourseCategoryDTO> courseCategoryList = _iCourseCategoryService.getAll();
-        
+
         int pageIndex = req.getParameter("page") != null ? Integer.parseInt(req.getParameter("page")) : 1;
         int totalPage = _iCourseRegisterationService.countNumberOfPageSearch(email, courseName, categoryId, durationId, dateFrom, dateTo);
         List<CourseRegistrationDTO> list;
         list = _iCourseRegisterationService.searchCourseRegistrations(email, courseName, categoryId, durationId, dateFrom, dateTo, pageIndex);
-        
-        
+
         req.setAttribute("list", list);
         req.setAttribute("pageIndex", pageIndex);
         req.setAttribute("totalPage", totalPage);
-        
+
         req.setAttribute("durationList", durationList);
         req.setAttribute("courseCategoryList", courseCategoryList);
-        
+
         req.setAttribute("email", email);
         req.setAttribute("courseName", courseName);
         req.setAttribute("courseCategory", categoryId);
         req.setAttribute("courseDuration", durationId);
         req.setAttribute("dateFrom", dateFrom);
         req.setAttribute("dateTo", dateTo);
-        
-        
+
         String emailAdd = req.getParameter("emailAdd");
         String coursename = req.getParameter("coursename") == null || req.getParameter("coursename").trim().length() == 0 ? "" : req.getParameter("coursename");
         CourseDAO courseDAO = new CourseDAO();
@@ -157,12 +155,13 @@ public class AddNewEnrrollmentsController extends BaseRequiredAuthorizationContr
             if (accountDTO.getIsActivated() == 2) {
                 mesString = "Account is blocked";
             } else {
+                _iCourseRegisterationService.sendEmail(emailAdd, "Enrollment added successfully", _iCourseRegisterationService.getEnrollmentLink(udto.getUserId(), courseIdStrings));
                 if (_iCourseRegisterationService.addNewEnrollments(udto.getUserId(), courseIdStrings)) {
                     mesString = "New enrollments added successfully";
                 }
             }
         }
-        
+
         List<Integer> countRegList = _iCourseRegisterationService.getCountRegList();
         List<Integer> totalIncomeList = _iCourseRegisterationService.getTotalIncomeList();
         req.setAttribute("countRegList", countRegList);
@@ -170,5 +169,5 @@ public class AddNewEnrrollmentsController extends BaseRequiredAuthorizationContr
         req.setAttribute("mesString", mesString);
         req.getRequestDispatcher("../view/enrollmentsDashboard.jsp").forward(req, resp);
     }
-    
+
 }

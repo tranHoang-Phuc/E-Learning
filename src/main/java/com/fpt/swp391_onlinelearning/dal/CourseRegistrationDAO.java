@@ -314,6 +314,10 @@ public class CourseRegistrationDAO implements IDAO<CourseRegistration>, ICourseR
         }
         return count;
     }
+    
+    public static void main(String[] args) {
+        System.out.println(new CourseRegistrationDAO().countRegisterCourseByDay("2024-02-18"));
+    }
 
     @Override
     public int totalIncomeByDay(String date) {
@@ -575,7 +579,7 @@ public class CourseRegistrationDAO implements IDAO<CourseRegistration>, ICourseR
             String sql = "SELECT COUNT(*) AS numOfRegister,c.courseId,c.name\n"
                     + "FROM courseregistration AS cr, course AS c\n"
                     + "WHERE c.courseId=cr.courseId AND cr.createdTime >= DATE_SUB(NOW(), INTERVAL ? DAY) AND cr.createdTime <= NOW()\n"
-                    + "GROUP BY c.name\n"
+                    + "GROUP BY c.courseId\n"
                     + "ORDER BY numOfRegister desc\n"
                     + "LIMIT 5";
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -699,5 +703,32 @@ public class CourseRegistrationDAO implements IDAO<CourseRegistration>, ICourseR
             DBContext.close(connection);
         }
         return userRecentlyCourse;
+    }
+
+    @Override
+    public CourseRegistration getRegistration(int userId, int courseId) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT * FROM courseregistration WHERE userId = ? AND courseId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            stm.setInt(2, courseId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                CourseRegistration cr = new CourseRegistration();
+                cr.setCourseRegisterationId(rs.getInt(1));
+                Course c = new Course();
+                c.setCourseId(rs.getInt(3));
+                cr.setCourse(c);
+                User user = new User();
+                user.setUserId(rs.getInt(2));
+                cr.setUser(user);
+                cr.setCreatedTime(rs.getDate(4));
+                return cr;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseRegistrationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

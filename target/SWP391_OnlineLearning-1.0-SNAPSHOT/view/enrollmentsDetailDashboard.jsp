@@ -357,57 +357,17 @@
             </div>
             <div class="navigator">
                 <ul class="list-task">
-                    <!-- style này là để đánh dấu xem cái nào đang được chọn -->
+                    <!-- style này là ?? ?ánh d?u xem cái nào ?ang ???c ch?n -->
+                    <li onclick="goTo('report')" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
+                        <span class="material-symbols-outlined">tv</span><a>Dashboard</a>
+                    </li>
+                    <li onclick="goTo('userList')" class="list-item" style="margin-top: -30px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">person</span><a href="userList">Users</a></li>
 
-                    <!--  cái c:if này để phân quyền giao diện tại tính năng mỗi role là khác nhau-->
-                    <c:if test="${sessionScope.session.role.roleId eq 3}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">tv</span><a href="#">Dashboard</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 3}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">person</span><a href="#">Users</a>
-                        </li>
-                    </c:if>
-
-                    <!--style="background-color: #f7b205;"  Cái này để đổi sang màu vàng cái thẻ đang đc chọn -->
-                    <c:if test="${sessionScope.session.role.roleId eq 2}">
-                        <li class="list-item" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">book</span><a href="#">Courses</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 2}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">two_pager</span><a href="#">Blogs</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 3}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">post_add</span>Posts</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 3}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">sliders</span>Sliders</a>
-                        </li>
-                    </c:if>
-
-                    <c:if test="${sessionScope.session.role.roleId eq 3}">
-                        <li class="list-item"  style="background-color: #f7b205;" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">how_to_reg</span><a href="#">Enrollment</a>
-                        </li>
-                    </c:if>
-                    <c:if test="${sessionScope.session.role.roleId eq 2}">
-                        <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                            <span class="material-symbols-outlined">settings</span><a href="#">Setting</a>
-                        </li>
-                    </c:if>
-
+                    <li onclick="goTo('post')" class="list-item" style="margin-top: -30px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">post_add</span><a href="post">Posts</a>
+                    </li>
+                    <li onclick="goTo('slider')" class="list-item" style="margin-top: -30px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">sliders</span><a href="slider">Sliders</a>
+                    </li>
+                    <li  class="list-item" style="background-color: #f7b205;margin-top: -30px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">how_to_reg</span><a>Enrollment</a></li>
                 </ul>
             </div>
         </div>
@@ -456,13 +416,7 @@
                     <div> ${requestScope.cr.user.name}</div>
                     <div> ${requestScope.cr.user.account.email}</div>
                     <div> ${requestScope.cr.user.gender==true?"Male":"Female"}</div>
-                    <div> ${requestScope.cr.user.phone}</div>
-                    <c:if test="${requestScope.cr.user.address!=null}">
-                        <div style="border: 1px solid gray"> ${requestScope.cr.user.address}</div>
-                    </c:if>
-                    <c:if test="${requestScope.cr.user.postCode!=null}">
-                        <div style="border: 1px solid gray"> ${requestScope.cr.user.postCode}</div>
-                    </c:if>
+                    <div> ${requestScope.cr.user.phone}</div>                  
                 </div> 
                 <div class="left-course">
                     <div class="cours-bx">
@@ -513,6 +467,9 @@
         </div>
 
         <script>
+            function goTo(url) {
+                window.location = url;
+            }
             function toWhite(element) {
                 var anchor = element.querySelector('a');
                 if (anchor) {

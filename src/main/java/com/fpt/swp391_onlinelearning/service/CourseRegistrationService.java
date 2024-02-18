@@ -5,6 +5,10 @@
 package com.fpt.swp391_onlinelearning.service;
 
 import com.fpt.swp391_onlinelearning.convert.Converter;
+import com.fpt.swp391_onlinelearning.dal.CourseRegistrationDAO;
+import com.fpt.swp391_onlinelearning.dal.UserDAO;
+import com.fpt.swp391_onlinelearning.dal.LessonDAO;
+import com.fpt.swp391_onlinelearning.dal.UserLessonDAO;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.ICourseRegistrationDAO;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
 import com.fpt.swp391_onlinelearning.dal.idbcontex.ILessonDAO;
@@ -16,11 +20,15 @@ import com.fpt.swp391_onlinelearning.service.iservice.ICourseRegistrationService
 import com.fpt.swp391_onlinelearning.service.iservice.IService;
 import com.fpt.swp391_onlinelearning.util.DateUtils;
 import com.fpt.swp391_onlinelearning.util.DatetimeUtil;
+import com.fpt.swp391_onlinelearning.util.EmailUtil;
+import jakarta.mail.MessagingException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -77,13 +85,18 @@ public class CourseRegistrationService implements IService<CourseRegistrationDTO
     @Override
     public List<Integer> getCountRegList() {
         List<Date> dates = DatetimeUtil.getCurrentWeekDates();
+      
         List<Integer> countRegList = new ArrayList<>();
         for (Date date : dates) {
+            System.out.println(date.toString());
             countRegList.add(_iCourseRegistrationDAO.countRegisterCourseByDay(date.toString()));
         }
         return countRegList;
     }
 
+    public static void main(String[] args) {
+        System.out.println(new CourseRegistrationService(new CourseRegistrationDAO(), new CourseRegistrationDAO(), new LessonDAO(), new UserLessonDAO()).getCountRegList().get(6));
+    }
     @Override
     public List<Integer> getTotalIncomeList() {
         List<Date> dates = DatetimeUtil.getCurrentWeekDates();
@@ -160,12 +173,10 @@ public class CourseRegistrationService implements IService<CourseRegistrationDTO
     public List<Integer> getCourseRegistrationAmount() {
         List<Integer> courseRegistrationInCurrentWeek= new ArrayList<>();
         List<Date> datesOfCurrentWeek= DateUtils.getDatesOfCurrentWeek();
-        
         for(Date date: datesOfCurrentWeek)
         {
             courseRegistrationInCurrentWeek.add(_iCourseRegistrationDAO.getCourseRegistrationAmount(date));
         }
-        
         return courseRegistrationInCurrentWeek;
     }
 
@@ -242,6 +253,28 @@ public class CourseRegistrationService implements IService<CourseRegistrationDTO
         
         return userRecentlyCourse;
         
+    }
+
+    @Override
+    public void sendEmail(String mailTo, String titleMail, List<String> bodies) {
+        EmailUtil emailUtil = EmailUtil.getMailUtils();
+        try {
+            emailUtil.sendMailAll(mailTo, titleMail, bodies);
+        } catch (MessagingException ex) {
+            Logger.getLogger(CourseRegistrationService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public List<String> getEnrollmentLink(int userId, String[] courses) {
+        List<String> courseEnrollLink = new ArrayList<>();
+        for (String course : courses) {
+            if (_iCourseRegistrationDAO.getRegistration(userId, Integer.parseInt(course)) == null) {
+                String link = "http://localhost:8080/SWP391_OnlineLearning/coursecontent?courseId=" + course;
+                courseEnrollLink.add(link);
+            }
+        }        
+        return courseEnrollLink;
     }
 
 }

@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -288,7 +289,7 @@
                 margin-left: 0px;
             }
             .right-site{
-                
+
             }
 
         </style>
@@ -370,10 +371,18 @@
                 </ul>
             </div>
 
-            <div class="right-site"style="width: 80%">
-                <div class="post-content" style="text-align: justify;margin: 0 0 0 380px; width: 60%">
-                    ${requestScope.dTO.content}
-                </div>
+            <div class="right-site"style="width: 100%">
+                <c:if test="${requestScope.dTO.status eq 1}">
+                    <div class="post-content" style="text-align: justify;margin: 0 0 0 330px; width: 60%">
+                        ${requestScope.dTO.content}
+                    </div>
+                </c:if>
+                <c:if test="${requestScope.dTO.status eq 0}">
+                    <div style="margin: 0 auto">
+                        <img style="margin: 0 0 0 -20px" src="assets/images/404.2 (1).png" alt=""/>
+                        <h1 style="margin: 0 0 0 45px" >  NOT FOUND !!!</h1> 
+                    </div>
+                </c:if>
             </div>
 
         </div>

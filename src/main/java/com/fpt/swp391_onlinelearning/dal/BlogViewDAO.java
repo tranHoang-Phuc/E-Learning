@@ -31,7 +31,7 @@ public class BlogViewDAO implements IBlogViewDAO {
             String sql = "SELECT COUNT(b.title) AS totalView,b.blogId,b.title\n"
                     + "FROM blogview AS bv, blog AS b, `user` AS u\n"
                     + "WHERE bv.blogId=b.blogId AND bv.userId=u.userId AND bv.viewTime >= DATE_SUB(NOW(), INTERVAL ? DAY) AND bv.viewTime <= NOW()\n"
-                    + "GROUP BY b.title\n"
+                    + "GROUP BY b.blogId\n"
                     + "ORDER BY totalView DESC\n"
                     + "LIMIT 5";
 

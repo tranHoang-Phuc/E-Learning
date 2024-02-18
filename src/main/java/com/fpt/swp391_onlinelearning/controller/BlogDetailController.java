@@ -32,12 +32,12 @@ public class BlogDetailController extends HttpServlet {
 
     private IBlogService iBlogService;
     private IBlogCategoryService blogCategoryService;
-     private IBlogViewService _IBlogViewService;
+    private IBlogViewService _IBlogViewService;
 
     public void init() throws ServletException {
         iBlogService = BlogService.getInstance(new BlogDAO());
         blogCategoryService = BlogCategoryService.getInstance(new BlogCategoryDAO());
-        _IBlogViewService= BlogViewService.getInstance(new BlogViewDAO());
+        _IBlogViewService = BlogViewService.getInstance(new BlogViewDAO());
     }
 
     @Override
@@ -45,25 +45,27 @@ public class BlogDetailController extends HttpServlet {
         String blogIdString = req.getParameter("id");
         int blogId = Integer.parseInt(blogIdString);
         BlogDTO bdto = (BlogDTO) iBlogService.getBlogDetail(blogId);
-        List<BlogDTO> bdtos = iBlogService.getRecentBlog();
-        List<BlogCategoryDTO> bcdtos = blogCategoryService.getAllBlogCategory();
-        BlogViewDTO bvdto= new BlogViewDTO();
-        BlogDTO b= new BlogDTO();
-        b.setBlogId(blogId);
-        bvdto.setBlog(b);
-        if(req.getSession().getAttribute("user")!=null)
-        {
-            UserDTO udto= (UserDTO) req.getSession().getAttribute("user");           
-            bvdto.setUser(udto);
-        }
-        _IBlogViewService.addNewBlogView(bvdto);
-        
-        
-        req.setAttribute("bdto", bdto);
-        req.setAttribute("bdtos", bdtos);
-        req.setAttribute("bcdtos", bcdtos);
-        req.getRequestDispatcher("view/blogdetail.jsp").forward(req, resp);
+        if (bdto != null) {
 
+            List<BlogDTO> bdtos = iBlogService.getRecentBlog();
+            List<BlogCategoryDTO> bcdtos = blogCategoryService.getAllBlogCategory();
+            BlogViewDTO bvdto = new BlogViewDTO();
+            BlogDTO b = new BlogDTO();
+            b.setBlogId(blogId);
+            bvdto.setBlog(b);
+            if (req.getSession().getAttribute("user") != null) {
+                UserDTO udto = (UserDTO) req.getSession().getAttribute("user");
+                bvdto.setUser(udto);
+            }
+            _IBlogViewService.addNewBlogView(bvdto);
+
+            req.setAttribute("bdto", bdto);
+            req.setAttribute("bdtos", bdtos);
+            req.setAttribute("bcdtos", bcdtos);
+            req.getRequestDispatcher("view/blogdetail.jsp").forward(req, resp);
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/bloglist");
+        }
     }
 
 }

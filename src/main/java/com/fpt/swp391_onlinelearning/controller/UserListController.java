@@ -156,10 +156,8 @@ public class UserListController extends BaseRequiredAuthorizationController {
             }
             else if (action.equals("block")) {
                 String roleblock_raw = req.getParameter("roleblock");
-                int roleblock = Integer.parseInt(roleblock_raw);
-                
+                int roleblock = Integer.parseInt(roleblock_raw);         
                 _iUserService.blockAccountByRoleId(roleblock);
-//                _iUserService.blockRoleByRoleId(roleblock);
                 resp.sendRedirect(req.getContextPath() + "/dashboard/userList");
             }
         }

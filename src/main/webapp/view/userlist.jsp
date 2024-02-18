@@ -417,22 +417,33 @@
     <body>
         <div class="left-sider">
             <div class="logo">
-                <img src="assets/img/brand/blue.png" alt>
+                <img src="../assets/images/logoBlack.png" alt>
             </div>
             <div class="navigator">
-                <ul class="list-task">
-                    <li  class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                        <span class="material-symbols-outlined">tv</span><a href="#">Dashboard</a>
-                    </li>
-                    <li style="background-color: #f7b205;" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">person</span><a href="#">Users</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">book</span><a href="#">Courses</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">two_pager</span><a href="#">Blogs</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">real_estate_agent</span><a href="#">Sale</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">settings_accessibility</span><a href="#">Marketing</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">settings</span><a href="#">Setting</a></li>
-                </ul>
+                <c:if test="${sessionScope.session.role.roleId eq 3}">
+                    <ul class="list-task">
+                        <li onclick="goTo('report')" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
+                            <span class="material-symbols-outlined">tv</span><a href="report">Dashboard</a>
+                        </li>
+                        <li class="list-item" style="background-color: #f7b205; margin-top: -30px;"  onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">person</span><a>Users</a></li>
+
+                        <li onclick="goTo('post')" class="list-item" style="margin-top: -30px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">post_add</span><a href="post">Posts</a>
+                        </li>
+                        <li onclick="goTo('slider')" class="list-item" style="margin-top: -30px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">sliders</span><a href="slider">Sliders</a>
+                        </li>
+                        <li onclick="goTo('enrollmentlist')" class="list-item" style="margin-top: -30px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">how_to_reg</span><a href="enrollmentlist">Enrollment</a></li>
+                    </ul>
+                </c:if>
+                <c:if test="${sessionScope.session.role.roleId eq 5}">
+                    <ul class="list-task">
+                        <!-- style này là ?? ?ánh d?u xem cái nào ?ang ???c ch?n -->
+                        <li style="background-color: #f7b205; margin-top: -200px;" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
+                            <span class="material-symbols-outlined">person</span><a>User list</a>
+                        </li>
+                        <li onclick="goTo('settingList')" class="list-item" style="margin-top: -520px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">settings</span><a>Settings</a></li>
+                    </ul>
+                </c:if>
             </div>
-            <div class="logout"><span class="material-symbols-outlined">logout</span><a href="logout">Logout</a></div>
         </div>
         <div class="right-sider">
             <div class="header">
@@ -527,12 +538,12 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${requestScope.users}" var="u" varStatus="loop">
-                                        <tr <c:if test="${sessionScope.session.role.roleId ne 3}">onclick="viewUserDetail('${u.account.accId}','${param.action}', '${param.role}', '${param.status}', '${param.page}')" </c:if>  >
+                                        <tr <c:if test="${sessionScope.session.role.roleId ne 3}">onclick="viewUserDetail('${u.account.accId}', '${param.action}', '${param.role}', '${param.status}', '${param.page}')" </c:if>  >
                                             <td>${loop.count}</td>
                                             <td>${u.account.email}</td>
                                             <td>${u.name}</td>
                                             <td>${u.dob}</td>
-                                            <td>${u.gender}</td>
+                                            <td>${u.gender?"Male":"Female"}</td>
                                             <td>${u.phone}</td>
                                             <td>${u.account.role.name}</td>
                                             <td>
@@ -660,6 +671,9 @@
             </div>
 
             <script>
+                function goTo(url) {
+                    window.location = url;
+                }
                 function checkBeforeSend() {
                     var error = '';
                     const fullName = document.getElementById('fullName').value;

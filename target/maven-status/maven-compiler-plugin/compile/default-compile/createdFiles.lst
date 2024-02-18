@@ -28,6 +28,7 @@ com\fpt\swp391_onlinelearning\controller\TransactionHistoryController.class
 com\fpt\swp391_onlinelearning\controller\SetPasswordController.class
 com\fpt\swp391_onlinelearning\service\iservice\IPostService.class
 com\fpt\swp391_onlinelearning\service\iservice\IPaymentService.class
+com\fpt\swp391_onlinelearning\controller\BlogsDashboardController.class
 com\fpt\swp391_onlinelearning\util\URLUtils.class
 com\fpt\swp391_onlinelearning\dal\PostCategoryDAO.class
 com\fpt\swp391_onlinelearning\dal\RoleDAO.class
@@ -45,6 +46,7 @@ com\fpt\swp391_onlinelearning\dal\idbcontex\IPostCategoryDAO.class
 com\fpt\swp391_onlinelearning\service\iservice\ICourseCategoryService.class
 com\fpt\swp391_onlinelearning\dal\DBContext.class
 com\fpt\swp391_onlinelearning\baseController\BaseRequiredAuthorizationController.class
+com\fpt\swp391_onlinelearning\controller\DashboardNavigatorController.class
 com\fpt\swp391_onlinelearning\service\BlogCategoryService.class
 com\fpt\swp391_onlinelearning\baseController\BaseRequiredEnrollmentController.class
 com\fpt\swp391_onlinelearning\model\Language.class

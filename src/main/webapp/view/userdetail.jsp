@@ -354,23 +354,17 @@
     <body>
         <div class="left-sider">
             <div class="logo">
-                <img src="assets/img/brand/blue.png" alt>
+                <img src="../assets/images/logoBlack.png" alt>
             </div>
             <div class="navigator">
                 <ul class="list-task">
                     <!-- style này là ?? ?ánh d?u xem cái nào ?ang ???c ch?n -->
-                    <li  class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                        <span class="material-symbols-outlined">tv</span><a href="#">Dashboard</a>
+                    <li style="background-color: #f7b205; margin-top: -200px;" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
+                        <span class="material-symbols-outlined">person</span><a>User list</a>
                     </li>
-                    <li style="background-color: #f7b205;" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">person</span><a href="#">Users</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">book</span><a href="#">Courses</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">two_pager</span><a href="#">Blogs</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">real_estate_agent</span><a href="#">Sale</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">settings_accessibility</span><a href="#">Marketing</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">settings</span><a href="#">Setting</a></li>
+                    <li onclick="goTo('settingList')" class="list-item" style="margin-top: -520px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">settings</span><a>Settings</a></li>
                 </ul>
             </div>
-            <div class="logout"><span class="material-symbols-outlined">logout</span><a href="logout">Logout</a></div>
         </div>
         <div class="right-sider">
             <div class="header">
@@ -443,11 +437,11 @@
                                             <input type="hidden" value="${param.status}" name="statusS">
                                             <input type="hidden" value="${param.page}" name="pageS">
                                             <table>
-                                                
+
                                                 <tr id="message">
                                                     <td style="color:red;">${requestScope.message}</td>
                                                 </tr>
-                                                
+
                                                 <tr>
                                                     <td>Full Name:</td>
                                                     <td>${requestScope.user.name}</td>
@@ -520,11 +514,14 @@
             </div>
         </div>
 
-    <script>
-        function hideMessage() {
-            document.getElementById('message').style.display = 'none';
-        }
-        setTimeout('hideMessage()', 2000);
-    </script>
-</body>
+        <script>
+            function goTo(url) {
+                window.location= url;
+            }
+            function hideMessage() {
+                document.getElementById('message').style.display = 'none';
+            }
+            setTimeout('hideMessage()', 2000);
+        </script>
+    </body>
 </html>

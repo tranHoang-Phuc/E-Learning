@@ -372,23 +372,17 @@
     <body>
         <div class="left-sider">
             <div class="logo">
-                <img src="assets/img/brand/blue.png" alt>
+                <img src="../assets/images/logoBlack.png" alt>
             </div>
             <div class="navigator">
                 <ul class="list-task">
                     <!-- style này là ?? ?ánh d?u xem cái nào ?ang ???c ch?n -->
-                    <li  class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
-                        <span class="material-symbols-outlined">tv</span><a href="#">Dashboard</a>
+                    <li onclick="goTo('userList')" style=" margin-top: -200px;" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
+                        <span class="material-symbols-outlined">person</span><a>User list</a>
                     </li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">person</span><a href="#">Users</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">book</span><a href="#">Courses</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">two_pager</span><a href="#">Blogs</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">real_estate_agent</span><a href="#">Sale</a></li>
-                    <li class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">settings_accessibility</span><a href="#">Marketing</a></li>
-                    <li style="background-color: #f7b205;" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">settings</span><a href="#">Setting</a></li>
+                    <li  class="list-item" style="background-color: #f7b205;margin-top: -520px;" onmouseover="toWhite(this)" onmouseout="toBlack()"><span class="material-symbols-outlined">settings</span><a>Settings</a></li>
                 </ul>
             </div>
-            <div class="logout"><span class="material-symbols-outlined">logout</span><a href="logout">Logout</a></div>
         </div>
         <div class="right-sider">
             <div class="header">
@@ -427,7 +421,6 @@
             </div>
 
             <div class="content">
-
                 <div class="leftPage">
                     <form action="settingList" method="GET">
                         <table class="listAllUser">
@@ -655,7 +648,13 @@
                         document.getElementById("myNav").style.width = "100%";
                     }
                 }
+
             </script>
             <script src="../assets/js/sort.js" type="text/javascript"></script>
+            <script>
+                function goTo(url) {
+                    window.location = url;
+                }
+            </script>
     </body>
 </html>

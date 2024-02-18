@@ -41,6 +41,16 @@ public class EmailUtil {
         thread.start();
     }
 
+    public void sendMailAll(String mailTo, String titleMail, List<String> bodies) throws MessagingException {
+        final int[] i = {0};
+        thread = new Thread(() -> {
+            for (i[0] = 0; i[0] < bodies.size(); i[0]++) {
+                sendMail(mailTo, titleMail, bodies.get(i[0]));
+            }
+        });
+        thread.start();
+    }
+
     public boolean sendMail(String emailTo, String titleMail, String body) {
         Properties properties = new Properties();
         properties.setProperty("mail.smtp.auth", "true");

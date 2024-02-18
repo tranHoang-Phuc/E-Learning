@@ -31,15 +31,6 @@ public class PostDetailController extends HttpServlet {
         postService = PostService.getInstance(new PostDAO());
     }
 
-//    @Override
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        //String postIdString = req.getParameter("id");
-//        int postId = Integer.parseInt("1");
-//        PostDTO dTO = postService.get(postId);
-//        req.setAttribute("dTO", dTO);
-//        req.getRequestDispatcher("view/postDeatil.jsp").forward(req, resp);
-//    }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String postIdString = req.getParameter("postId");

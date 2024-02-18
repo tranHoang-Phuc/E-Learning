@@ -6,6 +6,7 @@ package com.fpt.swp391_onlinelearning.dal.idbcontex;
 
 import com.fpt.swp391_onlinelearning.model.Blog;
 import com.fpt.swp391_onlinelearning.model.BlogCategory;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -23,4 +24,13 @@ public interface IBlogDAO {
     public Blog getBlogDetail(int blogId);
 
     public List<BlogCategory> getAllBlogCategory();
+    //    public List<BlogCategory> getAllBlogCategory();
+    
+    public List<Blog> getSearchList(String title, int blogCategoryId, int pageIndex, String author, Date from, Date  to);
+    
+    public int countRecordOfSearchList(String title, int blogCategoryId, String author, Date from, Date to);
+    
+    public Blog getDetail(int blogId);
+    
+    public void changeStatus(int blogId, boolean status);
 }
