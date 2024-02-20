@@ -544,11 +544,12 @@
                                     </tr>
                                     <tr>
                                         <td><label for="date_to">To:</label></td>
-                                        <td><input type="date" id="timeTo" name="timeTo" value="${requestScope.timeTo}">
+                                        <td style="display:flex;" ><input type="date" id="timeTo" name="timeTo" value="${requestScope.timeTo}">
                                             <span style="margin-left: 5%;">
                                                 <button type="submit" style="color:white; background-color: black;margin-bottom: 11px;
                                                         height: 30px; margin:0 0 0 13px; padding: 0px 5px;" class="fa fa-search text-primary"></button>
-                                            </span></td>
+                                            </span>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -675,7 +676,6 @@
                                 </div>
                                 <div id="error" style="color:red;"></div>
                                 <input type="hidden" value="${requestScope.sliderDTO.img}" name="data">
-
                             </div>
                         </form>
                     </div>
@@ -688,7 +688,6 @@
             }
             function hideMess() {
                 document.getElementById('mess').style.display = 'none';
-
             }
             setTimeout('hideMess()', 3000);
             function confirmSubmit() {

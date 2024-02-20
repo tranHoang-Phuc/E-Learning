@@ -503,7 +503,6 @@
             </div>
             <div class="navigator">
                 <ul class="list-task">
-                    <!-- style này là ?? ?ánh d?u xem cái nào ?ang ???c ch?n -->
                     <li style="background-color: #f7b205; margin-top: -200px;" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
                         <span class="material-symbols-outlined">book</span><a>Courses</a>
                     </li>

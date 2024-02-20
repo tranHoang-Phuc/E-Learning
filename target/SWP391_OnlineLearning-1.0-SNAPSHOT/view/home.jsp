@@ -361,7 +361,9 @@
                                     <div class="col-md-12 heading-bx left">
                                         <h2 class="title-head">My <span>Courses</span></h2>
                                         <p>Enjoy our course to have the best experience</p>
-                                        <a id="enroll-btn" href="enroll"><button class="btn">View more</button></a>
+                                        <c:if test="${sessionScope.user ne null and requestScope.userRecentlyCourse.size() eq 4}">
+                                            <a id="enroll-btn" href="enroll"><button class="btn">View more</button></a>
+                                        </c:if>
                                     </div>
 
                                 </div>

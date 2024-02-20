@@ -53,6 +53,7 @@ public class RegisteredCourseController extends BaseRequiredVerifyController {
         request.setAttribute("imageData", userDTO.getImg());
         List<CourseCategoryDTO> categories = _iCourseCategoryService.getAll();
         List<CourseDTO> courses = _iCourseService.getRegisteredCourseByUserId(userDTO, user, searchValue, category, from, to, Integer.toString(pageIndex));
+        System.out.println(courses.size());
         request.setAttribute("searchValue", searchValue);
         request.setAttribute("categoryId", category);
         request.setAttribute("from", from);

@@ -420,6 +420,9 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         return null;
     }
 
+    public static void main(String[] args) {
+        System.out.println(new CourseDAO().getUserRegisterdCourse(19, "", 0, Date.valueOf("2024-02-17"), Date.valueOf("2024-02-21"), 1).size());
+    }
     @Override
     public List<Course> getUserRegisterdCourse(int userId, String searchValue, int categoryId, Date from, Date to, int pageIndex) {
         Connection connection = DBContext.getConnection();
@@ -456,7 +459,6 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
             if (categoryId != 0) {
                 stm.setInt(8, categoryId);
             }
-            System.out.println(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Course c = new Course();
@@ -703,9 +705,7 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         return course;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new CourseDAO().getAllCoursesPagger(1, "12", 0, 0, 0, 0).size());
-    }
+    
     @Override
     public int getTotalRecord(String searchInfor, int level, int category, int duration, int language) {
         Connection connection = DBContext.getConnection();

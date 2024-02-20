@@ -118,6 +118,7 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
         } else {
             toDate = Date.valueOf(to);
         }
+        System.out.println( user.getUserId() + " " + category + " " + page + " " +fromDate + " " + toDate + " "+  searchValue);
         List<Course> courses = _iCourseDAO.getUserRegisterdCourse(user.getUserId(), searchValue, category, fromDate, toDate, page);
         List<CourseDTO> dtos = new ArrayList<>();
         for (Course course : courses) {
@@ -125,6 +126,7 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
         }
         return dtos;
     }
+    
 
     @Override
     public int getNumRegisteredCourseByUserId(UserDTO user, AccountDTO acc, String searchValue, String categoryId, String from, String to) {
