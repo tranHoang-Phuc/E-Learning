@@ -204,7 +204,7 @@
                 margin-right: 10px;
             }
             .ti-pencil {
-                color: yellow;
+                color: purple;
                 margin-right: 10px;
             }
             .learn-playlist {
@@ -297,11 +297,17 @@
                         <span><i class="ti-angle-left" style="margin-right: 5px;margin-bottom: 10px;"></i><span>Back</span> </span>
                     </div>
                 </a>
-                    <c:if test="${requestScope.l.type.typeId eq 1}">
+                <c:if test="${requestScope.l.type.typeId eq 1}">
                     <video controls name="media" width="1220" height="690"><source
                             src="${requestScope.l.content}"
-                            type="video/mp4"></video>
-                    </c:if>
+                            type="video/mp4">
+                    </video>
+                </c:if >
+                <c:if test="${requestScope.l.type.typeId eq 2}">
+                    <div style="width:1220px;">
+                        ${requestScope.l.content}
+                    </div>
+                </c:if>
                 <div class="status-button">
                     <c:if test="${param.lessonId > requestScope.first}">
                         <form action="lesson" method="get">

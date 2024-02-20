@@ -157,7 +157,7 @@ public class SliderDAO implements ISliderDAO {
         try {
             String sql = "SELECT p.sliderId, p.title, p.`description`, p.`status`, p.createdTime from\n"
                     + "(SELECT sliderId,title, `description`, `status` ,createdTime , ROW_NUMBER() OVER (ORDER BY createdTime DESC) AS RowNum FROM slider\n"
-                    + "WHERE (title LIKE ? or `description` LIKE ?) AND createdTime >=? AND createdTime <= ? ) p WHERE RowNum >=(?-1)*8 +1 AND rownum <= ?*8 ;";
+                    + "WHERE (title LIKE ? or `description` LIKE ?) AND createdTime >=? AND createdTime <= ? ) p WHERE RowNum >=(?-1)*6 +1 AND rownum <= ?*6 ;";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, "%" + searchInput + "%");
             stm.setString(2, "%" + searchInput + "%");
@@ -197,8 +197,8 @@ public class SliderDAO implements ISliderDAO {
             stm.setDate(4, timeTo);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                int countPage = rs.getInt("numberOfSlider") % 8 == 0 ? rs.getInt("numberOfSlider") / 8
-                        : (rs.getInt("numberOfSlider") / 8) + 1;
+                int countPage = rs.getInt("numberOfSlider") % 6 == 0 ? rs.getInt("numberOfSlider") / 6
+                        : (rs.getInt("numberOfSlider") / 6) + 1;
                 return countPage;
             }
         } catch (SQLException ex) {

@@ -155,7 +155,10 @@
                 height: 40px;
                 border-radius: 50%;
             }
-
+            .info {
+                display: flex;
+                align-items: center;
+            }
             .header .info {
                 display: flex;
                 position: absolute;
@@ -447,7 +450,7 @@
         </div>
         <div class="right-sider">
             <div class="header">
-                <div class="title"><span>User list</span></div>
+                <div class="title"><span>USERS LIST</span></div>
                 <div class="info">
                     <span class="avatar">
                         <img src="${sessionScope.user.img}" alt>
@@ -503,11 +506,14 @@
                                 </tr>
                                 <tr>
                                     <td>Status</td>
-                                    <td><select id="status" name="status">
+                                    <td>
+                                        <select id="status" name="status">
                                             <option value="3" <c:if test="${param.status eq '3'}">selected</c:if>>All status</option>
                                             <option value="1" <c:if test="${param.status eq '1'}">selected</c:if>>Activated</option>
                                             <option value="0" <c:if test="${param.status eq '0'}">selected</c:if>>Deactivated</option>
-                                            </select></td>
+                                            <option value="2" <c:if test="${param.status eq '2'}">selected</c:if>>Blocked</option>
+                                            </select>
+                                        </td>
 
                                         <td> <button type="submit" style="color:white; background-color: black; height: 30px; padding: 0px 5px;" class="fa fa-search text-primary;"></button>
                                         </td>
@@ -750,17 +756,25 @@
                     }
                 }
 
-                function toggleDropdown() {
-                    var dropdown = document.getElementById("dropdownList");
-
-                    if (dropdown.style.display === "block") {
-                        dropdown.style.display = "none";
-                        document.getElementById("myNav").style.width = "0%";
-                    } else {
-                        dropdown.style.display = "block";
-                        document.getElementById("myNav").style.width = "100%";
-                    }
+                 function toggleDropdown() {
+                var dropdown = document.getElementById("dropdownList");
+                if (dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+                    document.getElementById("myNav").style.width = "0%";
+                } else {
+                    dropdown.style.display = "block";
+                    document.getElementById("myNav").style.width = "100%";
                 }
+            }
+
+
+
+            function closeNav() {
+                document.getElementById("myNav").style.width = "0%";
+                var dropdown = document.getElementById("dropdownList");
+
+                dropdown.style.display = "none";
+            }
                 function toWhite(element) {
                     var anchor = element.querySelector('a');
                     if (anchor) {

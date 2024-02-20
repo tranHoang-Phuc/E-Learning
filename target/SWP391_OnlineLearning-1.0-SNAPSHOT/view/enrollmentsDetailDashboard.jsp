@@ -165,7 +165,10 @@
                 height: 40px;
                 border-radius: 50%;
             }
-
+            .info {
+                display: flex;
+                align-items: center;
+            }
             .header .info {
                 display: flex;
                 position: absolute;
@@ -372,7 +375,7 @@
             </div>
         </div>
         <div class="right-sider">
-            <div class="header">
+            <div class="header" >
                 <div class="title"><a class="backLink" href="enrollmentlist" style="color: white;"><i class="ti-angle-left" style="margin-right: 4px;"></i><span>ENROLLMENTS</span></a></div>
                 <div class="info">
                     <span class="avatar">

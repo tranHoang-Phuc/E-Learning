@@ -643,7 +643,7 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         if (language != 0) {
             sql += "AND c.languageId = ? ";
         }
-        sql += ") t WHERE t.rownum >= (?-1)*9+1 AND t.rownum <= ?*9;";
+        sql += ") t WHERE t.rownum >= (?-1)*8+1 AND t.rownum <= ?*8;";
 
         try {
             int paramIndex = 1;

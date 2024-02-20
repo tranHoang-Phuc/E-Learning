@@ -314,7 +314,6 @@
             .info {
                 display: flex;
                 align-items: center;
-                margin-right: 100px;
             }
 
             .img-info img {
@@ -493,11 +492,11 @@
             </div>
         </div>
         <div class="right-sider">
-            <div class="header">
+            <div class="header" style="height: 10vh">
                 <div class="title"><span>SLIDER</span></div>
-                <div class="info">
+                <div class="info" style="margin: 0 0 0 30px">
                     <div class="img-info">
-                        <span><img src="${sessionScope.user.img}"
+                        <span><img style="width: 40px;height: 40px" src="${sessionScope.user.img}"
                                    alt="logo">
                         </span>
                     </div>

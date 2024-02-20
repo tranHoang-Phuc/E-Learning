@@ -163,7 +163,10 @@
                 top: 20px;
                 color: white;
             }
-
+            .info {
+                display: flex;
+                align-items: center;
+            }
             .header .title {
                 position: absolute;
                 left: 40px;
@@ -367,8 +370,8 @@
             </div>
         </div>
         <div class="right-sider">
-            <div class="header">
-                <div class="title"><a href="userList?action=${param.action}&role=${param.role}&status=${param.status}&page=${param.page}" style="text-decoration: none; color: white;" ><i class="ti-angle-left" style="margin-right: 5px;"></i><span>User list</span></a>   </div>
+            <div class="header" style="height: 10vh">
+                <div class="title"><a href="userList?action=${param.action}&role=${param.role}&status=${param.status}&page=${param.page}" style="text-decoration: none; color: white;" ><i class="ti-angle-left" style="margin-right: 5px;"></i><span>USERS LIST</span></a>   </div>
                 <div class="info">
                     <span class="avatar">
                         <img src="${sessionScope.user.img}" alt>
@@ -515,6 +518,25 @@
         </div>
 
         <script>
+             function toggleDropdown() {
+                var dropdown = document.getElementById("dropdownList");
+                if (dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+                    document.getElementById("myNav").style.width = "0%";
+                } else {
+                    dropdown.style.display = "block";
+                    document.getElementById("myNav").style.width = "100%";
+                }
+            }
+
+
+
+            function closeNav() {
+                document.getElementById("myNav").style.width = "0%";
+                var dropdown = document.getElementById("dropdownList");
+
+                dropdown.style.display = "none";
+            }
             function goTo(url) {
                 window.location= url;
             }

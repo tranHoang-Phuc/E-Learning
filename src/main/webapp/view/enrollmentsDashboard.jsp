@@ -174,7 +174,10 @@
                 top: 20px;
                 color: white;
             }
-
+            .info {
+                display: flex;
+                align-items: center;
+            }
             .header .title {
                 position: absolute;
                 left: 40px;
@@ -537,7 +540,7 @@
                     <div class="chooseCourse" style="width: 110%;">
                         <form action="addenrollments" method="get">
                             <label for="email">Email:</label><br>
-                            <input type="text" id="emailChoose" name="emailAdd" value="${requestScope.emailAdd}"><br><br>
+                            <input type="text" id="emailChoose" onclick="hideError()" name="emailAdd" placeholder="Your Email" value="${requestScope.emailAdd}"><br><br>
                             <label for="coursename">Course Name:</label><br>
                             <input type="text" id="coursename" name="coursename" value="${requestScope.coursename}"><br><br>
                             <button type="submit" style="color:white; background-color: black; height: 30px; padding: 0px 5px;" class="fa fa-search text-primary;"></button>
@@ -585,7 +588,7 @@
                             <c:if test="${requestScope.mesString!=null}">
                                 <div class="mesString" style="margin:0 0 2% 0%;">${requestScope.mesString}</div>                        
                             </c:if>
-                            <div id="error" class="mesString" style="margin:2% 0 2% 0%;"></div>                        
+                            <div id="error" style="margin: 2% 0 2% 0;"></div>                       
 
                             <c:if test="${requestScope.courses ne null and requestScope.courses.size() >0}">
                                 <button ${requestScope.courses.size() >5?"style=\"margin-top: 12px;\"":""}  class="btn" type="button" onclick="submitForm()"><b>Add new enrollments</b></button>
@@ -621,6 +624,12 @@
             </script>
 
             <script>
+
+
+                function hideError() {
+                    const error = document.getElementById('error');
+                    error.style.display = 'none';
+                }
                 function toggleDropdown() {
                     var dropdown = document.getElementById("dropdownList");
 
@@ -677,22 +686,29 @@
                 }
 
                 function submitForm() {
+                    var error = '';
                     var inputEmail = document.getElementById('emailChoose').value;
-                    document.getElementById('emailAdd').value = inputEmail;
-                    var courseName = document.getElementById('coursename').value;
-                    document.getElementById('searchCourseInfo').value = courseName;
-                    var regForm = document.getElementById('addReg');
-                    var courses = document.querySelectorAll('.courses');
-                    var count = 0;
-                    courses.forEach(c => {
-                        if (c.checked) {
-                            count++;
-                        }
-                    });
-                    if (count === 0) {
-                        document.getElementById('error').innerHTML = 'Please choose course(s)'
+                    if (!inputEmail.match('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')) {
+                        error = 'Email is invalid. Please try again';
+                        document.getElementById('error').textContent = error;
+                        document.getElementById('error').style.display = 'block';
                     } else {
-                        regForm.submit();
+                        document.getElementById('emailAdd').value = inputEmail;
+                        var courseName = document.getElementById('coursename').value;
+                        document.getElementById('searchCourseInfo').value = courseName;
+                        var regForm = document.getElementById('addReg');
+                        var courses = document.querySelectorAll('.courses');
+                        var count = 0;
+                        courses.forEach(c => {
+                            if (c.checked) {
+                                count++;
+                            }
+                        });
+                        if (count === 0) {
+                            document.getElementById('error').innerHTML = 'Please choose course(s)'
+                        } else {
+                            regForm.submit();
+                        }
                     }
                 }
 

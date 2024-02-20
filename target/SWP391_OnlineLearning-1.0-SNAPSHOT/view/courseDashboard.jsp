@@ -192,7 +192,6 @@
             .info {
                 display: flex;
                 align-items: center;
-                margin-right: 100px;
             }
 
             .img-info img {
@@ -205,7 +204,7 @@
                 margin-left: 10px;
             }
             .course-list {
-                width: fit-content;
+                width: 55%;
             }
             .search td {
                 padding: 3px 5px 0px 0px;
@@ -215,7 +214,7 @@
                 margin-left: 2%;
             }
             .search {
-                margin: 10
+                margin: 10;
             }
             .content {
                 margin-top: 3%;
@@ -546,7 +545,7 @@
                 height: 9vh;
             }
 
-            .avatar img {
+            .img-info img {
                 width: 40px;
                 height: 40px;
                 border-radius: 50%;
@@ -868,11 +867,7 @@
                 height: 9vh;
             }
 
-            .avatar img {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-            }
+            
 
             .header .info {
                 display: flex;
@@ -896,6 +891,14 @@
             li a {
                 padding-left:0px;
             }
+            
+            .img-info img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+            
+            
         </style>
     </head>
 
@@ -918,7 +921,7 @@
             </div>
         </div>
         <div class="right-sider">
-            <div class="header">
+            <div class="header" style="height: 10vh">
                 <div class="title"><span>COURSE</span></div>
                 <div class="info">
                     <div class="img-info">

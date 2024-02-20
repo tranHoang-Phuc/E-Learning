@@ -167,7 +167,10 @@
                 top: 20px;
                 color: white;
             }
-
+            .info {
+                display: flex;
+                align-items: center;
+            }
             .header .title {
                 position: absolute;
                 left: 40px;
@@ -390,7 +393,7 @@
 
         <!-- Xoa tu cho nay -->
         <div class="right-sider">
-            <div class="header">
+            <div class="header" style="height: 10vh">
                 <div class="title"><span>BLOGS</span></div>
                 <div class="info">
                     <span class="avatar">

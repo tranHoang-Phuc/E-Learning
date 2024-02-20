@@ -166,7 +166,10 @@
                 height: 40px;
                 border-radius: 50%;
             }
-
+            .info {
+                display: flex;
+                align-items: center;
+            }
             .header .info {
                 display: flex;
                 position: absolute;
@@ -403,11 +406,11 @@
             </div>
         </div>
         <div class="right-sider">
-            <div class="header">
+            <div class="header" style="height: 10vh">
                 <div class="title"><span>BLOGS</span></div>
                 <div class="info">
                     <span class="avatar">
-                        <img src="${sessionScope.user.img}" alt>
+                        <img style="width: 40px;height: 40px" src="${sessionScope.user.img}" alt>
                     </span>
                     <div class="name">
                         <span class="fullname">${sessionScope.user.name}</span>
@@ -550,7 +553,7 @@
 
             <script>
                 function goTo(url) {
-                    window.location =url;
+                    window.location = url;
                 }
                 function toWhite(element) {
                     var anchor = element.querySelector('a');

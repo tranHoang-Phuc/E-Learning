@@ -6,7 +6,6 @@ package com.fpt.swp391_onlinelearning.dal.idbcontex;
 
 import com.fpt.swp391_onlinelearning.model.CourseRegistration;
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

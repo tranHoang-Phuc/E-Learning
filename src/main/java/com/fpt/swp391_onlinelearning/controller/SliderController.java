@@ -214,6 +214,7 @@ public class SliderController extends BaseRequiredAuthorizationController {
             req.setAttribute("timeFromSQL", timeFromSQL);
             req.setAttribute("timeToSQL", timeToSQL);
             req.setAttribute("searchInput", searchInput);
+            req.setAttribute("mess", "Delete successfully");
             req.getRequestDispatcher("../view/sliderListDashboard.jsp").forward(req, resp);
         } else if (action.equals("edit")) {
             String pageIndexString = req.getParameter("pageIndex");

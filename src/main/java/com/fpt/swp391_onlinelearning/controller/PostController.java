@@ -246,6 +246,7 @@ public class PostController extends BaseRequiredAuthorizationController {
             req.setAttribute("timeTo", timeToSQL);
             req.setAttribute("searchInput", searchInput);
             req.setAttribute("postCategoryId", postCategoryId);
+            req.setAttribute("mess", "Delete successfully");
             req.getRequestDispatcher("../view/postListDashboard.jsp").forward(req, resp);
         } else if (action.equals("edit")) {
             String postIdRaw = req.getParameter("postId");

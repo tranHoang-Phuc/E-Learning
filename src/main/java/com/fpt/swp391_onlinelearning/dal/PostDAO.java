@@ -154,7 +154,7 @@ public class PostDAO implements IPostDAO {
             if (postCategoryId != -1) {
                 sql += "AND p.postCategoryId=? ";
             }
-            sql += " )a WHERE RowNum >=(?-1)*10 +1 AND rownum <= ?*10 ;";
+            sql += " )a WHERE RowNum >=(?-1)*8 +1 AND rownum <= ?*8 ;";
             PreparedStatement stm = connection.prepareStatement(sql);
             if (postCategoryId != -1) {
                 stm.setString(1, "%" + searchInput + "%");
@@ -215,8 +215,8 @@ public class PostDAO implements IPostDAO {
 
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                int countPage = rs.getInt("numberOfPost") % 10 == 0 ? rs.getInt("numberOfPost") / 10
-                        : (rs.getInt("numberOfPost") / 10) + 1;
+                int countPage = rs.getInt("numberOfPost") % 8 == 0 ? rs.getInt("numberOfPost") / 8
+                        : (rs.getInt("numberOfPost") / 8) + 1;
                 return countPage;
             }
         } catch (SQLException ex) {

@@ -106,7 +106,7 @@
                 background: linear-gradient(45deg, rgba(76, 24, 100, 0.85) 0%, rgba(63, 24, 154, 0.85) 100%);
                 height: 9vh;
             }
-            
+
             .avatar img {
                 width: 40px;
                 height: 40px;
@@ -332,6 +332,93 @@
                 top: 1px;
                 padding: 10px;
             }
+            .avatar img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+            .info {
+                display: flex;
+                align-items: center;
+            }
+            .header .info {
+                display: flex;
+                position: absolute;
+                right: 30px;
+                top: 20px;
+                color: white;
+            }
+
+            .header .title {
+                position: absolute;
+                left: 40px;
+                top: 28px;
+                color: white;
+            }
+
+            .name .fullname {
+                margin-left: 10px;
+                line-height: 40px;
+            }
+
+            .content{
+                height: 100vh;
+                margin-top: 3%;
+            }
+
+
+            .info {
+                display: flex;
+                align-items: center;
+            }
+
+            .img-info img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+
+            .name {
+                margin-left: 10px;
+            }
+            .arrow {
+                font-size: 20px;
+                padding: 10px;
+                cursor: pointer;
+            }
+
+            .dropdown-list {
+                display: none;
+                position: absolute;
+                top: 50px;
+                right: 10px;
+                background-color: white;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                width: 150px;
+                z-index: 4;
+            }
+
+            .dropdown-list ul {
+                list-style-type: none;
+                padding: 10px;
+            }
+
+            .dropdown-list ul li {
+                margin-bottom: 10px;
+            }
+
+            .overlay {
+                height: 100%;
+                width: 0;
+                position: fixed;
+                z-index: 2;
+                left: 0;
+                top: 0;
+                background-color: rgb(0, 0, 0);
+                background-color: rgba(0, 0, 0, 0);
+                overflow-x: hidden;
+            }
+
         </style>
     </head>
 
@@ -360,14 +447,39 @@
 
         <!-- Xoa tu cho nay -->
         <div class="right-sider">
-            <div class="header">
+            <div class="header" style="height: 10vh">
                 <div class="title"><span>DASHBOARD</span></div>
                 <div class="info">
-                    <span class="avatar">
-                        <img src="${sessionScope.user.img}" alt>
-                    </span>
+                    <div class="img-info">
+                        <span><img src="${sessionScope.user.img}"
+                                   alt="logo">
+                        </span>
+                    </div>
                     <div class="name">
-                        <span class="fullname">${sessionScope.user.name}</span>
+                        <span>${sessionScope.user.name}</span>
+                    </div>
+                    <div class="arrow" onclick="toggleDropdown()">
+                        <span><svg xmlns="http://www.w3.org/2000/svg"
+                                   width="16"
+                                   height="16" fill="currentColor"
+                                   class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                            </svg></span>
+                    </div>
+                    <div class="dropdown-list" id="dropdownList">
+                        <ul>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                                </svg><a href="../editprofile">Profile</a></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                                <path fill-rule="evenodd"
+                                      d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                                </svg><a href="../logout">Logout</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -486,7 +598,7 @@
     </script>
     <script>
         function goTo(url) {
-            window.location=url;
+            window.location = url;
         }
         function toWhite(element) {
             var anchor = element.querySelector('a');
@@ -505,31 +617,49 @@
 
     </script>
     <script>
-       renderPaging('paging',${requestScope.pageIndex},${requestScope.totalPage}, 2, '${requestScope.from}', '${requestScope.to}');
-       function renderPaging(id, pageIndex, totalPage, gap, from, to) {
-           var container = document.getElementById(id);
-           if (pageIndex - gap > 1) {
-               container.innerHTML += '<a href="userregisterStat?pageIndex=1' + '&from=' + from + '&to=' + to + '">First</a> ';
-           }
-           for (var i = pageIndex - gap; i < pageIndex; i++) {
-               if (i > 0) {
-                   container.innerHTML += '<a href="userregisterStat?pageIndex=' + i + '&from=' + from + '&to=' + to + '">' + i + '</a>';
-               }
-           }
-           container.innerHTML += '<span>' + pageIndex + '</span>';
-           for (var i = pageIndex + 1; i <= pageIndex + gap && i <= totalPage; i++) {
-               container.innerHTML += '<a href="userregisterStat?pageIndex=' + i + '&from=' + from + '&to=' + to + '">' + i + '</a>';
-           }
-           if (pageIndex + gap < totalPage) {
-               container.innerHTML += '<a href="userregisterStat?pageIndex=' + totalPage + '&from=' + from + '&to=' + to + '">Last</a>';
-           }
-       }
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdownList");
+            if (dropdown.style.display === "block") {
+                dropdown.style.display = "none";
+                document.getElementById("myNav").style.width = "0%";
+            } else {
+                dropdown.style.display = "block";
+                document.getElementById("myNav").style.width = "100%";
+            }
+        }
+
+        function closeNav() {
+            document.getElementById("myNav").style.width = "0%";
+            var dropdown = document.getElementById("dropdownList");
+
+            dropdown.style.display = "none";
+        }
+        renderPaging('paging',${requestScope.pageIndex},${requestScope.totalPage}, 2, '${requestScope.from}', '${requestScope.to}');
+        function renderPaging(id, pageIndex, totalPage, gap, from, to) {
+            var container = document.getElementById(id);
+            if (pageIndex - gap > 1) {
+                container.innerHTML += '<a href="userregisterStat?pageIndex=1' + '&from=' + from + '&to=' + to + '">First</a> ';
+            }
+            for (var i = pageIndex - gap; i < pageIndex; i++) {
+                if (i > 0) {
+                    container.innerHTML += '<a href="userregisterStat?pageIndex=' + i + '&from=' + from + '&to=' + to + '">' + i + '</a>';
+                }
+            }
+            container.innerHTML += '<span>' + pageIndex + '</span>';
+            for (var i = pageIndex + 1; i <= pageIndex + gap && i <= totalPage; i++) {
+                container.innerHTML += '<a href="userregisterStat?pageIndex=' + i + '&from=' + from + '&to=' + to + '">' + i + '</a>';
+            }
+            if (pageIndex + gap < totalPage) {
+                container.innerHTML += '<a href="userregisterStat?pageIndex=' + totalPage + '&from=' + from + '&to=' + to + '">Last</a>';
+            }
+        }
 
     </script>
 
     <!-- hai script nay de ve bieu do -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+
         const ctx = document.getElementById('incomeChart');
 
         new Chart(ctx, {

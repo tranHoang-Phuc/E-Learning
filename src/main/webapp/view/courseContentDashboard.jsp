@@ -226,12 +226,13 @@
 
             .chapter-name .name {
                 padding: 10px;
-                width: 35%;
+                width: 95%;
                 border: 1px solid #ebebeb;
                 background-color: #f5f5f5;
                 border-radius: 6px;
                 cursor: pointer;
             }
+
 
             .lessons .lesson {
                 padding: 10px;
@@ -249,11 +250,11 @@
             .lesson span {
                 margin-left: 30px;
             }
-            
+
             .ti-control-play {
                 color: orangered;
             }
-            
+
             .ti-file {
                 color:greenyellow;
             }
@@ -264,7 +265,7 @@
                 margin-top:3%;
                 margin-left:2%;
             }
-             * {
+            * {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
@@ -472,6 +473,24 @@
             li a {
                 padding-left:0px;
             }
+            #choose {
+                background-color: rgba(223, 223, 223, 0.2);
+            }
+            .info {
+                display: flex;
+                align-items: center;
+                margin:0 0 0 30px;
+            }
+
+            .img-info img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+
+            .name {
+                margin-left: 10px;
+            }
         </style>
     </head>
 
@@ -493,11 +512,11 @@
             </div>
         </div>
         <div class="right-sider">
-            <div class="header">
+            <div class="header" style="height:10vh;">
                 <div class="title"><span>COURSE</span></div>
                 <div class="info">
                     <div class="img-info">
-                        <span><img src="${sessionScope.user.img}"
+                        <span><img style="height:40px; width: 40px;" src="${sessionScope.user.img}"
                                    alt="logo">
                         </span>
                     </div>
@@ -529,8 +548,8 @@
                     </div>
                 </div>
             </div>
-            <div class="list-lesson">
-                <div class="chapters">
+            <div class="list-lesson" style="display:flex;">
+                <div class="chapters" style="width:100%;">
                     <c:forEach items="${requestScope.lesson}" var="l" varStatus="loop">
                         <c:set var="c" value="${l.key}" />
                         <c:set var="list" value="${l.value}" />
@@ -539,8 +558,8 @@
                                 <div class="name"><span style="font-weight: 500;">${loop.count}. ${c.name}</span></div>
                             </div>
                             <div class="lessons">
-                                <c:forEach items="${list}" var="lesson">
-                                    <div class="lesson">
+                                <c:forEach items="${list}" var="lesson" >
+                                    <div class="lesson" style="width:95%;" id="${param.lessonId eq lesson.lessonId or lesson.lessonId eq requestScope.l.lessonId ? "choose":""}">
                                         <span>
                                             <i class="${lesson.type.typeId eq 1? "ti-control-play": lesson.type.typeId eq 2? "ti-file":"ti-pencil"}"></i>
                                             <a href="coursecontent?courseId=${param.courseId}&lessonId=${lesson.lessonId}">${lesson.name}</a>
@@ -551,13 +570,26 @@
                         </div>
                     </c:forEach>                           
                 </div>
+                <div class="lesson">
+                    <c:if test="${requestScope.l.type.typeId eq 1}">
+                        <video controls name="media" width="920" height="480"><source
+                                src="${requestScope.l.content}"
+                                type="video/mp4">
+                        </video>
+                    </c:if >
+                    <c:if test="${requestScope.l.type.typeId eq 2}">
+                        <div style="width:920px;">
+                            ${requestScope.l.content}
+                        </div>
+                    </c:if>
+                </div>
             </div>
 
 
         </div>
         <script>
             function goTo(url) {
-                window.location= url;
+                window.location = url;
             }
             function toggleDropdown() {
                 var dropdown = document.getElementById("dropdownList");
@@ -597,6 +629,14 @@
                     lesson.style.display = lesson.style.display === "block" ? "none" : "block";
                 });
             }
+            document.addEventListener('DOMContentLoaded', function () {
+                var lessonChosen = document.querySelector("#choose");
+                var parent = lessonChosen.parentElement;
+                var lessons = parent.querySelectorAll(".lesson");
+                lessons.forEach(function (lesson) {
+                    lesson.style.display = lesson.style.display === "block" ? "none" : "block";
+                });
+            });
         </script>
     </body>
 </html>

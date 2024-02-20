@@ -163,7 +163,10 @@
                 top: 20px;
                 color: white;
             }
-
+            .info {
+                display: flex;
+                align-items: center;
+            }
             .header .title {
                 position: absolute;
                 left: 40px;
@@ -385,8 +388,8 @@
             </div>
         </div>
         <div class="right-sider">
-            <div class="header">
-                <div class="title"><span>Setting List</span></div>
+            <div class="header" style="height: 10vh">
+                <div class="title"><span>SETTINGS LIST</span></div>
                 <div class="info">
                     <span class="avatar">
                         <img src="${sessionScope.user.img}" alt>
@@ -637,17 +640,25 @@
                     }
                 }
 
-                function toggleDropdown() {
-                    var dropdown = document.getElementById("dropdownList");
-
-                    if (dropdown.style.display === "block") {
-                        dropdown.style.display = "none";
-                        document.getElementById("myNav").style.width = "0%";
-                    } else {
-                        dropdown.style.display = "block";
-                        document.getElementById("myNav").style.width = "100%";
-                    }
+                 function toggleDropdown() {
+                var dropdown = document.getElementById("dropdownList");
+                if (dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+                    document.getElementById("myNav").style.width = "0%";
+                } else {
+                    dropdown.style.display = "block";
+                    document.getElementById("myNav").style.width = "100%";
                 }
+            }
+
+
+
+            function closeNav() {
+                document.getElementById("myNav").style.width = "0%";
+                var dropdown = document.getElementById("dropdownList");
+
+                dropdown.style.display = "none";
+            }
 
             </script>
             <script src="../assets/js/sort.js" type="text/javascript"></script>

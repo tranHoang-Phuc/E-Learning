@@ -19,6 +19,7 @@ import com.fpt.swp391_onlinelearning.service.LessonService;
 import com.fpt.swp391_onlinelearning.service.UserService;
 import com.fpt.swp391_onlinelearning.service.iservice.ICourseService;
 import com.fpt.swp391_onlinelearning.service.iservice.ILessonService;
+import com.fpt.swp391_onlinelearning.service.iservice.IService;
 import com.fpt.swp391_onlinelearning.service.iservice.IUserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,28 +38,35 @@ public class CourseContentDashboardController extends BaseRequiredAuthorizationC
     private ICourseService iCourseService;
     private ILessonService iLessonService;
     private IUserService iUserService;
+    private IService<LessonDTO> iService;
 
     @Override
     public void init() throws ServletException {
         iCourseService = CourseService.getInstance(new CourseDAO(), new CourseDAO());
         iLessonService = LessonService.getInstance(new LessonDAO(), new LessonDAO());
         iUserService = UserService.getInstace(new UserDAO(), new UserDAO());
+        iService = LessonService.getInstance(new LessonDAO(), new LessonDAO());
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
         int courseId = Integer.parseInt(req.getParameter("courseId"));
-        CourseDTO cdto = iCourseService.getCourseDetail(courseId);
         Map<ChapterDTO, List<LessonDTO>> lessons = iLessonService.getLessonByCourse(courseId);
-        UserDTO userDTO = iUserService.getUserByAccountId(user.getAccId());
-
-        int numOfChapters = lessons.size();
-        int currentLesson = iLessonService.getCurrentLesson(courseId, userDTO.getUserId());
-        
-        int numOfLessons = iLessonService.getNumberOfLesson(lessons);
-        req.setAttribute("totalChapter", numOfChapters);
-        req.setAttribute("current", currentLesson);
-        req.setAttribute("totalLessons", numOfLessons);
+        LessonDTO lessonDTO = null;
+        if (req.getParameter("lessonId") == null) {
+            for (Map.Entry<ChapterDTO, List<LessonDTO>> entry : lessons.entrySet()) {
+                ChapterDTO key = entry.getKey();
+                List<LessonDTO> value = entry.getValue();
+                lessonDTO = value.get(0);
+                break;
+            }
+            req.setAttribute("l", lessonDTO);
+        } else {
+            int lessonId = Integer.parseInt(req.getParameter("lessonId"));
+            lessonDTO = iService.get(lessonId);
+            req.setAttribute("l", lessonDTO);
+        }
+        CourseDTO cdto = iCourseService.getCourseDetail(courseId);
         req.setAttribute("lesson", lessons);
         req.setAttribute("course", cdto);
         req.getRequestDispatcher("../view/courseContentDashboard.jsp").forward(req, resp);

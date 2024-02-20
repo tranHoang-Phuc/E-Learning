@@ -69,7 +69,11 @@ public class LessonStudyController extends BaseRequiredEnrollmentController {
         req.setAttribute("next", nextLesson);
         req.setAttribute("l", lessonDTO);
         req.setAttribute("lesson", lessons);
-        req.getRequestDispatcher("view/lesson.jsp").forward(req, resp);
+        if (lessonDTO.getType().getTypeId() == 1 || lessonDTO.getType().getTypeId() == 2) {
+            req.getRequestDispatcher("view/lesson.jsp").forward(req, resp);
+        } else {
+            // chỗ này dispatcher sáng trang quizzes
+        }
     }
 
     @Override

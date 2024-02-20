@@ -196,9 +196,9 @@
                                                             <c:if test="${requestScope.course ne null and requestScope.course.size() > 0}">
                                                                 <c:forEach items="${requestScope.course}" var="c">
                                                                     <div id="content" class="col-md-4 col-lg-4 col-sm-4 m-b30">
-                                                                        <div class="cours-bx">
-                                                                            <div class="action-box">
-                                                                                <img src="${c.img}" alt="">
+                                                                        <div class="cours-bx" style="height:320px;">
+                                                                            <div class="action-box" >
+                                                                                <img style="width:300px;height: 200px;object-fit: cover;" src="${c.img}" alt="">
                                                                                 <a href="coursecontent?courseId=${c.courseId}" class="btn">JOIN</a>
                                                                             </div>
                                                                             <div class="info-bx text-center">
