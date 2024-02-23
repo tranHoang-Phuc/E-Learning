@@ -28,6 +28,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -61,6 +62,9 @@ public class PayController extends BaseRequiredAuthorizationController {
             req.setAttribute("user", userDto);
             req.getRequestDispatcher("view/payment.jsp").forward(req, resp);
         } else {
+            List<String> courseIds = new ArrayList<>();
+            courseIds.add(String.valueOf(courseId));
+            _iRegisterationService.sendEmail(user.getEmail(), "Enrollment added successfully", courseIds);
             resp.sendRedirect(req.getContextPath() + "/coursecontent?courseId=" + courseId);
         }
 

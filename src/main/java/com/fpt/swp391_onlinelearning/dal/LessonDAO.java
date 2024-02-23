@@ -4,8 +4,8 @@
  */
 package com.fpt.swp391_onlinelearning.dal;
 
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ILessonDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.ILessonDAO;
 import com.fpt.swp391_onlinelearning.model.Chapter;
 import com.fpt.swp391_onlinelearning.model.Lesson;
 import com.fpt.swp391_onlinelearning.model.LessonType;

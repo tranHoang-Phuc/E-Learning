@@ -6,7 +6,7 @@ package com.fpt.swp391_onlinelearning.service;
 
 import com.fpt.swp391_onlinelearning.convert.Converter;
 import com.fpt.swp391_onlinelearning.dal.SliderDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ISliderDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.ISliderDAO;
 import com.fpt.swp391_onlinelearning.dto.SliderDTO;
 import com.fpt.swp391_onlinelearning.model.Slider;
 import com.fpt.swp391_onlinelearning.service.iservice.ISliderService;

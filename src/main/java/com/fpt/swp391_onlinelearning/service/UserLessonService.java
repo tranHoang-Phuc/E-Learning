@@ -5,7 +5,7 @@
 package com.fpt.swp391_onlinelearning.service;
 
 import com.fpt.swp391_onlinelearning.convert.Converter;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IUserLessonDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IUserLessonDAO;
 import com.fpt.swp391_onlinelearning.dto.ChapterDTO;
 import com.fpt.swp391_onlinelearning.dto.UserLessonDTO;
 import com.fpt.swp391_onlinelearning.model.Chapter;

@@ -5,7 +5,7 @@
 package com.fpt.swp391_onlinelearning.service;
 
 import com.fpt.swp391_onlinelearning.convert.Converter;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IBlogViewDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IBlogViewDAO;
 import com.fpt.swp391_onlinelearning.dto.BlogViewDTO;
 import com.fpt.swp391_onlinelearning.model.BlogView;
 import com.fpt.swp391_onlinelearning.service.iservice.IBlogViewService;

@@ -6,7 +6,7 @@ package com.fpt.swp391_onlinelearning.service;
 
 import com.fpt.swp391_onlinelearning.convert.Converter;
 import com.fpt.swp391_onlinelearning.dal.PostCategoryDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IPostCategoryDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IPostCategoryDAO;
 import com.fpt.swp391_onlinelearning.dto.PostCategoryDTO;
 import com.fpt.swp391_onlinelearning.model.PostCategory;
 import com.fpt.swp391_onlinelearning.service.iservice.IPostCategoryService;

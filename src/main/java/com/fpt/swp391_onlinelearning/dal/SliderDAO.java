@@ -4,7 +4,7 @@
  */
 package com.fpt.swp391_onlinelearning.dal;
 
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ISliderDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.ISliderDAO;
 import com.fpt.swp391_onlinelearning.model.Post;
 import com.fpt.swp391_onlinelearning.model.Slider;
 import java.sql.Connection;

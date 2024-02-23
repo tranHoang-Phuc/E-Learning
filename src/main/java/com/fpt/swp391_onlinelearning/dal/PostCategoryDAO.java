@@ -4,7 +4,7 @@
  */
 package com.fpt.swp391_onlinelearning.dal;
 
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IPostCategoryDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IPostCategoryDAO;
 import com.fpt.swp391_onlinelearning.model.PostCategory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

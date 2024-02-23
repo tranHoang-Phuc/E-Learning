@@ -9,10 +9,10 @@ import com.fpt.swp391_onlinelearning.dal.CourseRegistrationDAO;
 import com.fpt.swp391_onlinelearning.dal.UserDAO;
 import com.fpt.swp391_onlinelearning.dal.LessonDAO;
 import com.fpt.swp391_onlinelearning.dal.UserLessonDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ICourseRegistrationDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ILessonDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IUserLessonDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.ICourseRegistrationDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.ILessonDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IUserLessonDAO;
 import com.fpt.swp391_onlinelearning.dto.CourseRegistrationDTO;
 import com.fpt.swp391_onlinelearning.model.CourseRegistration;
 import com.fpt.swp391_onlinelearning.model.Lesson;
@@ -111,8 +111,8 @@ public class CourseRegistrationService implements IService<CourseRegistrationDTO
     public boolean addNewEnrollments(int userId, String[] courses) {
         for (String course : courses) {
             int courseId = Integer.parseInt(course);
-             List<Lesson> lessons = _iLessonDAO.getLessonsByCourse(courseId);
-             _iUserLessonDAO.addUserLessons(userId, lessons);
+            List<Lesson> lessons = _iLessonDAO.getLessonsByCourse(courseId);
+            _iUserLessonDAO.addUserLessons(userId, lessons);           
         }
         return _iCourseRegistrationDAO.addNewEnrollments(userId, courses);
     }

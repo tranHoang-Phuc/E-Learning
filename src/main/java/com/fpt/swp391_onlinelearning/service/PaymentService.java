@@ -4,10 +4,10 @@
  */
 package com.fpt.swp391_onlinelearning.service;
 
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ILessonDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IUserDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IUserLessonDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.ILessonDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IUserDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IUserLessonDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
 import com.fpt.swp391_onlinelearning.dto.UserDTO;

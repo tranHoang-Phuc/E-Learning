@@ -4,8 +4,8 @@
  */
 package com.fpt.swp391_onlinelearning.dal;
 
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ILanguageDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.ILanguageDAO;
 import com.fpt.swp391_onlinelearning.model.Language;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

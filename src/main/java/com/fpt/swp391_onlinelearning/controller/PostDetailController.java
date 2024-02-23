@@ -34,10 +34,13 @@ public class PostDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String postIdString = req.getParameter("postId");
-        int postId = Integer.parseInt(postIdString);
-        PostDTO dTO = postService.get(postId);
-        req.setAttribute("dTO", dTO);
-        req.getRequestDispatcher("view/postDetail.jsp").forward(req, resp);
+        if (postIdString.equals("0")) {
+        } else {
+            int postId = Integer.parseInt(postIdString);
+            PostDTO dTO = postService.get(postId);
+            req.setAttribute("dTO", dTO);
+            req.getRequestDispatcher("view/postDetail.jsp").forward(req, resp);
+        }
     }
 
 }

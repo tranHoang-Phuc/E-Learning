@@ -5,8 +5,8 @@
 package com.fpt.swp391_onlinelearning.service;
 
 import com.fpt.swp391_onlinelearning.convert.Converter;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ISettingListDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.ISettingListDAO;
 import com.fpt.swp391_onlinelearning.dto.SettingDTO;
 import com.fpt.swp391_onlinelearning.dto.SettingTypeDTO;
 import com.fpt.swp391_onlinelearning.model.Setting;

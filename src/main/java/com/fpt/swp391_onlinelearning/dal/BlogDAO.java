@@ -4,8 +4,8 @@
  */
 package com.fpt.swp391_onlinelearning.dal;
 
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IBlogDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IBlogDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IDAO;
 import com.fpt.swp391_onlinelearning.model.Blog;
 import com.fpt.swp391_onlinelearning.model.BlogCategory;
 import com.fpt.swp391_onlinelearning.model.User;

@@ -4,7 +4,7 @@
  */
 package com.fpt.swp391_onlinelearning.dal;
 
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IBlogViewDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IBlogViewDAO;
 import com.fpt.swp391_onlinelearning.model.Blog;
 import com.fpt.swp391_onlinelearning.model.BlogView;
 import java.sql.Connection;

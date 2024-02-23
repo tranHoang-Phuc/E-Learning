@@ -4,8 +4,8 @@
  */
 package com.fpt.swp391_onlinelearning.dal;
 
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ITransactionDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.ITransactionDAO;
 import com.fpt.swp391_onlinelearning.model.Account;
 import com.fpt.swp391_onlinelearning.model.Transaction;
 import java.sql.Connection;
@@ -44,7 +44,7 @@ public class TransactionDAO implements IDAO<Transaction>, ITransactionDAO {
         Connection connection = DBContext.getConnection();
         String sql = "INSERT INTO `swp391_onlinelearning`.`transaction` "
                 + "(`transactionId`, `amount`, `createdTime`, `status`, `accId`) "
-                + "VALUES (?, ?, NOW(), ? , ?);";
+                + "VALUES (?, ?, NOW(), ? , ?);";      
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, t.getTransactionId());
@@ -74,7 +74,7 @@ public class TransactionDAO implements IDAO<Transaction>, ITransactionDAO {
                 + "FROM ( SELECT row_number() over (order by `createdTime`desc) as rownum, `transactionId`, `amount` , `createdTime`, `status`, `accId`\n"
                 + "FROM swp391_onlinelearning.`transaction` ) t\n"
                 + "where accId = ? and rownum >= (? - 1) * 5 + 1 and rownum <= ? * 5  "
-                + "AND `createdTime` >= ? AND `createdTime` <= ?";
+                + "AND `createdTime` >= ? AND `createdTime` <= ?";            
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, accId);

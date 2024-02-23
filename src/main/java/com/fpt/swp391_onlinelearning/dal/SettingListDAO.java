@@ -4,8 +4,8 @@
  */
 package com.fpt.swp391_onlinelearning.dal;
 
-import com.fpt.swp391_onlinelearning.dal.idbcontex.IDAO;
-import com.fpt.swp391_onlinelearning.dal.idbcontex.ISettingListDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.IDAO;
+import com.fpt.swp391_onlinelearning.dal.idal.ISettingListDAO;
 import com.fpt.swp391_onlinelearning.model.Duration;
 import com.fpt.swp391_onlinelearning.model.Setting;
 import com.fpt.swp391_onlinelearning.model.SettingType;
