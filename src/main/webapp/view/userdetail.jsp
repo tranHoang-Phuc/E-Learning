@@ -357,7 +357,7 @@
     <body>
         <div class="left-sider">
             <div class="logo">
-                <img src="../assets/images/logoBlack.png" alt>
+                <a href="../home"><img src="../assets/images/logoBlack.png" alt></a>
             </div>
             <div class="navigator">
                 <ul class="list-task">
