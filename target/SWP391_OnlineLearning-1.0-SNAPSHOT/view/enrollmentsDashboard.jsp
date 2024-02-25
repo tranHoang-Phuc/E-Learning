@@ -540,18 +540,18 @@
                     <div class="chooseCourse" style="width: 110%;">
                         <form action="addenrollments" method="get">
                             <label for="email">Email:</label><br>
-                            <input type="text" id="emailChoose" onclick="hideError()" name="emailAdd" placeholder="Your Email" value="${requestScope.emailAdd}"><br><br>
+                            <input type="text" id="emailChoose" onclick="hideError()" name="emailAdd" placeholder="Email" value="${requestScope.emailAdd}"><br><br>
                             <label for="coursename">Course Name:</label><br>
-                            <input type="text" id="coursename" name="coursename" value="${requestScope.coursename}"><br><br>
+                            <input type="text" id="coursename" name="coursename" placeholder="Course name" value="${requestScope.coursename}"><br><br>
                             <button type="submit" style="color:white; background-color: black; height: 30px; padding: 0px 5px;" class="fa fa-search text-primary;"></button>
                         </form>
                     </div>
                     <div class="add-enrollment" style="width: 110%; margin-left: 12%; width: 102%;">
                         <form action="addenrollments" method="post" id="addReg">
-
+                            
                             <c:if test="${requestScope.courses ne null and requestScope.courses.size() > 0}">
                                 <div class="table-container">
-                                    <table class="table-sortable" border="1"">
+                                    <table class="table-sortable" border="1" style="margin-bottom: 10px;">
                                         <thead>
                                             <tr style="background-color: #f2f2f2;">
                                                 <th>#</th>
@@ -586,12 +586,12 @@
                                 </div>
                             </c:if> 
                             <c:if test="${requestScope.mesString!=null}">
-                                <div class="mesString" style="margin:0 0 2% 0%;">${requestScope.mesString}</div>                        
+                                <div  id="mesString" class="mesString" style="margin:0 0 2% 0%;">${requestScope.mesString}</div>                        
                             </c:if>
-                            <div id="error" style="margin: 2% 0 2% 0;"></div>                       
+                            <div id="error" ${requestScope.courses.size() < 5?"style=\"margin-bottom: 10px;\"":""} ></div>                       
 
                             <c:if test="${requestScope.courses ne null and requestScope.courses.size() >0}">
-                                <button ${requestScope.courses.size() >5?"style=\"margin-top: 12px;\"":""}  class="btn" type="button" onclick="submitForm()"><b>Add new enrollments</b></button>
+                                <button ${requestScope.courses.size() >5?"style=\"margin-top: 10px;\"":""}  class="btn" type="button" onclick="submitForm()"><b>Add new enrollments</b></button>
                             </c:if>
                             <c:if test="${requestScope.courses ne null and requestScope.courses.size() == 0}">
                                 <div class="img_not_found">
@@ -628,8 +628,11 @@
 
                 function hideError() {
                     const error = document.getElementById('error');
+                    const mesString = document.getElementById('mesString');
                     error.style.display = 'none';
+                    mesString.style.display = 'none';
                 }
+                
                 function toggleDropdown() {
                     var dropdown = document.getElementById("dropdownList");
 
@@ -705,7 +708,9 @@
                             }
                         });
                         if (count === 0) {
-                            document.getElementById('error').innerHTML = 'Please choose course(s)'
+                            error = 'Please choose course(s)';
+                            document.getElementById('error').textContent = error;
+                            document.getElementById('error').style.display = 'block';
                         } else {
                             regForm.submit();
                         }
