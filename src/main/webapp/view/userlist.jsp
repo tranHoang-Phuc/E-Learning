@@ -420,7 +420,7 @@
     <body>
         <div class="left-sider">
             <div class="logo">
-                <a href="../home"><img src="../assets/images/logoBlack.png" alt></a>
+                <img src="../assets/images/logoBlack.png" onclick="goHome('../home')" alt>
             </div>
             <div class="navigator">
                 <c:if test="${sessionScope.session.role.roleId eq 3}">

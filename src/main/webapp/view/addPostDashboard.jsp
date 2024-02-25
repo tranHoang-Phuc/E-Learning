@@ -322,10 +322,11 @@
 
             .name {
                 margin-left: 10px;
-            }li a {
+            }
+            li a {
                 padding-left: 0;
             }
-             * {
+            * {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
@@ -458,7 +459,7 @@
         </div>
         <div class="left-sider">
             <div class="logo">
-                <a href="../home"><img src="../assets/images/logoBlack.png" alt></a>
+                <img src="../assets/images/logoBlack.png" onclick="goHome()" alt>
             </div>
             <div class="navigator">
                 <ul class="list-task">
@@ -551,6 +552,9 @@
             </div>
         </div>
         <script>
+            function goHome() {
+                window.location = '../home';
+            }
             function goTo(url) {
                 window.location = url;
             }
