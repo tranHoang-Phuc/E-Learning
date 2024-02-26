@@ -388,11 +388,10 @@
         </div>
         <div class="left-sider">
             <div class="logo">
-                <img src="../assets/images/logoBlack.png" onclick="goHome('../home')" alt>
+                <img src="../assets/images/logoBlack.png" onclick="goTo('../home')" alt>
             </div>
             <div class="navigator">
                 <ul class="list-task">
-                    <!-- style này là ?? ?ánh d?u xem cái nào ?ang ???c ch?n -->
                     <li onclick="goTo('report')" class="list-item" onmouseover="toWhite(this)" onmouseout="toBlack()">
                         <span class="material-symbols-outlined">tv</span><a>Dashboard</a>
                     </li>

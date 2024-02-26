@@ -643,7 +643,7 @@
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
         <div class="left-sider">
             <div class="logo">
-                <a href="../home"><img src="../assets/images/logoBlack.png" alt=""/></a> 
+                <img src="../assets/images/logoBlack.png" alt=""/> 
             </div>
             <div class="navigator">
                 <ul class="list-task">

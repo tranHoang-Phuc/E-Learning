@@ -25,7 +25,6 @@ public abstract class BaseRequiredAuthorizationController extends BaseRequiredVe
 
     public boolean isAuthorized(AccountDTO account, String url) {
         _iFeatureService = FeatureService.getInstance(new FeatureDAO());
-        System.out.println(_iFeatureService != null);
         Set<FeatureDTO> featureDtos = _iFeatureService.getFeatureByRole(account, url);
         account.getRole().setFeatures(featureDtos);
         return !featureDtos.isEmpty();
