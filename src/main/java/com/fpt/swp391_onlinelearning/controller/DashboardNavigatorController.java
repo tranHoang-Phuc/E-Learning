@@ -17,23 +17,27 @@ import java.util.Set;
  *
  * @author tran Hoang Phuc
  */
-public class DashboardNavigatorController extends BaseRequiredAuthorizationController{
+public class DashboardNavigatorController extends BaseRequiredAuthorizationController {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
-        AccountDTO acc = (AccountDTO)req.getSession().getAttribute("session");
-        if (acc!= null) {
+        AccountDTO acc = (AccountDTO) req.getSession().getAttribute("session");
+        if (acc != null) {
             if (acc.getRole().getRoleId() == 2) {
                 resp.sendRedirect(req.getContextPath() + "/dashboard/course");
+                return;
             }
             if (acc.getRole().getRoleId() == 3) {
                 resp.sendRedirect(req.getContextPath() + "/dashboard/report");
+                return;
             }
             if (acc.getRole().getRoleId() == 4) {
                 resp.sendRedirect(req.getContextPath() + "/dashboard/course");
+                return;
             }
             if (acc.getRole().getRoleId() == 5) {
                 resp.sendRedirect(req.getContextPath() + "/dashboard/userList");
+                return;
             }
         }
     }
@@ -42,5 +46,5 @@ public class DashboardNavigatorController extends BaseRequiredAuthorizationContr
     protected void doPost(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }

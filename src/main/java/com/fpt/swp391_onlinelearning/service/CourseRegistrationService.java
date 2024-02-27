@@ -270,7 +270,7 @@ public class CourseRegistrationService implements IService<CourseRegistrationDTO
         List<String> courseEnrollLink = new ArrayList<>();
         for (String course : courses) {
             if (_iCourseRegistrationDAO.getRegistration(userId, Integer.parseInt(course)) == null) {
-                String link = "http://localhost:8080/SWP391_OnlineLearning/coursecontent?courseId=" + course;
+                String link = "<a href=\"http://localhost:8080/SWP391_OnlineLearning/coursecontent?courseId=" + course +"\">Go to course</a>";
                 courseEnrollLink.add(link);
             }
         }        

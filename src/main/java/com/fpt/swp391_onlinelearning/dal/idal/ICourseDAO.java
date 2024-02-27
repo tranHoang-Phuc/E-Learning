@@ -38,4 +38,8 @@ public interface ICourseDAO {
     
     public Course getCourseDetailAll(int courseId);
 
+    public List<Course> getCourseByAuthor(int pageIndex, String searchInfor, int level, int category, int duration, int language, int userId);
+
+    public int getTotalRecordByAuthor(String searchInfor, int level, int category, int duration, int language, int userId);
+
 }

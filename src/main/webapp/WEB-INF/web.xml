@@ -148,6 +148,10 @@
         <servlet-name>DashboardNavigatorController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.DashboardNavigatorController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditCourseDashboardController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.EditCourseDashboardController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CourseContentController</servlet-name>
         <url-pattern>/coursecontent</url-pattern>
@@ -295,6 +299,10 @@
     <servlet-mapping>
         <servlet-name>DashboardNavigatorController</servlet-name>
         <url-pattern>/dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditCourseDashboardController</servlet-name>
+        <url-pattern>/dashboard/editcourse</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -150,6 +150,7 @@ com\fpt\swp391_onlinelearning\controller\LogoutController.class
 com\fpt\swp391_onlinelearning\service\iservice\ITransactionService.class
 com\fpt\swp391_onlinelearning\controller\UserListController.class
 com\fpt\swp391_onlinelearning\service\SliderService.class
+com\fpt\swp391_onlinelearning\controller\EditCourseDashboardController.class
 com\fpt\swp391_onlinelearning\dal\idal\IBLogCategoryDAO.class
 com\fpt\swp391_onlinelearning\dal\idal\ILevelDAO.class
 com\fpt\swp391_onlinelearning\dal\idal\IRoleDAO.class

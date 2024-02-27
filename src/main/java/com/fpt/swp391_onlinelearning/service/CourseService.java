@@ -118,7 +118,7 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
         } else {
             toDate = Date.valueOf(to);
         }
-        System.out.println( user.getUserId() + " " + category + " " + page + " " +fromDate + " " + toDate + " "+  searchValue);
+        System.out.println(user.getUserId() + " " + category + " " + page + " " + fromDate + " " + toDate + " " + searchValue);
         List<Course> courses = _iCourseDAO.getUserRegisterdCourse(user.getUserId(), searchValue, category, fromDate, toDate, page);
         List<CourseDTO> dtos = new ArrayList<>();
         for (Course course : courses) {
@@ -126,7 +126,6 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
         }
         return dtos;
     }
-    
 
     @Override
     public int getNumRegisteredCourseByUserId(UserDTO user, AccountDTO acc, String searchValue, String categoryId, String from, String to) {
@@ -149,7 +148,7 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
         }
         return _iCourseDAO.getNumOfUserRegisterdCourse(user.getUserId(), searchValue, category, fromDate, toDate);
     }
-    
+
     @Override
     public List<CourseDTO> getAllCoursesPagger(String pageIndex, String searchInfor, String level, String category, String duration, String language) {
         String dataSearch = "";
@@ -181,7 +180,6 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
     @Override
     public void changeCourseStatus(String courseId, String status) {
         int course = Integer.parseInt(courseId);
-        System.out.println(status);
         boolean changeStatus = !(status == null || status.trim().length() == 0);
         _iCourseDAO.changeCourseStatus(course, changeStatus);
     }
@@ -190,4 +188,33 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
     public CourseDTO getCourseDetailAll(int courseId) {
         return Converter.toDTO3(_iCourseDAO.getCourseDetailAll(courseId));
     }
+
+    @Override
+    public List<CourseDTO> getCourseByAuthor(String pageIndex, String searchInfor, String level, String category, String duration, String language, int userId) {
+        String dataSearch = "";
+        if (searchInfor != null) {
+            dataSearch = searchInfor.trim();
+        }
+        System.out.println(dataSearch);
+        int page = pageIndex == null || pageIndex.trim().length() == 0 ? 1 : Integer.parseInt(pageIndex);
+        int levelId = level == null || level.trim().length() == 0 ? 0 : Integer.parseInt(level);
+        int categoryId = category == null || category.trim().length() == 0 ? 0 : Integer.parseInt(category);
+        int durationId = duration == null || duration.trim().length() == 0 ? 0 : Integer.parseInt(duration);
+        int languageId = language == null || language.trim().length() == 0 ? 0 : Integer.parseInt(language);
+        return Converter.toDTOList(_iCourseDAO.getCourseByAuthor(page, dataSearch, levelId, categoryId, durationId, languageId, userId));
+    }
+
+    @Override
+    public int getTotalRecordByAuthor(String pageIndex, String searchInfor, String level, String category, String duration, String language, int userId) {
+        String dataSearch = "";
+        if (searchInfor != null && searchInfor.trim().length() == 0) {
+            dataSearch = searchInfor;
+        }
+        int levelId = level == null || level.trim().length() == 0 ? 0 : Integer.parseInt(level);
+        int categoryId = category == null || category.trim().length() == 0 ? 0 : Integer.parseInt(category);
+        int durationId = duration == null || duration.trim().length() == 0 ? 0 : Integer.parseInt(duration);
+        int languageId = language == null || language.trim().length() == 0 ? 0 : Integer.parseInt(language);
+        return _iCourseDAO.getTotalRecordByAuthor(dataSearch, levelId, categoryId, durationId, languageId, userId);
+    }
+
 }

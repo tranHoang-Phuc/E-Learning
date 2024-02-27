@@ -420,9 +420,8 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         return null;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new CourseDAO().getUserRegisterdCourse(19, "", 0, Date.valueOf("2024-02-17"), Date.valueOf("2024-02-21"), 1).size());
-    }
+    
+
     @Override
     public List<Course> getUserRegisterdCourse(int userId, String searchValue, int categoryId, Date from, Date to, int pageIndex) {
         Connection connection = DBContext.getConnection();
@@ -555,7 +554,7 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, "%" + infor + "%");
-            
+
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Course course = new Course();
@@ -577,7 +576,7 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
                 courselist.add(course);
             }
             return courselist;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } finally {
@@ -599,7 +598,7 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
                 + "WHERE c.name LIKE ? ) t";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, "%" + infor  +"%");
+            stm.setString(1, "%" + infor + "%");
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 return rs.getInt("numOfRecord");
@@ -611,7 +610,7 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         }
         return 0;
     }
-    
+
     @Override
     public List<Course> getAllCoursesPagger(int pageIndex, String searchInfor, int level, int category, int duration, int language) {
         List<Course> course = new ArrayList<>();
@@ -705,7 +704,6 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         return course;
     }
 
-    
     @Override
     public int getTotalRecord(String searchInfor, int level, int category, int duration, int language) {
         Connection connection = DBContext.getConnection();
@@ -837,5 +835,156 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
             DBContext.close(connection);
         }
         return null;
+    }
+
+    @Override
+    public List<Course> getCourseByAuthor(int pageIndex, String searchInfor, int level, int category, int duration, int language, int userId) {
+        List<Course> course = new ArrayList<>();
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT t.courseId, t.coursename, t.courseCategoryId, t.price, t.levelId, \n"
+                + "       t.levelname, t.durationId, t.durationname, t.authorId, t.username, \n"
+                + "       t.languageId, t.languagename, t.description, t.createdTime, t.img, t.isActivated, \n"
+                + "       t.coursecategoyname \n"
+                + "FROM (\n"
+                + "    SELECT ROW_NUMBER() OVER (ORDER BY c.createdTime DESC) AS rownum, c.isActivated,\n"
+                + "           c.courseId, c.name as coursename, c.courseCategoryId, c.price, \n"
+                + "           c.levelId, l.name as levelname, c.durationId, d.name as durationname, \n"
+                + "           c.authorId, u.name as username, c.languageId, lan.name as languagename, \n"
+                + "           c.description, c.createdTime, c.img, cc.name as coursecategoyname\n"
+                + "    FROM course c\n"
+                + "    JOIN coursecategory cc ON c.courseCategoryId = cc.courseCategoryId\n"
+                + "    JOIN `level` l ON c.levelId = l.levelId\n"
+                + "    JOIN duration d  ON c.durationId = d.durationId\n"
+                + "    JOIN `user` u ON c.authorId = u.userId\n"
+                + "    JOIN `language` lan ON c.languageId = lan.languageId\n"
+                + "    WHERE (c.name LIKE ? OR u.name LIKE ?) ";
+        if (level != 0) {
+            sql += "AND c.levelId = ? ";
+        }
+        if (category != 0) {
+            sql += "AND c.courseCategoryId = ? ";
+        }
+        if (duration != 0) {
+            sql += "AND c.durationId = ? ";
+        }
+        if (language != 0) {
+            sql += "AND c.languageId = ? ";
+        }
+        sql += "AND c.authorId = ? ) t WHERE t.rownum >= (?-1)*8+1 AND t.rownum <= ?*8";
+
+        try {
+            int paramIndex = 1;
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(paramIndex++, "%" + searchInfor + "%");
+            stm.setString(paramIndex++, "%" + searchInfor + "%");
+            if (level != 0) {
+                stm.setInt(paramIndex++, level);
+            }
+            if (category != 0) {
+                stm.setInt(paramIndex++, category);
+            }
+            if (duration != 0) {
+                stm.setInt(paramIndex++, duration);
+            }
+            if (language != 0) {
+                stm.setInt(paramIndex++, language);
+            }
+            stm.setInt(paramIndex++, userId);
+            stm.setInt(paramIndex++, pageIndex);
+            stm.setInt(paramIndex, pageIndex);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Course c = new Course();
+                c.setIsActivated(rs.getBoolean("isActivated"));
+                c.setCourseId(rs.getInt("courseId"));
+                c.setName(rs.getString("coursename"));
+                c.setPrice(rs.getLong("price"));
+                c.setImg(rs.getString("img"));
+                Level cl = new Level();
+                cl.setLevelId(rs.getInt("levelId"));
+                cl.setName(rs.getString("levelname"));
+                c.setLevel(cl);
+                CourseCategory courseCategory = new CourseCategory();
+                courseCategory.setCourseCategoryId(rs.getInt("courseCategoryId"));
+                courseCategory.setName(rs.getString("coursecategoyname"));
+                c.setCategory(courseCategory);
+                course.add(c);
+                Duration durationC = new Duration();
+                durationC.setDurationId(rs.getInt("durationId"));
+                durationC.setName(rs.getString("durationname"));
+                c.setDuration(durationC);
+
+                Language language1 = new Language();
+                language1.setLanguageId(rs.getInt("languageId"));
+                language1.setName(rs.getString("languagename"));
+                c.setLanguage(language1);
+
+                User author = new User();
+                author.setName(rs.getString("username"));
+                c.setAuthor(author);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return course;
+    }
+
+    @Override
+    public int getTotalRecordByAuthor(String searchInfor, int level, int category, int duration, int language, int userId) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT COUNT(*) AS numOfRecord\n"
+                + "   FROM course c\n"
+                + "    JOIN coursecategory cc ON c.courseCategoryId = cc.courseCategoryId\n"
+                + "    JOIN `level` l ON c.levelId = l.levelId\n"
+                + "    JOIN duration d  ON c.durationId = d.durationId\n"
+                + "    JOIN `user` u ON c.authorId = u.userId\n"
+                + "    JOIN `language` lan ON c.languageId = lan.languageId\n"
+                + "    WHERE (c.name LIKE ? OR u.name LIKE ?) ";
+        if (level != 0) {
+            sql += "AND c.levelId = ? ";
+        }
+        if (category != 0) {
+            sql += "AND c.courseCategoryId = ? ";
+        }
+        if (duration != 0) {
+            sql += "AND c.durationId = ? ";
+        }
+        if (language != 0) {
+            sql += "AND c.languageId = ? ";
+        }
+        sql += "AND c.authorId = ? ";
+        try {
+            int paramIndex = 1;
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(paramIndex++, "%" + searchInfor + "%");
+            stm.setString(paramIndex++, "%" + searchInfor + "%");
+            if (level != 0) {
+                stm.setInt(paramIndex++, level);
+            }
+            if (category != 0) {
+                stm.setInt(paramIndex++, category);
+            }
+            if (duration != 0) {
+                stm.setInt(paramIndex++, duration);
+            }
+            if (language != 0) {
+                stm.setInt(paramIndex++, language);
+            }
+            stm.setInt(paramIndex, userId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("numOfRecord");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return 0;
+    }
+    public static void main(String[] args) {
+        System.out.println(new CourseDAO().getCourseByAuthor(1, "", 0, 0, 0, 0, 18).size());
     }
 }

@@ -572,7 +572,7 @@
             }
         </style>
         <style>
-          
+
             * {
                 margin: 0;
                 padding: 0;
@@ -867,7 +867,7 @@
                 height: 9vh;
             }
 
-            
+
 
             .header .info {
                 display: flex;
@@ -891,14 +891,14 @@
             li a {
                 padding-left:0px;
             }
-            
+
             .img-info img {
                 width: 40px;
                 height: 40px;
                 border-radius: 50%;
             }
-            
-            
+
+
         </style>
     </head>
 
@@ -1023,8 +1023,10 @@
                                         <th>Duration</th>
                                         <th>Language</th>
                                         <th>Level</th>
-                                        <th>Author</th>
-                                        <th>Status</th>
+                                            <c:if test="${sessionScope.session.role.roleId eq 4}">
+                                            <th>Author</th>
+                                            <th>Status</th>
+                                            </c:if>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1036,26 +1038,28 @@
                                             <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.duration.name}</td>
                                             <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.language.name}</td>
                                             <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.level.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.author.name}</td>
-                                            <td>
-                                                <form action="course" method="post" id="form${c.courseId}">
-                                                    <input type="hidden" name="info" value="${param.infor}">
-                                                    <input type="hidden" name="level" value="${param.level}">
-                                                    <input type="hidden" name="duration" value="${param.duration}">
-                                                    <input type="hidden" name="page" value="${param.page}">
-                                                    <input type="hidden" name="category" value="${param.category}">
-                                                    <input type="hidden" name="language" value="${param.language}">
-                                                    <input type="hidden" name="courseId" value="${c.courseId}">
-                                                    <input type="checkbox" name="courseStatus" value="check"
-                                                           id="switch${c.courseId}"
-                                                           class="checkbox" ${c.isActivated eq true?"checked" :""} 
-                                                           onchange="changeStatus('form${c.courseId}')" />
-                                                    <label for="switch${c.courseId}"
-                                                           class="toggle">
-                                                    </label>
-                                                </form>
+                                            <c:if test="${sessionScope.session.role.roleId eq 4}">
+                                                <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.author.name}</td>
+                                                <td>
+                                                    <form action="course" method="post" id="form${c.courseId}">
+                                                        <input type="hidden" name="info" value="${param.infor}">
+                                                        <input type="hidden" name="level" value="${param.level}">
+                                                        <input type="hidden" name="duration" value="${param.duration}">
+                                                        <input type="hidden" name="page" value="${param.page}">
+                                                        <input type="hidden" name="category" value="${param.category}">
+                                                        <input type="hidden" name="language" value="${param.language}">
+                                                        <input type="hidden" name="courseId" value="${c.courseId}">
+                                                        <input type="checkbox" name="courseStatus" value="check"
+                                                               id="switch${c.courseId}"
+                                                               class="checkbox" ${c.isActivated eq true?"checked" :""} 
+                                                               onchange="changeStatus('form${c.courseId}')" />
+                                                        <label for="switch${c.courseId}"
+                                                               class="toggle">
+                                                        </label>
+                                                    </form>
 
-                                            </td>
+                                                </td>
+                                            </c:if>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -1098,10 +1102,18 @@
                                     ${requestScope.chosenCourse.name}
                                 </h3>
                                 <div class="btn-view">
-                                    <form action="coursecontent" method="get">
-                                        <input type="hidden" name="courseId" value="${requestScope.chosenCourse.courseId}">
-                                        <button class="btn" type="submit">View lessons</button>
-                                    </form>
+                                    <c:if test="${sessionScope.session.role.roleId eq 4}">
+                                        <form action="coursecontent" method="get">
+                                            <input type="hidden" name="courseId" value="${requestScope.chosenCourse.courseId}">
+                                            <button class="btn" type="submit">View lessons</button>
+                                        </form>
+                                    </c:if>
+                                    <c:if test="${sessionScope.session.role.roleId eq 2}">
+                                        <form action="editcourse" method="get">
+                                            <input type="hidden" name="courseId" value="${requestScope.chosenCourse.courseId}">
+                                            <button class="btn" type="submit">Edit course</button>
+                                        </form>
+                                    </c:if>
                                 </div>
                             </div>
                             <div style="text-align: justify;">
