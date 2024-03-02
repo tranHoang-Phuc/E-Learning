@@ -1183,4 +1183,19 @@ public class Converter {
                 
         return crdto;
     }
+    
+    public static CourseDTO toDTOTemp(Course c) {
+        CourseDTO dto = new CourseDTO();
+        dto.setCourseId(c.getCourseId());
+        dto.setPrice(c.getPrice());
+        return dto;
+    }
+    
+    public static List<CourseDTO> toDTOTemp(List<Course> courses) {
+        List<CourseDTO> dtos = new ArrayList<>();
+        for (Course course : courses) {
+            dtos.add(toDTOTemp(course));
+        }
+        return dtos;
+    }
 }

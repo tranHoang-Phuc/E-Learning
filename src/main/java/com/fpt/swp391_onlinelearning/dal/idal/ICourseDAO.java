@@ -42,4 +42,5 @@ public interface ICourseDAO {
 
     public int getTotalRecordByAuthor(String searchInfor, int level, int category, int duration, int language, int userId);
 
+    public List<Course> getTempCourseEnrollmemt(int userId);
 }
