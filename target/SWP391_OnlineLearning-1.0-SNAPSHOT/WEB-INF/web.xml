@@ -152,6 +152,22 @@
         <servlet-name>EditCourseDashboardController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.EditLessonDashboardController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DoQuizLessonController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.DoQuizLessonController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GenerateQuizController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.GenerateQuizController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReviewQuizController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.ReviewQuizController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>QuizResultController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.QuizResultController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CourseContentController</servlet-name>
         <url-pattern>/coursecontent</url-pattern>
@@ -303,6 +319,22 @@
     <servlet-mapping>
         <servlet-name>EditCourseDashboardController</servlet-name>
         <url-pattern>/dashboard/editlesson</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DoQuizLessonController</servlet-name>
+        <url-pattern>/quizlesson</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GenerateQuizController</servlet-name>
+        <url-pattern>/generatequiz</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReviewQuizController</servlet-name>
+        <url-pattern>/reviewquiz</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuizResultController</servlet-name>
+        <url-pattern>/quizresult</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

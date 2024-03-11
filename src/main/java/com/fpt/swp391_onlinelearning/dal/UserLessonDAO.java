@@ -130,5 +130,35 @@ public class UserLessonDAO implements IUserLessonDAO {
             DBContext.close(connection);
         }
     }
+
+    @Override
+    public UserLesson getByUserAndLesson(int userId, int lessonId) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT userlessonId,userId,lessonId,isFinished\n"
+                + "FROM userlesson\n"
+                + "WHERE userId=? AND lessonId=?";
+        try {
+            PreparedStatement stm= connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            stm.setInt(2, lessonId);
+            ResultSet rs= stm.executeQuery();
+            if(rs.next())
+            {
+                UserLesson ul= new UserLesson();
+                ul.setUserLessonId(rs.getInt("userlessonId"));
+                ul.setFinish(rs.getBoolean("isFinished"));
+                User u= new User();
+                u.setUserId(rs.getInt("userId"));
+                Lesson l= new Lesson();
+                l.setLessonId(rs.getInt("lessonId"));
+                ul.setUser(u);
+                ul.setLesson(l);
+                return ul;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserLessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     
 }

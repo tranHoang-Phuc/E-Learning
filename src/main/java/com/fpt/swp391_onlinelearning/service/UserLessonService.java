@@ -58,4 +58,11 @@ public class UserLessonService implements IUserLessonService {
         _iUserLessonDAO.markAsDone(userId, lessonId);   
     }
 
+    @Override
+    public UserLessonDTO getByUserAndLesson(int userId, int lessonId) {
+        UserLesson u= _iUserLessonDAO.getByUserAndLesson(userId, lessonId);
+        
+        return Converter.toDto2(u);
+    }
+
 }

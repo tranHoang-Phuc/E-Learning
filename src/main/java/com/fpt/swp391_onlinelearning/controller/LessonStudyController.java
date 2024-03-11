@@ -7,20 +7,25 @@ package com.fpt.swp391_onlinelearning.controller;
 import com.fpt.swp391_onlinelearning.baseController.BaseRequiredEnrollmentController;
 import com.fpt.swp391_onlinelearning.dal.CourseDAO;
 import com.fpt.swp391_onlinelearning.dal.LessonDAO;
+import com.fpt.swp391_onlinelearning.dal.TempQuizDAO;
 import com.fpt.swp391_onlinelearning.dal.UserDAO;
 import com.fpt.swp391_onlinelearning.dal.UserLessonDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.ChapterDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
 import com.fpt.swp391_onlinelearning.dto.LessonDTO;
+import com.fpt.swp391_onlinelearning.dto.TempQuizDTO;
 import com.fpt.swp391_onlinelearning.dto.UserDTO;
+import com.fpt.swp391_onlinelearning.dto.UserLessonDTO;
 import com.fpt.swp391_onlinelearning.service.CourseService;
 import com.fpt.swp391_onlinelearning.service.LessonService;
+import com.fpt.swp391_onlinelearning.service.TempQuizService;
 import com.fpt.swp391_onlinelearning.service.UserLessonService;
 import com.fpt.swp391_onlinelearning.service.UserService;
 import com.fpt.swp391_onlinelearning.service.iservice.ICourseService;
 import com.fpt.swp391_onlinelearning.service.iservice.ILessonService;
 import com.fpt.swp391_onlinelearning.service.iservice.IService;
+import com.fpt.swp391_onlinelearning.service.iservice.ITempQuizService;
 import com.fpt.swp391_onlinelearning.service.iservice.IUserLessonService;
 import com.fpt.swp391_onlinelearning.service.iservice.IUserService;
 import jakarta.servlet.ServletException;
@@ -42,6 +47,7 @@ public class LessonStudyController extends BaseRequiredEnrollmentController {
     private IService<LessonDTO> iService;
     private IUserService iUserService;
     private IUserLessonService iUserLessonService;
+    private ITempQuizService iTempQuizService;
 
     @Override
     public void init() throws ServletException {
@@ -50,6 +56,7 @@ public class LessonStudyController extends BaseRequiredEnrollmentController {
         iService = LessonService.getInstance(new LessonDAO(), new LessonDAO());
         iUserService = UserService.getInstace(new UserDAO(), new UserDAO());
         iUserLessonService = UserLessonService.getInstance(new UserLessonDAO());
+        iTempQuizService= TempQuizService.getInstance(new TempQuizDAO());
     }
 
     @Override
@@ -73,6 +80,13 @@ public class LessonStudyController extends BaseRequiredEnrollmentController {
             req.getRequestDispatcher("view/lesson.jsp").forward(req, resp);
         } else {
             // chỗ này dispatcher sáng trang quizzes
+            TempQuizDTO tempQuizDTO= iTempQuizService.getLastUserTempQuiz(userDTO.getUserId(), lessonId);
+            List<TempQuizDTO> tempQuizList= iTempQuizService.getTempByUserLesson(userDTO.getUserId(), lessonId);
+            UserLessonDTO uldto= iUserLessonService.getByUserAndLesson(userDTO.getUserId(), lessonId);
+            req.setAttribute("userlesson", uldto);
+            req.setAttribute("tempQuizList", tempQuizList);
+            req.setAttribute("tempQuiz", tempQuizDTO);
+            req.getRequestDispatcher("view/lesson.jsp").forward(req, resp);
         }
     }
 

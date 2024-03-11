@@ -19,4 +19,6 @@ public interface IUserLessonService {
 
     public void markAsDone(int userId, int lessonId);
 
+    public UserLessonDTO getByUserAndLesson(int userId, int lessonId);
+
 }

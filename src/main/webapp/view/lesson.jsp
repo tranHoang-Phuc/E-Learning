@@ -224,6 +224,28 @@
                 left: 50%;
                 transform: translateX(-50%);
             }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th, td {
+                border: 1px solid #000; /* Đường kẻ ngang và đen */
+                padding: 8px;
+                text-align: center;
+            }
+
+            th {
+                background-color: #f2f2f2; /* Màu nền cho tiêu đề */
+            }
+            a {
+                text-decoration: none; /* Loại bỏ gạch dưới mặc định của liên kết */
+                transition: text-decoration 0.3s; /* Tạo hiệu ứng chuyển động cho gạch dưới */
+              }
+
+              a:hover {
+                text-decoration: underline; /* Thêm gạch dưới khi trỏ vào liên kết */
+              }
         </style>
     </head>
 
@@ -308,6 +330,50 @@
                         ${requestScope.l.content}
                     </div>
                 </c:if>
+                <c:if test="${requestScope.l.type.typeId eq 3}">
+                    <div style="width:1220px;">
+                        ${requestScope.l.content}
+                    </div>
+                </c:if>
+                <c:if test="${requestScope.tempQuizList ne null}">
+                    <table border="1px" >
+                        <thead>
+                          <tr>
+                            <th>Attmept</th>
+                            <th>State</th>
+                            <th>Grade</th>
+                            <th>Review</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${requestScope.tempQuizList}" var="t">
+                                <c:set var="i" value="${i+1}"/>
+                                <tr>
+                                    
+                                    <c:if test="${t.result<0}">
+                                        <td>${i}</td>
+                                        <td>In progress</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                    </c:if>
+                                    <c:if test="${t.result>=0 and t.result<8}">
+                                        <td>${i}</td>
+                                        <td style="color: #FF3399">Failed</td>
+                                        <td>${t.result}</td>
+                                        <td><a href="reviewquiz?courseId=${param.courseId}&lessonId=${param.lessonId}&tempId=${t.tempId}"" style="color: #F1AF00">Review</a></td>
+                                    </c:if>
+                                    <c:if test="${t.result>=8}">
+                                        <td>${i}</td>
+                                        <td style="color: rgb(30,144,255)">Passed</td>
+                                        <td>${t.result}</td>
+                                        <td><a href="reviewquiz?courseId=${param.courseId}&lessonId=${param.lessonId}&tempId=${t.tempId}"" style="color: #F1AF00">Review</a></td>
+                                    </c:if>
+                                    
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:if>
                 <div class="status-button">
                     <c:if test="${param.lessonId > requestScope.first}">
                         <form action="lesson" method="get">
@@ -316,11 +382,28 @@
                             <button class="btn" type="submit" id="previous">Previous</button>
                         </form>
                     </c:if>
-                    <form action="lesson" method="post">
-                        <input type="hidden" name="courseId" value="${param.courseId}">
-                        <input type="hidden" name="lessonId" value="${param.lessonId}">
-                        <button class="btn" type="submit" id="mark">Mark as done</button>
-                    </form>
+                    <c:if test="${requestScope.l.type.typeId eq 3 and requestScope.tempQuiz.result>=0 and not requestScope.userlesson.finish}">
+                        <form action="generatequiz" method="get">
+                            <input type="hidden" name="courseId" value="${param.courseId}">
+                            <input type="hidden" name="lessonId" value="${param.lessonId}">
+                            <button class="btn" type="submit" id="mark">Attempt quiz</button>
+                        </form>
+                    </c:if>
+                    <c:if test="${requestScope.l.type.typeId eq 3 and requestScope.tempQuiz.result<0}">
+                        <form action="quizlesson" method="get">
+                            <input type="hidden" name="courseId" value="${param.courseId}">
+                            <input type="hidden" name="lessonId" value="${param.lessonId}">
+                            <input type="hidden" name="tempId" value="${requestScope.tempQuiz.tempId}">
+                            <button class="btn" type="submit" id="mark">Continue last attempt</button>
+                        </form>
+                    </c:if>
+                    <c:if test="${requestScope.l.type.typeId ne 3}">
+                        <form action="lesson" method="post">
+                            <input type="hidden" name="courseId" value="${param.courseId}">
+                            <input type="hidden" name="lessonId" value="${param.lessonId}">
+                            <button class="btn" type="submit" id="mark">Mark as done</button>
+                        </form>
+                    </c:if>
                     <c:if test="${param.lessonId < requestScope.last}">
                         <form action="lesson" method="get">
                             <input type="hidden" name="courseId" value="${param.courseId}">

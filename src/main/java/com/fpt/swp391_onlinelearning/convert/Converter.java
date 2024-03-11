@@ -5,6 +5,7 @@
 package com.fpt.swp391_onlinelearning.convert;
 
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
+import com.fpt.swp391_onlinelearning.dto.AnswerDTO;
 import com.fpt.swp391_onlinelearning.dto.BlogCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.BlogDTO;
 import com.fpt.swp391_onlinelearning.dto.BlogViewDTO;
@@ -20,14 +21,17 @@ import com.fpt.swp391_onlinelearning.dto.LessonTypeDTO;
 import com.fpt.swp391_onlinelearning.dto.LevelDTO;
 import com.fpt.swp391_onlinelearning.dto.PostCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.PostDTO;
+import com.fpt.swp391_onlinelearning.dto.QuestionDTO;
 import com.fpt.swp391_onlinelearning.dto.RoleDTO;
 import com.fpt.swp391_onlinelearning.dto.SettingDTO;
 import com.fpt.swp391_onlinelearning.dto.SettingTypeDTO;
 import com.fpt.swp391_onlinelearning.dto.SliderDTO;
+import com.fpt.swp391_onlinelearning.dto.TempQuizDTO;
 import com.fpt.swp391_onlinelearning.dto.TransactionDTO;
 import com.fpt.swp391_onlinelearning.dto.UserDTO;
 import com.fpt.swp391_onlinelearning.dto.UserLessonDTO;
 import com.fpt.swp391_onlinelearning.model.Account;
+import com.fpt.swp391_onlinelearning.model.Answer;
 import com.fpt.swp391_onlinelearning.model.Blog;
 import com.fpt.swp391_onlinelearning.model.BlogCategory;
 import com.fpt.swp391_onlinelearning.model.BlogView;
@@ -43,10 +47,12 @@ import com.fpt.swp391_onlinelearning.model.LessonType;
 import com.fpt.swp391_onlinelearning.model.Level;
 import com.fpt.swp391_onlinelearning.model.Post;
 import com.fpt.swp391_onlinelearning.model.PostCategory;
+import com.fpt.swp391_onlinelearning.model.Question;
 import com.fpt.swp391_onlinelearning.model.Role;
 import com.fpt.swp391_onlinelearning.model.Setting;
 import com.fpt.swp391_onlinelearning.model.SettingType;
 import com.fpt.swp391_onlinelearning.model.Slider;
+import com.fpt.swp391_onlinelearning.model.TempQuiz;
 import com.fpt.swp391_onlinelearning.model.Transaction;
 import com.fpt.swp391_onlinelearning.model.User;
 import com.fpt.swp391_onlinelearning.model.UserLesson;
@@ -1236,5 +1242,93 @@ public class Converter {
         blog.setIsActivated(false);
         return blog;
     }
-  
+    
+    
+    public static QuestionDTO toDTO(Question q)
+    {
+        QuestionDTO qdto= new QuestionDTO();
+        qdto.setQuestionId(q.getQuestionId());
+        qdto.setContent(q.getContent());
+        LessonDTO ldto= new LessonDTO();
+        ldto.setLessonId(q.getLesson().getLessonId());
+        qdto.setLesson(ldto);
+        
+        return qdto;
+    }
+    
+    public static AnswerDTO toDTO(Answer a)
+    {
+        AnswerDTO adto= new AnswerDTO();
+        adto.setAnswerId(a.getAnswerId());
+        adto.setContent(a.getContent());
+        adto.setIsTrue(a.isIsTrue());
+        QuestionDTO qdto= new QuestionDTO();
+        qdto.setQuestionId(a.getQuestion().getQuestionId());
+        adto.setQuestion(qdto);
+        
+        return adto;
+    }
+    
+    public static TempQuiz toDomain(TempQuizDTO tqdto)
+    {
+        TempQuiz t= new TempQuiz();
+        t.setTempId(tqdto.getTempId());
+        t.setResult(tqdto.getResult());
+        Lesson l= new Lesson();
+        l.setLessonId(tqdto.getLesson().getLessonId());
+        t.setLesson(l);
+        User u= new User();
+        u.setUserId(tqdto.getUser().getUserId());
+        t.setUser(u);
+        return t;
+    }
+    public static TempQuizDTO toDTO(TempQuiz t)
+    {
+        TempQuizDTO quiz = new TempQuizDTO();
+        quiz.setTempId(t.getTempId());
+        quiz.setResult(t.getResult());
+        LessonDTO l= new LessonDTO();
+        l.setLessonId(t.getLesson().getLessonId());
+        quiz.setLesson(l);
+        UserDTO u= new UserDTO();
+        u.setUserId(t.getUser().getUserId());
+        quiz.setUser(u);
+        return quiz;
+    }
+    public static Answer toDomain(AnswerDTO adto)
+    {
+        Answer a = new Answer();
+        a.setAnswerId(adto.getAnswerId());
+        
+        return a;
+    }
+    public static TempQuiz toDomain2(TempQuizDTO tqdto)
+    {
+        TempQuiz t= new TempQuiz();
+        t.setTempId(tqdto.getTempId());
+        
+        return t;
+    }
+    public static TempQuiz toDomain3(TempQuizDTO tqdto)
+    {
+        TempQuiz t= new TempQuiz();
+        t.setTempId(tqdto.getTempId());
+        t.setResult(tqdto.getResult());
+        
+        return t;
+    }
+    public static UserLessonDTO toDto2(UserLesson ul) {
+        UserLessonDTO dto = new UserLessonDTO();
+        LessonDTO l = new LessonDTO();
+        l.setLessonId(ul.getLesson().getLessonId());
+        dto.setLesson(l);
+        
+        UserDTO udto = new UserDTO();
+        udto.setUserId(ul.getUser().getUserId());
+        dto.setUser(udto);
+        
+        dto.setUserLessonId(ul.getUserLessonId());
+        dto.setFinish(ul.isFinish());
+        return dto;
+    }
 }

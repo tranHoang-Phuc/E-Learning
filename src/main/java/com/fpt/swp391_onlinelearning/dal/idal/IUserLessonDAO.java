@@ -22,4 +22,5 @@ public interface IUserLessonDAO {
     
     public void markAsDone(int userId, int lessonId);
 
+    public UserLesson getByUserAndLesson(int userId, int lessonId);
 }
