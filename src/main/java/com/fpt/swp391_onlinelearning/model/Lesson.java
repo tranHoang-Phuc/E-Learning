@@ -9,13 +9,22 @@ package com.fpt.swp391_onlinelearning.model;
  * @author tran Hoang Phuc
  */
 public class Lesson {
-
+    
     private int lessonId;
     private String name;
     private Chapter chapter;
     private LessonType type;
     private int duration;
     private String content;
+    private int sequence;
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
+    }
 
     public String getContent() {
         return content;

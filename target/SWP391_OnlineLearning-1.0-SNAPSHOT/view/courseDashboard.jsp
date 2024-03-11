@@ -1032,12 +1032,12 @@
                                 <tbody>
                                     <c:forEach items="${requestScope.course}" var="c" varStatus="loop">
                                         <tr style="cursor: pointer;" ${c.courseId eq requestScope.chosenCourse.courseId?"id=\"choose\"":""}>
-                                            <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${loop.count}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.category.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.duration.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.language.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.level.name}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${loop.count}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${c.name}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${c.category.name}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${c.duration.name}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${c.language.name}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${c.level.name}</td>
                                             <c:if test="${sessionScope.session.role.roleId eq 4}">
                                                 <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.author.name}</td>
                                                 <td>
@@ -1065,6 +1065,18 @@
                                 </tbody>
                             </table>
                             <div id="paggerbot"></div>
+                        </c:if>
+                        <c:if test="${requestScope.action eq 'addChapter'}">
+                            <div style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); width: fit-content; padding: 10px 50px; margin-top: 30px; margin-left: 15%">
+                                <form action="editlesson" method="post">
+                                    <input type="hidden" name="action" value="addFirstChapter">
+                                    <input type="hidden" name="courseId" value="${param.courseId}">
+                                    <div><b style="font-size: 25px;">Add a new chapter</b></div>
+                                    <span>Chapter name: </span>
+                                    <span><input type="text" style="width: 300px" name="chapterName"></span>
+                                    <span><button type="submit" class="btn">Add</button></span>
+                                </form>
+                            </div>
                         </c:if>
                     </div>
                 </div>
@@ -1109,10 +1121,32 @@
                                         </form>
                                     </c:if>
                                     <c:if test="${sessionScope.session.role.roleId eq 2}">
-                                        <form action="editcourse" method="get">
-                                            <input type="hidden" name="courseId" value="${requestScope.chosenCourse.courseId}">
-                                            <button class="btn" type="submit">Edit course</button>
-                                        </form>
+                                        <div style="display:flex;">
+                                            <c:if test="${requestScope.chapter.size() > 0}">
+                                                <form action="editlesson" method="get">
+                                                    <input type="hidden" name="courseId" value="${requestScope.chosenCourse.courseId}">
+                                                    <button class="btn" type="submit">Edit lesson</button>
+                                                </form>
+                                            </c:if>
+                                            <c:if test="${requestScope.chapter.size() eq 0}">
+                                                <form action="coursedetail" method="get">
+                                                    <input type="hidden" name="page" value="${param.page}">
+                                                    <input type="hidden" name="info" value="${param.info}">
+                                                    <input type="hidden" name="level" value="${param.level}">
+                                                    <input type="hidden" name="duration" value="${param.duration}">
+                                                    <input type="hidden" name="category" value="${param.category}">
+                                                    <input type="hidden" name="language" value="${param.language}">
+                                                    <input type="hidden" name="totalPage" value="${param.totalPage}">
+                                                    <input type="hidden" name="action" value="addChapter">
+                                                    <input type="hidden" name="courseId" value="${requestScope.chosenCourse.courseId}">
+                                                    <button class="btn" type="submit">Add chapter</button>
+                                                </form>
+                                            </c:if>
+                                            <form action="#" method="get">
+                                                <input type="hidden" name="courseId" value="${requestScope.chosenCourse.courseId}">
+                                                <button class="btn" type="submit" style="margin-left: 10px;">Edit course</button>
+                                            </form>
+                                        </div>
                                     </c:if>
                                 </div>
                             </div>
@@ -1130,8 +1164,8 @@
             function goTo(url) {
                 window.location = url;
             }
-            function chooseCourse(courseId, page, info, level, duration, category, language) {
-                window.location = 'coursedetail?courseId=' + courseId + '&page=' + page + '&info=' + info + '&level=' + level + '&duration=' + duration + '&category=' + category + '&language=' + language;
+            function chooseCourse(courseId, page, info, level, duration, category, language, totalPage) {
+                window.location = 'coursedetail?courseId=' + courseId + '&page=' + page + '&info=' + info + '&level=' + level + '&duration=' + duration + '&category=' + category + '&language=' + language + '&totalPage=' + totalPage;
             }
             function toggleDropdown() {
                 var dropdown = document.getElementById("dropdownList");
@@ -1163,7 +1197,7 @@
                     element.style.color = 'black';
                 });
             }
-            render('paggerbot', ${requestScope.page}, ${requestScope.totalPage}, 2, '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.language}');
+            render('paggerbot', ${requestScope.page eq null? param.page:requestScope.page}, ${requestScope.totalPage eq null ? param.totalPage : requestScope.totalPage}, 2, '${requestScope.info eq null ? param.info : requestScope.info}', '${requestScope.level eq null ? param.level : requestScope.level}', '${requestScope.duration eq null? param.duration : requestScope.duration}', '${requestScope.category eq null ? param.category: requestScope.category}', '${requestScope.language eq null ? param.language: requestScope.language}');
             function render(id, page, totalPage, gap, info, level, duration, category, language) {
                 var container = document.getElementById(id);
                 if (page - gap > 1) {

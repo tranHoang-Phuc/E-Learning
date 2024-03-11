@@ -13,6 +13,15 @@ public class ChapterDTO {
     private int chapterId;
     private String name;
     private CourseDTO course;
+    private int sequence;
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
+    }
 
     public int getChapterId() {
         return chapterId;

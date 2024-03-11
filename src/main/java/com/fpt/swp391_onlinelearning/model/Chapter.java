@@ -12,6 +12,16 @@ public class Chapter {
     private int chapterId;
     private String name;
     private Course course;
+    private int sequence;
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
+    }
+    
 
     public int getChapterId() {
         return chapterId;

@@ -76,7 +76,19 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
 
     @Override
     public boolean delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Connection connection = DBContext.getConnection();
+        String sql = "DELETE FROM lessonsequence WHERE lessonId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return false;
     }
 
     @Override
@@ -84,13 +96,14 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
         Connection connection = DBContext.getConnection();
         Map<Chapter, List<Lesson>> chapterMappingLessons = new LinkedHashMap<>();
         List<Chapter> chapters = new ArrayList<>();
-        String chapterSql = "SELECT chapterId, name, courseId "
-                + "FROM `swp391_onlinelearning`.`chapter`"
-                + "WHERE courseId = ?";
-
-        String sql = "SELECT  lessonId,  name,  chapterId,  typeId,  duration, content\n"
-                + "FROM `swp391_onlinelearning`.`lesson` l \n"
-                + "WHERE chapterId = ?";
+        String chapterSql = "SELECT c.chapterId, name, courseId, sequence "
+                + "FROM `swp391_onlinelearning`.`chapter` c JOIN `swp391_onlinelearning`.`chaptersequence` cs "
+                + "ON c.`chapterId` = cs.`chapterId` "
+                + "WHERE courseId = ? ORDER BY cs.sequence, cs.chapterId";
+        String sql = "SELECT l.lessonId,  name,  l.chapterId,  typeId,  duration, content, ls.sequence\n"
+                + "FROM `swp391_onlinelearning`.`lesson` l JOIN  `swp391_onlinelearning`.`lessonsequence` ls\n"
+                + "ON l.lessonId = ls.lessonId  JOIN chaptersequence cs ON l.chapterId = cs.chapterId "
+                + "WHERE l.chapterId = ? ORDER BY cs.sequence ,ls.sequence";
         try {
             PreparedStatement chapterStm = connection.prepareStatement(chapterSql);
             chapterStm.setInt(1, courseId);
@@ -99,6 +112,7 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
                 Chapter c = new Chapter();
                 c.setChapterId(chapterResultSet.getInt("chapterId"));
                 c.setName(chapterResultSet.getString("name"));
+                c.setSequence(chapterResultSet.getInt("sequence"));
                 chapters.add(c);
             }
         } catch (SQLException ex) {
@@ -114,6 +128,7 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
                     ResultSet rs = lessonStm.executeQuery();
                     while (rs.next()) {
                         Lesson l = new Lesson();
+                        l.setSequence(rs.getInt("sequence"));
                         l.setLessonId(rs.getInt("lessonId"));
                         l.setChapter(chapter);
                         l.setName(rs.getString("name"));
@@ -157,6 +172,8 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return 0;
     }
@@ -176,6 +193,8 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return 0;
     }
@@ -197,6 +216,8 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
 
         } catch (SQLException ex) {
             Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return 0;
     }
@@ -217,6 +238,8 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return 0;
     }
@@ -236,6 +259,8 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return 0;
     }
@@ -271,8 +296,158 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return lessons;
     }
 
+    @Override
+    public void addLessonAtPosition(String lessonName, int position, int chapterId, int typeId, int duration, String content) {
+        Connection connection = DBContext.getConnection();
+        try {
+            connection.setAutoCommit(false);
+            String intertSql = "INSERT INTO lesson (name, chapterId, typeId, duration, content) "
+                    + "VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement lessonStm = connection.prepareStatement(intertSql);
+            lessonStm.setString(1, lessonName);
+            lessonStm.setInt(2, chapterId);
+            lessonStm.setInt(3, typeId);
+            lessonStm.setInt(4, duration);
+            if (typeId != 3) {
+                lessonStm.setString(5, content);
+            } else {
+                lessonStm.setString(5, "");
+            }
+            lessonStm.executeUpdate();
+
+            // getLessonId
+            int lessonId = -1;
+            String getLesson = "SELECT @@Identity AS lessonId";
+            PreparedStatement getLessonStm = connection.prepareStatement(getLesson);
+            ResultSet rs = getLessonStm.executeQuery();
+            if (rs.next()) {
+                lessonId = rs.getInt("lessonId");
+            }
+
+            String sequenceSql = "INSERT INTO lessonsequence (lessonId, sequence) VALUES (?, ?)";
+            PreparedStatement sequenceStm = connection.prepareStatement(sequenceSql);
+            sequenceStm.setInt(1, lessonId);
+            sequenceStm.setInt(2, position);
+            sequenceStm.executeUpdate();
+            connection.commit();
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                connection.setAutoCommit(false);
+            } catch (SQLException ex) {
+                Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            DBContext.close(connection);
+        }
+
+    }
+
+    private List<Lesson> getLessonSequence(int chapterId, int sequence, String position) {
+        Connection connection = DBContext.getConnection();
+        List<Lesson> lessons = new ArrayList<>();
+        String sql = "";
+        if (position.equals("before")) {
+            sql = "SELECT ls.lessonId, sequence, c.chapterId FROM lessonsequence ls\n"
+                    + "JOIN lesson l ON ls.lessonId = l.lessonId \n"
+                    + "JOIN chapter c ON l.chapterId = c.chapterId\n"
+                    + "WHERE c.chapterId = ? AND ls.sequence >= ?";
+        } else {
+            sql = "SELECT ls.lessonId, sequence, c.chapterId FROM lessonsequence ls\n"
+                    + "JOIN lesson l ON ls.lessonId = l.lessonId \n"
+                    + "JOIN chapter c ON l.chapterId = c.chapterId\n"
+                    + "WHERE c.chapterId = ? AND ls.sequence > ?";
+        }
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, chapterId);
+            stm.setInt(2, sequence);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Lesson l = new Lesson();
+                l.setLessonId(rs.getInt("lessonId"));
+                l.setSequence(rs.getInt("sequence"));
+                lessons.add(l);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lessons;
+    }
+
+    public static void main(String[] args) {
+        new LessonDAO().updateArticle(3, "Practice", "Update");
+    }
+
+    @Override
+    public String updateChapterSequence(int lessonId, int sequence, String position, boolean isFirst, int chapterId) {
+        Connection connection = DBContext.getConnection();
+        List<Lesson> lessons = new LessonDAO().getLessonSequence(chapterId, sequence, position);
+        try {
+            connection.setAutoCommit(false);
+            if (!lessons.isEmpty()) {
+                List<Lesson> afterHanlde = new ArrayList<>();
+
+                for (Lesson lesson : lessons) {
+                    Lesson l = new Lesson();
+                    l.setLessonId(lesson.getLessonId());
+                    l.setSequence(lesson.getSequence() + 1);
+                    afterHanlde.add(l);
+                }
+
+                for (int i = 0; i < afterHanlde.size(); i++) {
+                    String sqlUpdate = "UPDATE lessonsequence SET sequence = ? WHERE lessonId =? AND sequence =?";
+                    PreparedStatement stm = connection.prepareStatement(sqlUpdate);
+                    stm.setInt(1, afterHanlde.get(i).getSequence());
+                    stm.setInt(2, lessons.get(i).getLessonId());
+                    stm.setInt(3, lessons.get(i).getSequence());
+                    stm.executeUpdate();
+                }
+            }
+            connection.commit();
+            return "middle";
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(ChapterDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return "first";
+    }
+
+    @Override
+    public void updateArticle(int lessonId, String lessonName, String content) {
+        Connection connection = DBContext.getConnection();
+        String sql = "UPDATE lesson SET `name` = ?, `content` = ? WHERE lessonId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, lessonName);
+            stm.setString(2, content);
+            stm.setInt(3, lessonId);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    
 }

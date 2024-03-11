@@ -39,6 +39,7 @@ import com.fpt.swp391_onlinelearning.model.Duration;
 import com.fpt.swp391_onlinelearning.model.Feature;
 import com.fpt.swp391_onlinelearning.model.Language;
 import com.fpt.swp391_onlinelearning.model.Lesson;
+import com.fpt.swp391_onlinelearning.model.LessonType;
 import com.fpt.swp391_onlinelearning.model.Level;
 import com.fpt.swp391_onlinelearning.model.Post;
 import com.fpt.swp391_onlinelearning.model.PostCategory;
@@ -972,6 +973,7 @@ public class Converter {
         ChapterDTO dto = new ChapterDTO();
         dto.setChapterId(chapter.getChapterId());
         dto.setName(chapter.getName());
+        dto.setSequence(chapter.getSequence());
         return dto;
     }
     
@@ -990,6 +992,7 @@ public class Converter {
         c.setName(lesson.getChapter().getName());
         c.setChapterId(lesson.getChapter().getChapterId());
         dto.setChapter(c);
+        dto.setSequence(lesson.getSequence());
         return dto;
     }
     
@@ -1198,4 +1201,13 @@ public class Converter {
         }
         return dtos;
     }
+    
+    public static LessonTypeDTO toDto(LessonType lt) {
+        LessonTypeDTO dto = new LessonTypeDTO();
+        dto.setTypeId(lt.getTypeId());
+        dto.setName(lt.getName());
+        return dto;
+    }
+    
+  
 }

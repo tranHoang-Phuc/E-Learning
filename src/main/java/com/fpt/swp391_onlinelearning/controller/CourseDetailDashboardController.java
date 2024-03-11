@@ -11,23 +11,28 @@ import com.fpt.swp391_onlinelearning.dal.DurationDAO;
 import com.fpt.swp391_onlinelearning.dal.LanguageDAO;
 import com.fpt.swp391_onlinelearning.dal.LevelDAO;
 import com.fpt.swp391_onlinelearning.dal.UserDAO;
+import com.fpt.swp391_onlinelearning.dal.LessonDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
+import com.fpt.swp391_onlinelearning.dto.ChapterDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseCategoryDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
 import com.fpt.swp391_onlinelearning.dto.DurationDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
 import com.fpt.swp391_onlinelearning.dto.LanguageDTO;
+import com.fpt.swp391_onlinelearning.dto.LessonDTO;
 import com.fpt.swp391_onlinelearning.dto.LevelDTO;
 import com.fpt.swp391_onlinelearning.dto.UserDTO;
 import com.fpt.swp391_onlinelearning.service.CourseCategoryService;
 import com.fpt.swp391_onlinelearning.service.CourseService;
 import com.fpt.swp391_onlinelearning.service.DurationService;
 import com.fpt.swp391_onlinelearning.service.LanguageService;
+import com.fpt.swp391_onlinelearning.service.LessonService;
 import com.fpt.swp391_onlinelearning.service.LevelService;
 import com.fpt.swp391_onlinelearning.service.UserService;
 import com.fpt.swp391_onlinelearning.service.iservice.ICourseService;
 import com.fpt.swp391_onlinelearning.service.iservice.IDurationService;
 import com.fpt.swp391_onlinelearning.service.iservice.ILanguageService;
+import com.fpt.swp391_onlinelearning.service.iservice.ILessonService;
 import com.fpt.swp391_onlinelearning.service.iservice.ILevelService;
 import com.fpt.swp391_onlinelearning.service.iservice.IService;
 import com.fpt.swp391_onlinelearning.service.iservice.IUserService;
@@ -37,6 +42,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -44,7 +50,7 @@ import java.util.Set;
  * @author tran Hoang Phuc
  */
 public class CourseDetailDashboardController extends BaseRequiredAuthorizationController {
-
+    
     private static ICourseService courseService;
     private static IService<CourseCategoryDTO> courseCategoryService;
     private static ILevelService levelService;
@@ -52,7 +58,8 @@ public class CourseDetailDashboardController extends BaseRequiredAuthorizationCo
     private static ILanguageService languageService;
     private static IService<CourseDTO> iService;
     private static IUserService userService;
-
+    private static ILessonService lessonService;
+    
     @Override
     public void init() throws ServletException {
         courseService = CourseService.getInstance(new CourseDAO(), new CourseDAO());
@@ -62,8 +69,9 @@ public class CourseDetailDashboardController extends BaseRequiredAuthorizationCo
         languageService = LanguageService.getInstance(new LanguageDAO(), new LanguageDAO());
         iService = CourseService.getInstance(new CourseDAO(), new CourseDAO());
         userService = UserService.getInstace(new UserDAO(), new UserDAO());
+        lessonService = LessonService.getInstance(new LessonDAO(), new LessonDAO());
     }
-
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
         int courseId = Integer.parseInt(req.getParameter("courseId"));
@@ -85,11 +93,18 @@ public class CourseDetailDashboardController extends BaseRequiredAuthorizationCo
             totalRecord = courseService.getTotalRecordByAuthor(pageIndex, searchInfor, levelString, categoryString, durationString, languageId, author.getUserId());
             course = courseService.getCourseByAuthor(pageIndex, searchInfor, levelString, categoryString, durationString, languageId, author.getUserId());
         }
+        totalPage = totalRecord % 8 == 0 ? (totalRecord / 8) : ((totalRecord / 8) + 1);
+        
         List<CourseCategoryDTO> cate = courseCategoryService.getAll();
         List<LevelDTO> level = levelService.getAllLevel();
         List<DurationDTO> duration = durationService.getAllDuration();
         List<LanguageDTO> language = languageService.getAllLanguage();
         CourseDTO c = courseService.getCourseDetailAll(courseId);
+        Map<ChapterDTO, List<LessonDTO>> chappterMapping = lessonService.getLessonByCourse(courseId);
+        
+        String action = req.getParameter("action");
+        
+        req.setAttribute("chapter", chappterMapping);
         req.setAttribute("chosenCourse", c);
         req.setAttribute("totalPage", totalPage);
         req.setAttribute("course", course);
@@ -103,12 +118,16 @@ public class CourseDetailDashboardController extends BaseRequiredAuthorizationCo
         req.setAttribute("category", categoryString);
         req.setAttribute("language", languageId);
         req.setAttribute("page", page);
-        req.getRequestDispatcher("../view/courseDashboard.jsp").forward(req, resp);
+        if (action != null) {
+           req.setAttribute("action", "addChapter");
+        } 
+            req.getRequestDispatcher("../view/courseDashboard.jsp").forward(req, resp);
+              
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
 }

@@ -28,4 +28,10 @@ public interface ILessonDAO {
     public int getPreviousLesson(int userId, int current);
     
     public List<Lesson> getLessonsByCourse(int courseId);
+    
+    public void addLessonAtPosition(String lessonName, int position, int chapterId, int typeId, int duration, String content);
+    
+    public String updateChapterSequence(int lessonId, int sequence, String position, boolean isFirst, int chapterId);
+
+    public void updateArticle(int lessonId, String lessonName, String content);
 }
