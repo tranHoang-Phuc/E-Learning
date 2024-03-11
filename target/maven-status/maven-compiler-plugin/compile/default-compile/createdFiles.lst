@@ -156,6 +156,7 @@ com\fpt\swp391_onlinelearning\controller\UserDetailController.class
 com\fpt\swp391_onlinelearning\dal\idal\ISliderDAO.class
 com\fpt\swp391_onlinelearning\dal\PostDAO.class
 com\fpt\swp391_onlinelearning\service\RoleService.class
+com\fpt\swp391_onlinelearning\baseController\BaseRequiredActivationController.class
 com\fpt\swp391_onlinelearning\dto\CourseRegistrationDTO.class
 com\fpt\swp391_onlinelearning\dto\PostDTO.class
 com\fpt\swp391_onlinelearning\dto\LessonTypeDTO.class

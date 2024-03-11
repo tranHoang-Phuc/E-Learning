@@ -49,17 +49,22 @@ public class BlogService implements IService<BlogDTO>, IBlogService{
 
     @Override
     public boolean update(BlogDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Blog blog = Converter.toBlogDomain(t);
+        iblogdao.update(blog);
+        return false;
     }
-
+    
     @Override
     public boolean insert(BlogDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Blog blog = Converter.toBlogDomain1(t);
+        iblogdao.insert(blog);
+        return true;
     }
-
+    
     @Override
     public boolean delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        iblogdao.delete(id);
+        return true;
     }
 
     @Override
@@ -128,4 +133,16 @@ public class BlogService implements IService<BlogDTO>, IBlogService{
         iblogdao.changeStatus(blogIdInt, statusBoolean);
     }
     
+    @Override
+    public List<BlogDTO> getSearchList(String title, int blogCategoryId, int pageIndex, int authorId, Date from, Date to) {
+        List<Blog> blogs = (List<Blog>) iblogdao.getSearchList(title, blogCategoryId, pageIndex, authorId, from, to);
+        return Converter.toBlogDTO(blogs);
+    }
+    
+    @Override
+    public int countNumberOfPageSearch(String title, int blogCategoryId, int authorId, Date from, Date to) {
+        int totalRecord = iblogdao.countRecordOfSearchList(title, blogCategoryId, authorId, from, to);
+        int totalPage = (totalRecord % 8 == 0) ? (totalRecord / 8) : ((totalRecord / 8) + 1);
+        return totalPage;
+    }
 }

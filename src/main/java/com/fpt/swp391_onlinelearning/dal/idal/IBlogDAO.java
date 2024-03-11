@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author phuc2
  */
-public interface IBlogDAO {
+public interface IBlogDAO extends IDAO<Blog> {
     public List<Blog> getRecentlyBlog(int numOfBlogs); 
     public List<Blog> searchBlog(String title, int blogCategoryId, int pageIndex, int order);
 
@@ -33,4 +33,8 @@ public interface IBlogDAO {
     public Blog getDetail(int blogId);
     
     public void changeStatus(int blogId, boolean status);
+    
+    public List<Blog> getSearchList(String title, int blogCategoryId, int pageIndex, int authorId, Date from, Date to);
+
+    public int countRecordOfSearchList(String title, int blogCategoryId, int authorId, Date from, Date to);
 }
