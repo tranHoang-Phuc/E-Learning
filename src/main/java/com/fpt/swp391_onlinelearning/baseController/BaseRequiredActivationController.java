@@ -28,10 +28,10 @@ public abstract class BaseRequiredActivationController extends BaseRequiredAutho
     protected void doGet(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
         int courseId = Integer.parseInt(req.getParameter("courseId"));
         boolean activated = isCourseActivated(courseId);
-        if (activated) {
+        if (!activated) {
             doGet(req, resp, user, isActivated, features, activated);
         } else {
-            req.getRequestDispatcher("").forward(req, resp);
+            //req.getRequestDispatcher("").forward(req, resp);
         }
     }
 
@@ -39,20 +39,19 @@ public abstract class BaseRequiredActivationController extends BaseRequiredAutho
     protected void doPost(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
         int courseId = Integer.parseInt(req.getParameter("courseId"));
         boolean activated = isCourseActivated(courseId);
-        if (activated) {
+        if (!activated) {
             doPost(req, resp, user, isActivated, features, activated);
         } else {
-            req.getRequestDispatcher("").forward(req, resp);
+            //req.getRequestDispatcher("").forward(req, resp);
         }
     }
 
-    protected abstract void doPost(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features, boolean isCourseActivated);
+    protected abstract void doPost(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features, boolean isCourseActivated)throws ServletException, IOException;
 
-    protected abstract void doGet(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features, boolean isCourseActivated);
+    protected abstract void doGet(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features, boolean isCourseActivated)throws ServletException, IOException;
 
     private boolean isCourseActivated(int courseId) {
         _iCourseService = new CourseService(new CourseDAO(), new CourseDAO());
-        CourseDTO dto = _iCourseService.getCourseDetail(courseId);
-        return dto.isIsActivated();
+        return _iCourseService.getCourseStatus(courseId);
     }
 }

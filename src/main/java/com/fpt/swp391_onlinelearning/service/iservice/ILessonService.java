@@ -29,7 +29,7 @@ public interface ILessonService {
 
     public int getLastLessonId(int courseId);
 
-    public int getPreviousLesson(int userId, int current);
+    public int getPreviousLesson(int userId, int current, int courseId);
 
     public void updateLessonSequece(String lessonName, int sequence, String position, int chapterId, int typeId, int duration, String content, int currentLesson, String index);
 

@@ -356,7 +356,9 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         }
         return course;
     }
-
+    public static void main(String[] args) {
+        System.out.println(new CourseDAO().getCourseDetail(10).isIsActivated());
+    }
     @Override
     public Course getCourseDetail(int courseId) {
         Connection connection = DBContext.getConnection();
@@ -376,19 +378,16 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
             stm.setInt(1, courseId);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-
                 Course c = new Course();
                 c.setCourseId(rs.getInt("courseId"));
                 c.setName(rs.getString("courseName"));
                 c.setDescription(rs.getString("description"));
                 c.setImg(rs.getString("img"));
                 c.setPrice(rs.getInt("price"));
-
                 CourseCategory cc = new CourseCategory();
                 cc.setName(rs.getString("coursecategory"));
                 cc.setCourseCategoryId(rs.getInt("courseCategoryId"));
                 c.setCategory(cc);
-
                 User u = new User();
                 u.setName(rs.getString("authorname"));
                 u.setUserId(rs.getInt("authorId"));
@@ -439,10 +438,10 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
                 + "JOIN `duration` d ON c.`durationId` = d.`durationId`\n"
                 + "JOIN `courseregistration` ct ON c.`courseId` = ct.`courseId`\n"
                 + "WHERE ct.`userId` = ? AND (c.`name` LIKE ? OR u.`name` LIKE ? ) \n"
-                + "AND ct.createdTime >= ? AND ct.createdTime <= ?) t \n"
-                + "WHERE  rownum >=(?-1)* 6+1 AND rownum <= ?*6";
+                + "AND ct.createdTime >= ? AND ct.createdTime <= ? AND c.isActivated = true ) t \n"
+                + "WHERE  rownum >=(?-1)* 6+1 AND rownum <= ?*6 ";
         if (categoryId != 0) {
-            sql += " AND t.courseCategoryId = ?";
+            sql += " AND t.courseCategoryId = ? ";
         }
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -509,7 +508,7 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
                 + "JOIN `level` lv ON c.`levelId` = lv.`levelId`\n"
                 + "JOIN `duration` d ON c.`durationId` = d.`durationId`\n"
                 + "JOIN `courseregistration` ct ON c.`courseId` = ct.`courseId`\n"
-                + "WHERE ct.`userId` = ? AND (c.`name` LIKE ? OR u.`name` LIKE ?) \n"
+                + "WHERE ct.`userId` = ? AND c.isActivated = true AND (c.`name` LIKE ? OR u.`name` LIKE ?) \n"
                 + "AND ct.createdTime >= ? AND ct.createdTime <= ?";
         if (categoryId != 0) {
             sql += " AND cc.courseCategoryId = ?";
@@ -1007,6 +1006,23 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
             Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         return courses;
+    }
+
+    @Override
+    public boolean getCourseStatus(int courseId) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT isActivated FROM course WHERE courseId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, courseId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean("isActivated");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        return false;
     }
     
 }

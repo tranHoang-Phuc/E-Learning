@@ -4,6 +4,7 @@
  */
 package com.fpt.swp391_onlinelearning.controller;
 
+import com.fpt.swp391_onlinelearning.baseController.BaseRequiredActivationController;
 import com.fpt.swp391_onlinelearning.baseController.BaseRequiredAuthorizationController;
 import com.fpt.swp391_onlinelearning.dal.ChapterDAO;
 import com.fpt.swp391_onlinelearning.dal.CourseDAO;
@@ -37,7 +38,7 @@ import java.util.Set;
  * @author tran Hoang Phuc
  */
 @MultipartConfig
-public class EditLessonDashboardController extends BaseRequiredAuthorizationController {
+public class EditLessonDashboardController extends BaseRequiredActivationController {
 
     private ICourseService iCourseService;
     private ILessonService iLessonService;
@@ -57,93 +58,7 @@ public class EditLessonDashboardController extends BaseRequiredAuthorizationCont
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
-        String action = req.getParameter("action");
-        if (action != null) {
-            if (action.equals("addChapter")) {
-                req.setAttribute("action", "addChapter");
-            }
-
-            if (action.equals("editChapter")) {
-                req.setAttribute("action", "editChapter");
-                int chapterId = Integer.parseInt(req.getParameter("chapterId"));
-                ChapterDTO chapter = iServiceChapter.get(chapterId);
-                req.setAttribute("chapter", chapter);
-            }
-
-            if (action.equals("deleteChapter")) {
-                req.setAttribute("action", "deleteChapter");
-                int chapterId = Integer.parseInt(req.getParameter("chapterId"));
-                ChapterDTO chapter = iServiceChapter.get(chapterId);
-                req.setAttribute("chapter", chapter);
-            }
-            if (action.equals("addLesson")) {
-                req.setAttribute("action", "addLesson");
-                List<LessonTypeDTO> lessonTypeDTOs = iServiceLessonType.getAll();
-                req.setAttribute("type", lessonTypeDTOs);
-            }
-            if (action.equals("addNewLesson")) {
-                req.setAttribute("action", "addNewLesson");
-                List<LessonTypeDTO> lessonTypeDTOs = iServiceLessonType.getAll();
-                req.setAttribute("type", lessonTypeDTOs);
-            }
-            if (action.equals("addVideoLesson")) {
-                req.getRequestDispatcher("../view/addVideoLessonDashboard.jsp").forward(req, resp);
-                return;
-            }
-
-            if (action.equals("addArticleLesson")) {
-                req.getRequestDispatcher("../view/addArticleLesson.jsp").forward(req, resp);
-                return;
-            }
-
-            if (action.equals("deleteLesson")) {
-                req.setAttribute("action", "deleteLesson");
-                int lessonId = Integer.parseInt(req.getParameter("lessonId"));
-                LessonDTO lesson = iService.get(lessonId);
-                req.setAttribute("les", lesson);
-            }
-
-            if (action.equals("editLesson")) {
-                int courseId = Integer.parseInt(req.getParameter("courseId"));
-                int lessonId = Integer.parseInt(req.getParameter("lessonId"));
-                LessonDTO lesson = iService.get(lessonId);
-                int lessonType = Integer.parseInt(req.getParameter("lst"));
-                if (lessonType == 2) {
-                    req.setAttribute("courseId", courseId);
-                    req.setAttribute("lesson", lesson);
-                    req.getRequestDispatcher("../view/addArticleLesson.jsp").forward(req, resp);
-                    return;
-                }
-            }
-        }
-
-        int courseId = Integer.parseInt(req.getParameter("courseId"));
-        Map<ChapterDTO, List<LessonDTO>> lessons = iLessonService.getLessonByCourse(courseId);
-        LessonDTO lessonDTO = null;
-        if (req.getParameter("lessonId") == null) {
-            for (Map.Entry<ChapterDTO, List<LessonDTO>> entry : lessons.entrySet()) {
-                ChapterDTO key = entry.getKey();
-                List<LessonDTO> value = entry.getValue();
-                if (!value.isEmpty()) {
-                    lessonDTO = value.get(0);
-                }
-                break;
-            }
-            req.setAttribute("l", lessonDTO);
-        } else {
-            int lessonId = Integer.parseInt(req.getParameter("lessonId"));
-            lessonDTO = iService.get(lessonId);
-            req.setAttribute("l", lessonDTO);
-        }
-        CourseDTO cdto = iCourseService.getCourseDetail(courseId);
-        req.setAttribute("lesson", lessons);
-        req.setAttribute("course", cdto);
-        req.getRequestDispatcher("../view/editLesson.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features, boolean isCourseActivated) throws ServletException, IOException {
         String action = req.getParameter("action");
         if (action.equals("addChapter")) {
             int courseId = Integer.parseInt(req.getParameter("courseId"));
@@ -204,7 +119,6 @@ public class EditLessonDashboardController extends BaseRequiredAuthorizationCont
                 iLessonService.addLessonAddFirst(lessonName, chapterId, typeId, duration, content);
             }
             resp.sendRedirect(req.getContextPath() + "/dashboard/editlesson?courseId=" + courseId);
-
         } else if (action.equals("deleteLesson")) {
             int courseId = Integer.parseInt(req.getParameter("courseId"));
             int lessonId = Integer.parseInt(req.getParameter("lessonId"));
@@ -222,11 +136,92 @@ public class EditLessonDashboardController extends BaseRequiredAuthorizationCont
             int courseId = Integer.parseInt(req.getParameter("courseId"));
             String lessonName = req.getParameter("newLessonName");
             String content = req.getParameter("content");
-            System.out.println(lessonId + " " + lessonName + " " +content);
-
             iLessonService.updateArticle(lessonId, lessonName, content);
             resp.sendRedirect(req.getContextPath() + "/dashboard/editlesson?courseId=" + courseId);
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features, boolean isCourseActivated) throws ServletException, IOException {
+        String action = req.getParameter("action");
+        if (action != null) {
+            if (action.equals("addChapter")) {
+                req.setAttribute("action", "addChapter");
+            }
+            if (action.equals("editChapter")) {
+                req.setAttribute("action", "editChapter");
+                int chapterId = Integer.parseInt(req.getParameter("chapterId"));
+                ChapterDTO chapter = iServiceChapter.get(chapterId);
+                req.setAttribute("chapter", chapter);
+            }
+            if (action.equals("deleteChapter")) {
+                req.setAttribute("action", "deleteChapter");
+                int chapterId = Integer.parseInt(req.getParameter("chapterId"));
+                ChapterDTO chapter = iServiceChapter.get(chapterId);
+                req.setAttribute("chapter", chapter);
+            }
+            if (action.equals("addLesson")) {
+                req.setAttribute("action", "addLesson");
+                List<LessonTypeDTO> lessonTypeDTOs = iServiceLessonType.getAll();
+                req.setAttribute("type", lessonTypeDTOs);
+            }
+            if (action.equals("addNewLesson")) {
+                req.setAttribute("action", "addNewLesson");
+                List<LessonTypeDTO> lessonTypeDTOs = iServiceLessonType.getAll();
+                req.setAttribute("type", lessonTypeDTOs);
+            }
+            if (action.equals("addVideoLesson")) {
+                req.getRequestDispatcher("../view/addVideoLessonDashboard.jsp").forward(req, resp);
+                return;
+            }
+
+            if (action.equals("addArticleLesson")) {
+                req.getRequestDispatcher("../view/addArticleLesson.jsp").forward(req, resp);
+                return;
+            }
+
+            if (action.equals("deleteLesson")) {
+                req.setAttribute("action", "deleteLesson");
+                int lessonId = Integer.parseInt(req.getParameter("lessonId"));
+                LessonDTO lesson = iService.get(lessonId);
+                req.setAttribute("les", lesson);
+            }
+
+            if (action.equals("editLesson")) {
+                int courseId = Integer.parseInt(req.getParameter("courseId"));
+                int lessonId = Integer.parseInt(req.getParameter("lessonId"));
+                LessonDTO lesson = iService.get(lessonId);
+                int lessonType = Integer.parseInt(req.getParameter("lst"));
+                if (lessonType == 2) {
+                    req.setAttribute("courseId", courseId);
+                    req.setAttribute("lesson", lesson);
+                    req.getRequestDispatcher("../view/addArticleLesson.jsp").forward(req, resp);
+                    return;
+                }
+            }
+        }
+        int courseId = Integer.parseInt(req.getParameter("courseId"));
+        Map<ChapterDTO, List<LessonDTO>> lessons = iLessonService.getLessonByCourse(courseId);
+        LessonDTO lessonDTO = null;
+        if (req.getParameter("lessonId") == null) {
+            for (Map.Entry<ChapterDTO, List<LessonDTO>> entry : lessons.entrySet()) {
+                ChapterDTO key = entry.getKey();
+                List<LessonDTO> value = entry.getValue();
+                if (!value.isEmpty()) {
+                    lessonDTO = value.get(0);
+                }
+                break;
+            }
+            req.setAttribute("l", lessonDTO);
+        } else {
+            int lessonId = Integer.parseInt(req.getParameter("lessonId"));
+            lessonDTO = iService.get(lessonId);
+            req.setAttribute("l", lessonDTO);
+        }
+        CourseDTO cdto = iCourseService.getCourseDetail(courseId);
+        req.setAttribute("lesson", lessons);
+        req.setAttribute("course", cdto);
+        req.getRequestDispatcher("../view/editLesson.jsp").forward(req, resp);
     }
 
 }

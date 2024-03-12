@@ -44,4 +44,6 @@ public interface ICourseService {
     public int getTotalRecordByAuthor(String pageIndex, String searchInfor, String level, String category, String duration, String language, int userId);
 
     public List<CourseDTO> getTempCourseEnrollmemt(int userId); 
+    
+    public boolean getCourseStatus(int courseId);
 }

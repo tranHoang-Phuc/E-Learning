@@ -202,18 +202,25 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
     @Override
     public int getFirstLessonId(int courseId) {
         Connection connection = DBContext.getConnection();
-        String sql = "SELECT MIN(l.lessonId) AS firstLesson FROM swp391_onlinelearning.course c\n"
-                + "JOIN swp391_onlinelearning.chapter ch\n"
-                + "ON c.courseId = ch.courseId\n"
-                + "JOIN swp391_onlinelearning.lesson l\n"
-                + "ON ch.chapterId = l.chapterId";
+        String sql = "SELECT l.lessonId as firstLesson FROM lesson l \n"
+                + "JOIN chapter c ON l.chapterId = c.chapterId\n"
+                + "JOIN chaptersequence cs ON cs.chapterId = c.chapterId\n"
+                + "JOIN lessonsequence ls ON ls.lessonId = l.lessonId\n"
+                + "JOIN course co ON c.courseId = co.courseId\n"
+                + "WHERE co.courseId = ? AND ls.sequence = (SELECT MIN(ls.sequence) FROM lesson l \n"
+                + "JOIN chapter c ON l.chapterId = c.chapterId\n"
+                + "JOIN chaptersequence cs ON cs.chapterId = c.chapterId\n"
+                + "JOIN lessonsequence ls ON ls.lessonId = l.lessonId\n"
+                + "JOIN course co ON c.courseId = co.courseId\n"
+                + "WHERE co.courseId = ?)";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, courseId);
+            stm.setInt(2, courseId);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 return rs.getInt("firstLesson");
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(LessonDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -225,13 +232,21 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
     @Override
     public int getLastLessonId(int courseId) {
         Connection connection = DBContext.getConnection();
-        String sql = "SELECT MAX(l.lessonId) AS lastLesson FROM swp391_onlinelearning.course c\n"
-                + "JOIN swp391_onlinelearning.chapter ch\n"
-                + "ON c.courseId = ch.courseId\n"
-                + "JOIN swp391_onlinelearning.lesson l\n"
-                + "ON ch.chapterId = l.chapterId";
+        String sql = "SELECT l.lessonId as lastLesson FROM lesson l \n"
+                + "JOIN chapter c ON l.chapterId = c.chapterId\n"
+                + "JOIN chaptersequence cs ON cs.chapterId = c.chapterId\n"
+                + "JOIN lessonsequence ls ON ls.lessonId = l.lessonId\n"
+                + "JOIN course co ON c.courseId = co.courseId\n"
+                + "WHERE co.courseId = ? AND ls.sequence = (SELECT MAX(ls.sequence) FROM lesson l \n"
+                + "JOIN chapter c ON l.chapterId = c.chapterId\n"
+                + "JOIN chaptersequence cs ON cs.chapterId = c.chapterId\n"
+                + "JOIN lessonsequence ls ON ls.lessonId = l.lessonId\n"
+                + "JOIN course co ON c.courseId = co.courseId\n"
+                + "WHERE co.courseId = ?)";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, courseId);
+            stm.setInt(2, courseId);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 return rs.getInt("lastLesson");
@@ -245,7 +260,7 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
     }
 
     @Override
-    public int getPreviousLesson(int userId, int current) {
+    public int getPreviousLesson(int userId, int current, int courseId) {
         Connection connection = DBContext.getConnection();
         String sql = "SELECT MAX(lessonId) AS previousLesson FROM swp391_onlinelearning.userlesson\n"
                 + "WHERE lessonId < ? AND userId = ?";
@@ -449,5 +464,4 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
         }
     }
 
-    
 }

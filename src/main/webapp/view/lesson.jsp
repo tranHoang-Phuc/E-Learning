@@ -375,13 +375,6 @@
                     </table>
                 </c:if>
                 <div class="status-button">
-                    <c:if test="${param.lessonId > requestScope.first}">
-                        <form action="lesson" method="get">
-                            <input type="hidden" name="courseId" value="${param.courseId}">
-                            <input type="hidden" name="lessonId" value="${requestScope.previous}">
-                            <button class="btn" type="submit" id="previous">Previous</button>
-                        </form>
-                    </c:if>
                     <c:if test="${requestScope.l.type.typeId eq 3 and requestScope.tempQuiz.result>=0 and not requestScope.userlesson.finish}">
                         <form action="generatequiz" method="get">
                             <input type="hidden" name="courseId" value="${param.courseId}">
@@ -404,13 +397,7 @@
                             <button class="btn" type="submit" id="mark">Mark as done</button>
                         </form>
                     </c:if>
-                    <c:if test="${param.lessonId < requestScope.last}">
-                        <form action="lesson" method="get">
-                            <input type="hidden" name="courseId" value="${param.courseId}">
-                            <input type="hidden" name="lessonId" value="${requestScope.next}">
-                            <button class="btn" type="submit" id="next">Next</button>
-                        </form>
-                    </c:if>
+                    
                 </div>
             </div>
             <div class="learn-playlist">

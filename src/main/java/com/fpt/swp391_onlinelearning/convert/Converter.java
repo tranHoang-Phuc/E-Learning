@@ -626,7 +626,6 @@ public class Converter {
 
         DurationDTO ddto = toDTO3(course.getDuration());
         courseDTO.setDuration(ddto);
-
         LevelDTO lcdto = toDTO3(course.getLevel());
         courseDTO.setLevel(lcdto);
 

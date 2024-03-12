@@ -1032,12 +1032,12 @@
                                 <tbody>
                                     <c:forEach items="${requestScope.course}" var="c" varStatus="loop">
                                         <tr style="cursor: pointer;" ${c.courseId eq requestScope.chosenCourse.courseId?"id=\"choose\"":""}>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${loop.count}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${c.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${c.category.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${c.duration.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${c.language.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}', '${requestScope.totalPage}')">${c.level.name}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${loop.count}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.name}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.category.name}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.duration.name}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.language.name}</td>
+                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.level.name}</td>
                                             <c:if test="${sessionScope.session.role.roleId eq 4}">
                                                 <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.author.name}</td>
                                                 <td>
@@ -1164,8 +1164,8 @@
             function goTo(url) {
                 window.location = url;
             }
-            function chooseCourse(courseId, page, info, level, duration, category, language, totalPage) {
-                window.location = 'coursedetail?courseId=' + courseId + '&page=' + page + '&info=' + info + '&level=' + level + '&duration=' + duration + '&category=' + category + '&language=' + language + '&totalPage=' + totalPage;
+            function chooseCourse(courseId, page, info, level, duration, category, language) {
+                window.location = 'coursedetail?courseId=' + courseId + '&page=' + page + '&info=' + info + '&level=' + level + '&duration=' + duration + '&category=' + category + '&language=' + language;
             }
             function toggleDropdown() {
                 var dropdown = document.getElementById("dropdownList");

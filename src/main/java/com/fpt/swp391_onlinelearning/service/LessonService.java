@@ -118,8 +118,8 @@ public class LessonService implements ILessonService, IService<LessonDTO> {
     }
 
     @Override
-    public int getPreviousLesson(int userId, int current) {
-        return _iLessonDAO.getPreviousLesson(userId, current);
+    public int getPreviousLesson(int userId, int current, int courseId) {
+        return _iLessonDAO.getPreviousLesson(userId, current, courseId);
     }
 
     @Override

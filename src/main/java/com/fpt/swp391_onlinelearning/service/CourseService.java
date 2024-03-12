@@ -92,7 +92,6 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
         Course cdto = _iCourseDAO.getCourseDetail(courseId);
         if (cdto != null) {
             return Converter.toDTO3(cdto);
-
         } else {
             return null;
         }
@@ -220,6 +219,11 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
     @Override
     public List<CourseDTO> getTempCourseEnrollmemt(int userId) {
         return Converter.toDTOTemp(_iCourseDAO.getTempCourseEnrollmemt(userId));
+    }
+
+    @Override
+    public boolean getCourseStatus(int courseId) {
+        return _iCourseDAO.getCourseStatus(courseId);
     }
 
 }

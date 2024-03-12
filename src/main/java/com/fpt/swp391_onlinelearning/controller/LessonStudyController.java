@@ -68,7 +68,7 @@ public class LessonStudyController extends BaseRequiredEnrollmentController {
         int nextLesson = iLessonService.getNextLesson(userDTO.getUserId(), lessonId);
         int firstLesson = iLessonService.getFirstLessonId(courseId);
         int lastLesson = iLessonService.getLastLessonId(courseId);
-        int previousLesson = iLessonService.getPreviousLesson(userDTO.getUserId(), lessonId);
+        int previousLesson = iLessonService.getPreviousLesson(userDTO.getUserId(), lessonId, courseId);
         Map<ChapterDTO, List<LessonDTO>> lessons = iLessonService.getLessonByCourse(courseId);
         req.setAttribute("previous", previousLesson);
         req.setAttribute("first", firstLesson);

@@ -25,7 +25,7 @@ public interface ILessonDAO {
     
     public int getLastLessonId(int courseId);
     
-    public int getPreviousLesson(int userId, int current);
+    public int getPreviousLesson(int userId, int current, int courseId);
     
     public List<Lesson> getLessonsByCourse(int courseId);
     
