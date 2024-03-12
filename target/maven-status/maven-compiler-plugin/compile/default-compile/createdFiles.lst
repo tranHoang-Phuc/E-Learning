@@ -212,6 +212,7 @@ com\fpt\swp391_onlinelearning\dto\DurationDTO.class
 com\fpt\swp391_onlinelearning\controller\RevenusStatController.class
 com\fpt\swp391_onlinelearning\controller\HomeController.class
 com\fpt\swp391_onlinelearning\controller\UserRegistrationStatisticsController.class
+com\fpt\swp391_onlinelearning\controller\QuestionController.class
 com\fpt\swp391_onlinelearning\service\PostService.class
 com\fpt\swp391_onlinelearning\dal\FeatureDAO.class
 com\fpt\swp391_onlinelearning\dto\BlogDTO.class

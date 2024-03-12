@@ -10,6 +10,7 @@ import com.fpt.swp391_onlinelearning.dal.ChapterDAO;
 import com.fpt.swp391_onlinelearning.dal.CourseDAO;
 import com.fpt.swp391_onlinelearning.dal.LessonDAO;
 import com.fpt.swp391_onlinelearning.dal.LessonTypeDAO;
+import com.fpt.swp391_onlinelearning.dal.QuestionDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
 import com.fpt.swp391_onlinelearning.dto.ChapterDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
@@ -20,15 +21,18 @@ import com.fpt.swp391_onlinelearning.service.ChapterService;
 import com.fpt.swp391_onlinelearning.service.CourseService;
 import com.fpt.swp391_onlinelearning.service.LessonService;
 import com.fpt.swp391_onlinelearning.service.LessonTypeService;
+import com.fpt.swp391_onlinelearning.service.QuestionService;
 import com.fpt.swp391_onlinelearning.service.iservice.IChapterService;
 import com.fpt.swp391_onlinelearning.service.iservice.ICourseService;
 import com.fpt.swp391_onlinelearning.service.iservice.ILessonService;
+import com.fpt.swp391_onlinelearning.service.iservice.IQuestionService;
 import com.fpt.swp391_onlinelearning.service.iservice.IService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,6 +50,7 @@ public class EditLessonDashboardController extends BaseRequiredActivationControl
     private IChapterService iChapterService;
     private IService<ChapterDTO> iServiceChapter;
     private IService<LessonTypeDTO> iServiceLessonType;
+    private IQuestionService _iQuestionService;
 
     @Override
     public void init() throws ServletException {
@@ -55,11 +60,14 @@ public class EditLessonDashboardController extends BaseRequiredActivationControl
         iChapterService = ChapterService.getInstance(new ChapterDAO(), new ChapterDAO());
         iServiceChapter = ChapterService.getInstance(new ChapterDAO(), new ChapterDAO());
         iServiceLessonType = LessonTypeService.getInstance(new LessonTypeDAO());
+        _iQuestionService = QuestionService.getInstance(new QuestionDAO(), new QuestionDAO());
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features, boolean isCourseActivated) throws ServletException, IOException {
         String action = req.getParameter("action");
+        int[] lessonIds = new int[1];
         if (action.equals("addChapter")) {
             int courseId = Integer.parseInt(req.getParameter("courseId"));
             String newChapter = req.getParameter("newChapterName");
@@ -96,9 +104,9 @@ public class EditLessonDashboardController extends BaseRequiredActivationControl
                 int currentLesson = Integer.parseInt(req.getParameter("lessonId"));
                 String index = req.getParameter("index");
                 iLessonService.updateLessonSequece(lessonName, sequence, position,
-                        chapterId, typeId, duration, content, currentLesson, index);
+                        chapterId, typeId, duration, content, currentLesson, index, lessonIds);
             } else {
-                iLessonService.addLessonAddFirst(lessonName, chapterId, typeId, duration, content);
+                iLessonService.addLessonAddFirst(lessonName, chapterId, typeId, duration, content, lessonIds);
             }
             resp.sendRedirect(req.getContextPath() + "/dashboard/editlesson?courseId=" + courseId);
         } else if (action.equals("addArticleLesson")) {
@@ -114,9 +122,9 @@ public class EditLessonDashboardController extends BaseRequiredActivationControl
                 int currentLesson = Integer.parseInt(req.getParameter("lessonId"));
                 String index = req.getParameter("index");
                 iLessonService.updateLessonSequece(lessonName, sequence, position,
-                        chapterId, typeId, duration, content, currentLesson, index);
+                        chapterId, typeId, duration, content, currentLesson, index, lessonIds);
             } else {
-                iLessonService.addLessonAddFirst(lessonName, chapterId, typeId, duration, content);
+                iLessonService.addLessonAddFirst(lessonName, chapterId, typeId, duration, content, lessonIds);
             }
             resp.sendRedirect(req.getContextPath() + "/dashboard/editlesson?courseId=" + courseId);
         } else if (action.equals("deleteLesson")) {
@@ -137,6 +145,73 @@ public class EditLessonDashboardController extends BaseRequiredActivationControl
             String lessonName = req.getParameter("newLessonName");
             String content = req.getParameter("content");
             iLessonService.updateArticle(lessonId, lessonName, content);
+            resp.sendRedirect(req.getContextPath() + "/dashboard/editlesson?courseId=" + courseId);
+        } else if (action.equals("addquizzlesson")) {
+            int courseId = Integer.parseInt(req.getParameter("courseId"));
+            String lessonName = req.getParameter("newLessonName");
+            String position = req.getParameter("position");
+            int typeId = Integer.parseInt(req.getParameter("lessonType"));
+            int chapterId = Integer.parseInt(req.getParameter("chapterId"));
+            int duration = Integer.parseInt(req.getParameter("duration"));
+            if (position.trim().length() != 0) {
+                int sequence = Integer.parseInt(req.getParameter("sequence"));
+                int currentLesson = Integer.parseInt(req.getParameter("lessonId"));
+                String index = req.getParameter("index");
+                iLessonService.updateLessonSequece(lessonName, sequence, position,
+                        chapterId, typeId, duration, "", currentLesson, index, lessonIds);
+                int totalIndex = Integer.parseInt(req.getParameter("numOfIndex"));
+
+                for (int i = 1; i <= totalIndex; i++) {
+                    String question = req.getParameter("q" + i);
+                    if (question != null) {
+                        resp.getWriter().println(question);
+                        int indexAns = Integer.parseInt(req.getParameter("indexAns" + i));
+                        List<String> answers = new ArrayList<>(); // Danh sách câu trả lời
+                        List<Boolean> isTrueArray = new ArrayList<>();
+                        for (int j = 1; j <= indexAns; j++) {
+                            String answer = req.getParameter("q" + i + "-answer" + j);
+                            String isTrue = req.getParameter("question" + i + "-" + j);
+                            resp.getWriter().println(isTrue);
+                            if (answer != null) {
+                                answers.add(answer);
+                                isTrueArray.add(Boolean.valueOf(isTrue));
+                            }
+                        }
+
+                        int recentId = _iQuestionService.insertQuestionAndGetId(question, lessonIds[0]);
+                        _iQuestionService.insertAnswers(answers, recentId, isTrueArray);
+
+                    }
+                }
+            } else {
+                iLessonService.addLessonAddFirst(lessonName, chapterId, typeId, duration, "", lessonIds);
+                int totalIndex = Integer.parseInt(req.getParameter("numOfIndex"));
+
+                for (int i = 1; i <= totalIndex; i++) {
+                    String question = req.getParameter("q" + i);
+                    if (question != null) {
+                        resp.getWriter().println(question);
+                        int indexAns = Integer.parseInt(req.getParameter("indexAns" + i));
+                        List<String> answers = new ArrayList<>(); // Danh sách câu trả lời
+                        List<Boolean> isTrueArray = new ArrayList<>();
+                        for (int j = 1; j <= indexAns; j++) {
+                            String answer = req.getParameter("q" + i + "-answer" + j);
+                            String isTrue = req.getParameter("question" + i + "-" + j);
+                            resp.getWriter().println(isTrue);
+                            if (answer != null) {
+                                answers.add(answer);
+                                isTrueArray.add(Boolean.valueOf(isTrue));
+                            }
+                        }
+
+                        int recentId = _iQuestionService.insertQuestionAndGetId(question, lessonIds[0]);
+                        _iQuestionService.insertAnswers(answers, recentId, isTrueArray);
+
+                    }
+                }
+
+            }
+
             resp.sendRedirect(req.getContextPath() + "/dashboard/editlesson?courseId=" + courseId);
         }
     }
@@ -198,6 +273,10 @@ public class EditLessonDashboardController extends BaseRequiredActivationControl
                     req.getRequestDispatcher("../view/addArticleLesson.jsp").forward(req, resp);
                     return;
                 }
+            }
+            if (action.equals("addQuizzesLesson")) {
+                req.getRequestDispatcher("../view/addQuiz.jsp").forward(req, resp);
+                return;
             }
         }
         int courseId = Integer.parseInt(req.getParameter("courseId"));

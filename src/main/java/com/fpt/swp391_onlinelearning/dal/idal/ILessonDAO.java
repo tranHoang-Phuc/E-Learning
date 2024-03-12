@@ -29,7 +29,7 @@ public interface ILessonDAO {
     
     public List<Lesson> getLessonsByCourse(int courseId);
     
-    public void addLessonAtPosition(String lessonName, int position, int chapterId, int typeId, int duration, String content);
+    public void addLessonAtPosition(String lessonName, int position, int chapterId, int typeId, int duration, String content, int[] lessonId);
     
     public String updateChapterSequence(int lessonId, int sequence, String position, boolean isFirst, int chapterId);
 

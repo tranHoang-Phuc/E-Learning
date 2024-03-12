@@ -124,27 +124,27 @@ public class LessonService implements ILessonService, IService<LessonDTO> {
 
     @Override
     public void updateLessonSequece(String lessonName, int sequence, String position, int chapterId,
-            int typeId, int duration, String content, int currentLesson, String index) {
+            int typeId, int duration, String content, int currentLesson, String index, int[] lessonId) {
         if (index != null) {
             if (index.equals("first")) {
-                _iLessonDAO.addLessonAtPosition(lessonName, sequence - 1, chapterId, typeId, duration, content);
+                _iLessonDAO.addLessonAtPosition(lessonName, sequence - 1, chapterId, typeId, duration, content, lessonId);
             } else if (index.equals("last")) {
-                _iLessonDAO.addLessonAtPosition(lessonName, sequence + 1, chapterId, typeId, duration, content);
+                _iLessonDAO.addLessonAtPosition(lessonName, sequence + 1, chapterId, typeId, duration, content, lessonId);
             } else {
                 if (position.equals("after")) {
                     _iLessonDAO.updateChapterSequence(currentLesson, sequence, position, false, chapterId);
-                    _iLessonDAO.addLessonAtPosition(lessonName, sequence + 1, chapterId, typeId, duration, content);
+                    _iLessonDAO.addLessonAtPosition(lessonName, sequence + 1, chapterId, typeId, duration, content, lessonId);
                 } else {
                     _iLessonDAO.updateChapterSequence(currentLesson, sequence, position, false, chapterId);
-                    _iLessonDAO.addLessonAtPosition(lessonName, sequence - 1, chapterId, typeId, duration, content);
+                    _iLessonDAO.addLessonAtPosition(lessonName, sequence - 1, chapterId, typeId, duration, content, lessonId);
                 }
             }
         }
     }
 
     @Override
-    public void addLessonAddFirst(String lessonName, int chapterId, int typeId, int duration, String content) {
-        _iLessonDAO.addLessonAtPosition(lessonName, 1, chapterId, typeId, duration, content);
+    public void addLessonAddFirst(String lessonName, int chapterId, int typeId, int duration, String content, int[] lessonId) {
+        _iLessonDAO.addLessonAtPosition(lessonName, 1, chapterId, typeId, duration, content, lessonId);
     }
 
     @Override

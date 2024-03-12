@@ -15,4 +15,9 @@ import java.util.List;
 public interface IQuestionDAO {
     public List<Question> getCurrentAttemptQuestion(int userId, int lessonId);
     public Question getQuestionByAnswer(Answer a);
+        public int getRecentId();
+    
+    public int insertQuestionAndGetId(String content, int lessonId);
+    
+    public void insertAnswers(List<String> answerContents, int questionId, List<Boolean> isTrueArray);
 }

@@ -14,4 +14,9 @@ import java.util.List;
 public interface IQuestionService {
     public List<QuestionDTO> getCurrentAttemptQuestions(int userId, int lessonId);
     public int getIndexOfQuestion(QuestionDTO qdto, List<QuestionDTO> qdtos);
+        public int getRecentId();
+    
+    public int insertQuestionAndGetId(String content, int lessonId);
+    
+    public void insertAnswers(List<String> answerContents, int questionId, List<Boolean> isTrueArray);
 }

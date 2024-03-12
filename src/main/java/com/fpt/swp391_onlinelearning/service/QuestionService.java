@@ -95,6 +95,21 @@ public class QuestionService implements IService<QuestionDTO>, IQuestionService{
         return -1;
     }
 
+    @Override
+    public int getRecentId() {
+        return _iQuestionDAO.getRecentId();
+    }
+
+    @Override
+    public int insertQuestionAndGetId(String content, int lessonId){
+        return _iQuestionDAO.insertQuestionAndGetId(content, lessonId);
+    }
+    
+    @Override
+    public void insertAnswers(List<String> answerContents, int questionId, List<Boolean> isTrueArray){
+        _iQuestionDAO.insertAnswers(answerContents, questionId, isTrueArray);
+    }
+
 
     
 

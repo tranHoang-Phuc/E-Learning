@@ -31,9 +31,9 @@ public interface ILessonService {
 
     public int getPreviousLesson(int userId, int current, int courseId);
 
-    public void updateLessonSequece(String lessonName, int sequence, String position, int chapterId, int typeId, int duration, String content, int currentLesson, String index);
+    public void updateLessonSequece(String lessonName, int sequence, String position, int chapterId, int typeId, int duration, String content, int currentLesson, String index, int[] lessonId);
 
-    public void addLessonAddFirst(String lessonName, int chapterId, int typeId, int duration, String content);
+    public void addLessonAddFirst(String lessonName, int chapterId, int typeId, int duration, String content, int[] lessonId);
 
     public void updateArticle(int lessonId, String lessonName, String content);
 

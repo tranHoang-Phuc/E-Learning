@@ -105,22 +105,98 @@ public class QuestionDAO implements IDAO<Question>, IQuestionDAO {
         String sql = "SELECT a.answerId, q.questionId\n"
                 + "FROM answer AS a, question AS q\n"
                 + "WHERE a.questionId=q.questionId AND a.answerId=?";
-        
+
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, a.getAnswerId());
-            ResultSet rs= stm.executeQuery();
-            if(rs.next())
-            {
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
                 Question q = new Question();
                 q.setQuestionId(rs.getInt("questionId"));
-                
+
                 return q;
             }
         } catch (SQLException ex) {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    @Override
+    public int getRecentId() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void insertAnswers(List<String> answerContents, int questionId, List<Boolean> isTrueArray) {
+        Connection connection = DBContext.getConnection();
+        String sql = "INSERT INTO answer(content, questionId, isTrue) VALUES (?, ?, ?)";
+
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            connection.setAutoCommit(false);
+
+            // Lặp qua từng câu trả lời trong danh sách
+            for (int i = 0; i < answerContents.size(); i++) {
+                // Thêm câu trả lời vào batch
+                stm.setString(1, answerContents.get(i));
+                stm.setInt(2, questionId);
+                stm.setBoolean(3, isTrueArray.get(i));
+                stm.addBatch();
+            }
+
+            stm.executeBatch();
+
+            connection.commit();
+        } catch (SQLException ex) {
+            try {
+
+                connection.rollback();
+            } catch (SQLException rollbackEx) {
+
+            }
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+
+                connection.setAutoCommit(true);
+            } catch (SQLException autoCommitEx) {
+
+            }
+            // Đóng kết nối
+            DBContext.close(connection);
+        }
+    }
+
+    @Override
+    public int insertQuestionAndGetId(String content, int lessonId) {
+        Connection connection = DBContext.getConnection();
+        String insertSql = "INSERT INTO question(content, lessonId) VALUES (?, ?)";
+        String selectSql = "SELECT @@IDENTITY";
+
+        int questionId = -1;
+
+        try {
+
+            PreparedStatement insertStatement = connection.prepareStatement(insertSql);
+            insertStatement.setString(1, content);
+            insertStatement.setInt(2, lessonId);
+            insertStatement.executeUpdate();
+            insertStatement.close();
+
+            PreparedStatement selectStatement = connection.prepareStatement(selectSql);
+            ResultSet rs = selectStatement.executeQuery();
+            if (rs.next()) {
+                questionId = rs.getInt(1);
+            }
+            selectStatement.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+
+        return questionId;
     }
 
 }

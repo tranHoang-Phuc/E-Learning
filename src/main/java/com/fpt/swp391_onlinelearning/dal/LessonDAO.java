@@ -318,7 +318,7 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
     }
 
     @Override
-    public void addLessonAtPosition(String lessonName, int position, int chapterId, int typeId, int duration, String content) {
+    public void addLessonAtPosition(String lessonName, int position, int chapterId, int typeId, int duration, String content, int[] lessonIds) {
         Connection connection = DBContext.getConnection();
         try {
             connection.setAutoCommit(false);
@@ -343,8 +343,8 @@ public class LessonDAO implements IDAO<Lesson>, ILessonDAO {
             ResultSet rs = getLessonStm.executeQuery();
             if (rs.next()) {
                 lessonId = rs.getInt("lessonId");
+                lessonIds[0] = lessonId;
             }
-
             String sequenceSql = "INSERT INTO lessonsequence (lessonId, sequence) VALUES (?, ?)";
             PreparedStatement sequenceStm = connection.prepareStatement(sequenceSql);
             sequenceStm.setInt(1, lessonId);

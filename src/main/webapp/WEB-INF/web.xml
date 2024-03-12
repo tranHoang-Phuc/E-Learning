@@ -168,6 +168,10 @@
         <servlet-name>QuizResultController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.QuizResultController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Question</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.QuestionController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CourseContentController</servlet-name>
         <url-pattern>/coursecontent</url-pattern>
@@ -335,6 +339,10 @@
     <servlet-mapping>
         <servlet-name>QuizResultController</servlet-name>
         <url-pattern>/quizresult</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Question</servlet-name>
+        <url-pattern>/dashboard/question</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
