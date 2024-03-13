@@ -31,7 +31,7 @@ public abstract class BaseRequiredActivationController extends BaseRequiredAutho
         if (!activated) {
             doGet(req, resp, user, isActivated, features, activated);
         } else {
-            //req.getRequestDispatcher("").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/dashboard/courseNotifi");
         }
     }
 
@@ -42,7 +42,7 @@ public abstract class BaseRequiredActivationController extends BaseRequiredAutho
         if (!activated) {
             doPost(req, resp, user, isActivated, features, activated);
         } else {
-            //req.getRequestDispatcher("").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/dashboard/courseNotifi");
         }
     }
 

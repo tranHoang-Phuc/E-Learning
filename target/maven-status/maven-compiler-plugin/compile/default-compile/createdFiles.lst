@@ -32,6 +32,7 @@ com\fpt\swp391_onlinelearning\controller\DashboardNavigatorController.class
 com\fpt\swp391_onlinelearning\dto\FeatureDTO.class
 com\fpt\swp391_onlinelearning\controller\RegisterController.class
 com\fpt\swp391_onlinelearning\dto\CourseDTO.class
+com\fpt\swp391_onlinelearning\controller\CourseUnavailableNotificationController.class
 com\fpt\swp391_onlinelearning\model\TempEnrollment.class
 com\fpt\swp391_onlinelearning\dal\idal\ILessonDAO.class
 com\fpt\swp391_onlinelearning\model\LessonType.class
@@ -81,6 +82,7 @@ com\fpt\swp391_onlinelearning\controller\DashboardController.class
 com\fpt\swp391_onlinelearning\service\iservice\ISettingListService.class
 com\fpt\swp391_onlinelearning\service\iservice\ISliderService.class
 com\fpt\swp391_onlinelearning\util\EmailUtil.class
+com\fpt\swp391_onlinelearning\controller\AddedCoursesController.class
 com\fpt\swp391_onlinelearning\dal\QuestionDAO.class
 com\fpt\swp391_onlinelearning\service\BlogViewService.class
 com\fpt\swp391_onlinelearning\service\CourseService.class

@@ -52,12 +52,12 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
 
     @Override
     public boolean update(CourseDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return _iDao.update(Converter.toDomain1(t));
     }
 
     @Override
     public boolean insert(CourseDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return _iDao.insert(Converter.toDomain1(t));
     }
 
     @Override

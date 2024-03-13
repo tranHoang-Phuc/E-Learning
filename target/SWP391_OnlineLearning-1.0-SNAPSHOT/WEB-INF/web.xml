@@ -12,6 +12,22 @@
         <servlet-name>CourseContentController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.CourseContentController</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>CourseUnavailableNotificationController</servlet-name>
+        <url-pattern>/dashboard/courseNotifi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddedCourseController</servlet-name>
+        <url-pattern>/dashboard/addedCourse</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddedCourseController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.AddedCoursesController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CourseUnavailableNotificationController</servlet-name>
+        <servlet-class>com.fpt.swp391_onlinelearning.controller.CourseUnavailableNotificationController</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>CourseDetailDashboardController</servlet-name>
         <servlet-class>com.fpt.swp391_onlinelearning.controller.CourseDetailDashboardController</servlet-class>

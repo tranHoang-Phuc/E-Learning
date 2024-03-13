@@ -64,7 +64,7 @@ import java.util.List;
  * @author tran Hoang Phuc
  */
 public class Converter {
-    
+
     public static AccountDTO toDTO(Account account) {
         AccountDTO accountDTO = new AccountDTO();
         if (account != null) {
@@ -552,10 +552,10 @@ public class Converter {
             UserDTO userDTO = toUserDTO(blog.getAuthor());
             blogDTO.setAuthor(userDTO);
         }
-        if(blog.getImg()!=null){
-        blogDTO.setImg(blog.getImg());
+        if (blog.getImg() != null) {
+            blogDTO.setImg(blog.getImg());
         }
-        if(blog.isIsActivated()==true){
+        if (blog.isIsActivated() == true) {
             blogDTO.setIsActivated(blog.isIsActivated());
         }
         blogDTO.setImg(blog.getImg());
@@ -657,7 +657,7 @@ public class Converter {
         dto.setAcc(accountDTO);
         return dto;
     }
-    
+
     public static CourseDTO toDto4(Course course) {
         CourseDTO dto = new CourseDTO();
         dto.setCourseId(course.getCourseId());
@@ -665,35 +665,35 @@ public class Converter {
         dto.setDescription(course.getDescription());
         dto.setImg(course.getImg());
         dto.setPrice(course.getPrice());
-        
+
         CourseCategoryDTO categoryDTO = new CourseCategoryDTO();
         categoryDTO.setCourseCategoryId(course.getCategory().getCourseCategoryId());
         categoryDTO.setName(course.getCategory().getName());
         dto.setCategory(categoryDTO);
-        
+
         UserDTO u = new UserDTO();
         u.setUserId(course.getAuthor().getUserId());
         u.setName(course.getAuthor().getName());
         dto.setAuthor(u);
-        
+
         LevelDTO l = new LevelDTO();
         l.setLevelId(course.getLevel().getLevelId());
         l.setName(course.getLevel().getName());
         dto.setLevel(l);
-        
+
         DurationDTO d = new DurationDTO();
         d.setDurationId(course.getDuration().getDurationId());
         d.setName(course.getDuration().getName());
         dto.setDuration(d);
-        
+
         LanguageDTO la = new LanguageDTO();
         la.setLanguageId(course.getLevel().getLevelId());
         la.setName(course.getLevel().getName());
         dto.setLanguage(la);
-        
+
         return dto;
     }
-    
+
     public static UserDTO toDTO1(User user) {
         UserDTO userDTO = new UserDTO();
         AccountDTO accountDTO = new AccountDTO();
@@ -742,7 +742,7 @@ public class Converter {
         ddto.setName(course.getDuration().getName());
         cdto.setDuration(ddto);
         cdto.setPrice(course.getPrice());
-        
+
         return cdto;
     }
 
@@ -760,22 +760,23 @@ public class Converter {
 
         return courseRegistrationDTO;
     }
-    
-    public static CourseRegistrationDTO toDTO2(CourseRegistration courseRegisteration){
+
+    public static CourseRegistrationDTO toDTO2(CourseRegistration courseRegisteration) {
         CourseRegistrationDTO courseRegisterationDTO = new CourseRegistrationDTO();
         courseRegisteration.setCourseRegisterationId(courseRegisteration.getCourseRegisterationId());
-        
+
         UserDTO udto = Converter.toDTO(courseRegisteration.getUser());
         courseRegisterationDTO.setUser(udto);
-        
+
         CourseDTO cdto = Converter.toDTO4(courseRegisteration.getCourse());
         courseRegisterationDTO.setCourse(cdto);
-        
+
         courseRegisterationDTO.setCreatedTime(courseRegisteration.getCreatedTime());
-        
+
         return courseRegisterationDTO;
-              
+
     }
+
     public static CourseRegistrationDTO toDto2(CourseRegistration registeration) {
         CourseRegistrationDTO courseRegisterationDTO = new CourseRegistrationDTO();
         CourseDTO courseDTO = new CourseDTO();
@@ -785,7 +786,7 @@ public class Converter {
         courseRegisterationDTO.setCourse(courseDTO);
         UserDTO user = new UserDTO();
         user.setUserId(registeration.getUser().getUserId());
-        AccountDTO adto= new AccountDTO();
+        AccountDTO adto = new AccountDTO();
         adto.setEmail(registeration.getUser().getAccount().getEmail());
         user.setAccount(adto);
         courseRegisterationDTO.setUser(user);
@@ -793,47 +794,45 @@ public class Converter {
         courseRegisterationDTO.setCreatedTime(registeration.getCreatedTime());
         return courseRegisterationDTO;
     }
-    public static UserDTO toDTO2(User u)
-    {
-        UserDTO udto= new UserDTO();
-        
-        AccountDTO adto= new AccountDTO();
+
+    public static UserDTO toDTO2(User u) {
+        UserDTO udto = new UserDTO();
+
+        AccountDTO adto = new AccountDTO();
         adto.setAccId(u.getAccount().getAccId());
         adto.setEmail(u.getAccount().getEmail());
         adto.setCreatedTime(u.getAccount().getCreatedTime());
         adto.setRegisteredTime(u.getAccount().getRegisteredTime());
-        
+
         udto.setAccount(adto);
         udto.setName(u.getName());
-        
+
         return udto;
     }
-    public static CourseRegistrationDTO toTrendCourseDTO(CourseRegistration c)
-    {
-        CourseDTO cdto= new CourseDTO();
+
+    public static CourseRegistrationDTO toTrendCourseDTO(CourseRegistration c) {
+        CourseDTO cdto = new CourseDTO();
         cdto.setCourseId(c.getCourse().getCourseId());
         cdto.setName(c.getCourse().getName());
-        CourseRegistrationDTO crdto= new CourseRegistrationDTO();
+        CourseRegistrationDTO crdto = new CourseRegistrationDTO();
         crdto.setCourse(cdto);
         return crdto;
     }
-    
-    public static BlogViewDTO toDTO(BlogView bv)
-    {
-        BlogViewDTO bvdto= new BlogViewDTO();
-        BlogDTO bdto= new BlogDTO();
+
+    public static BlogViewDTO toDTO(BlogView bv) {
+        BlogViewDTO bvdto = new BlogViewDTO();
+        BlogDTO bdto = new BlogDTO();
         bdto.setTitle(bv.getBlog().getTitle());
         bdto.setBlogId(bv.getBlog().getBlogId());
         bvdto.setBlog(bdto);
         return bvdto;
     }
-    public static BlogView toDomain(BlogViewDTO bvdto)
-    {
-        BlogView bv= new BlogView();
-        Blog b= new Blog();
+
+    public static BlogView toDomain(BlogViewDTO bvdto) {
+        BlogView bv = new BlogView();
+        Blog b = new Blog();
         b.setBlogId(bvdto.getBlog().getBlogId());
-        if(bvdto.getUser()!=null)
-        {
+        if (bvdto.getUser() != null) {
             User u = new User();
             u.setUserId(bvdto.getUser().getUserId());
             bv.setUser(u);
@@ -841,8 +840,9 @@ public class Converter {
         bv.setBlog(b);
         bv.setViewTime(bvdto.getViewTime());
         return bv;
-                
+
     }
+
     public static PostDTO toDto4(Post post) {
         PostDTO dTO = new PostDTO();
         dTO.setPostId(post.getPostId());
@@ -962,6 +962,7 @@ public class Converter {
         post.setPostCategory(postCategory);
         return post;
     }
+
     public static Post toPostInserteDomain(PostDTO postDTO) {
         Post post = new Post();
         post.setTitle(postDTO.getTitle());
@@ -973,7 +974,7 @@ public class Converter {
         post.setPostCategory(postCategory);
         return post;
     }
-    
+
     public static ChapterDTO toDto(Chapter chapter) {
         ChapterDTO dto = new ChapterDTO();
         dto.setChapterId(chapter.getChapterId());
@@ -981,17 +982,17 @@ public class Converter {
         dto.setSequence(chapter.getSequence());
         return dto;
     }
-    
+
     public static LessonDTO toDto(Lesson lesson) {
         LessonDTO dto = new LessonDTO();
         dto.setLessonId(lesson.getLessonId());
         dto.setName(lesson.getName());
         dto.setContent(lesson.getContent());
-        
+
         LessonTypeDTO lt = new LessonTypeDTO();
         lt.setTypeId(lesson.getType().getTypeId());
         dto.setType(lt);
-        
+
         dto.setDuration(lesson.getDuration());
         ChapterDTO c = new ChapterDTO();
         c.setName(lesson.getChapter().getName());
@@ -1000,21 +1001,22 @@ public class Converter {
         dto.setSequence(lesson.getSequence());
         return dto;
     }
-    
+
     public static UserLessonDTO toDto(UserLesson ul) {
         UserLessonDTO dto = new UserLessonDTO();
         LessonDTO l = toDto(ul.getLesson());
         dto.setLesson(l);
-        
+
         UserDTO udto = new UserDTO();
         udto.setUserId(ul.getUser().getUserId());
         dto.setUser(udto);
-        
+
         dto.setUserLessonId(ul.getUserLessonId());
         dto.setFinish(ul.isFinish());
         return dto;
     }
-     //Tien viet
+    //Tien viet
+
     public static Setting toDomain(SettingDTO dto) {
         Setting domain = new Setting();
         domain.setName(dto.getName());
@@ -1026,6 +1028,7 @@ public class Converter {
         domain.setStatus(dto.isStatus());
         return domain;
     }
+
     //Tien viet
     public static SettingTypeDTO toDTO(SettingType set) {
         SettingTypeDTO roleDTO = new SettingTypeDTO();
@@ -1034,6 +1037,7 @@ public class Converter {
 
         return roleDTO;
     }
+
     //MTien viet
     public static List<SettingTypeDTO> toSettingTypeDTO(List<SettingType> role) {
         List<SettingTypeDTO> roledtos = new ArrayList<>();
@@ -1044,11 +1048,12 @@ public class Converter {
         }
         return roledtos;
     }
+
     //MTien viet
     public static SettingDTO toDTO(Setting set) {
         SettingDTO roleDTO = new SettingDTO();
         roleDTO.setName(set.getName());
-        
+
         SettingTypeDTO st = new SettingTypeDTO();
         st.setTypeid(set.getType().getTypeid());
         st.setName(set.getType().getName());
@@ -1057,6 +1062,7 @@ public class Converter {
         roleDTO.setStatus(set.isStatus());
         return roleDTO;
     }
+
     //MTien viet
     public static List<SettingDTO> toSettingDTO(List<Setting> role) {
         List<SettingDTO> roledtos = new ArrayList<>();
@@ -1067,6 +1073,7 @@ public class Converter {
         }
         return roledtos;
     }
+
     //MTien viet
     public static List<RoleDTO> toRoleDTO(List<Role> role) {
         List<RoleDTO> roledtos = new ArrayList<>();
@@ -1077,7 +1084,7 @@ public class Converter {
         }
         return roledtos;
     }
-    
+
     public static Account toDomain1(AccountDTO dto) {
         Account domain = new Account();
         domain.setAccId(dto.getAccId());
@@ -1088,7 +1095,7 @@ public class Converter {
         domain.setRole(role);
         return domain;
     }
-    
+
     //MTien viet
     public static Account toDomain2(AccountDTO dto) {
         Account domain = new Account();
@@ -1096,12 +1103,13 @@ public class Converter {
         domain.setEmail(dto.getEmail());
         domain.setIsActivated(dto.getIsActivated());
         domain.setOtp(dto.getOtp());
-        
+
         Role role = new Role();
         role.setRoleId(dto.getRole().getRoleId());
         domain.setRole(role);
         return domain;
     }
+
     //MTien viet
     public static UserDTO toDTOTien(User user) {
         UserDTO userDTO = new UserDTO();
@@ -1128,15 +1136,16 @@ public class Converter {
 
         return userDTO;
     }
+
     //MTien viet
     public static UserDTO toDTOTien1(User user) {
         UserDTO userDTO = new UserDTO();
 
-        
         userDTO.setPhone(user.getPhone());
-        
+
         return userDTO;
     }
+
     //MTien viet
     public static List<UserDTO> usertoDTO(List<User> user) {
         List<UserDTO> userdtos = new ArrayList<>();
@@ -1148,8 +1157,9 @@ public class Converter {
 
         return userdtos;
     }
+
     //MTien viet
-        public static User toDomain2(UserDTO udto) {
+    public static User toDomain2(UserDTO udto) {
         User u = new User();
 
         u.setUserId(udto.getUserId());
@@ -1175,30 +1185,30 @@ public class Converter {
     }
 
     public static CourseRegistrationDTO toDTO3(CourseRegistration cr) {
-        CourseRegistrationDTO crdto= new CourseRegistrationDTO();
-        CourseDTO cdto= new CourseDTO();
+        CourseRegistrationDTO crdto = new CourseRegistrationDTO();
+        CourseDTO cdto = new CourseDTO();
         cdto.setCourseId(cr.getCourse().getCourseId());
         cdto.setName(cr.getCourse().getName());
         cdto.setImg(cr.getCourse().getImg());
-        CourseCategoryDTO ccdto= new CourseCategoryDTO();
+        CourseCategoryDTO ccdto = new CourseCategoryDTO();
         ccdto.setCourseCategoryId(cr.getCourse().getCategory().getCourseCategoryId());
         ccdto.setName(cr.getCourse().getCategory().getName());
         cdto.setCategory(ccdto);
-        UserDTO udto= new UserDTO();
+        UserDTO udto = new UserDTO();
         udto.setUserId(cr.getUser().getUserId());
         crdto.setCourse(cdto);
         crdto.setUser(udto);
-                
+
         return crdto;
     }
-    
+
     public static CourseDTO toDTOTemp(Course c) {
         CourseDTO dto = new CourseDTO();
         dto.setCourseId(c.getCourseId());
         dto.setPrice(c.getPrice());
         return dto;
     }
-    
+
     public static List<CourseDTO> toDTOTemp(List<Course> courses) {
         List<CourseDTO> dtos = new ArrayList<>();
         for (Course course : courses) {
@@ -1206,15 +1216,16 @@ public class Converter {
         }
         return dtos;
     }
-    
+
     public static LessonTypeDTO toDto(LessonType lt) {
         LessonTypeDTO dto = new LessonTypeDTO();
         dto.setTypeId(lt.getTypeId());
         dto.setName(lt.getName());
         return dto;
     }
-    public static Blog toBlogDomain(BlogDTO blogDTO){
-        Blog blog=new Blog();
+
+    public static Blog toBlogDomain(BlogDTO blogDTO) {
+        Blog blog = new Blog();
         blog.setBlogId(blogDTO.getBlogId());
         BlogCategory bc = new BlogCategory();
         bc.setBlogCategoryId(blogDTO.getCategory().getBlogCategoryId());
@@ -1225,8 +1236,9 @@ public class Converter {
         blog.setTitle(blogDTO.getTitle());
         return blog;
     }
-    public static Blog toBlogDomain1(BlogDTO blogDTO){
-        Blog blog=new Blog();
+
+    public static Blog toBlogDomain1(BlogDTO blogDTO) {
+        Blog blog = new Blog();
         BlogCategory bc = new BlogCategory();
         bc.setBlogCategoryId(blogDTO.getCategory().getBlogCategoryId());
         blog.setCategory(bc);
@@ -1235,99 +1247,132 @@ public class Converter {
         blog.setQuickReview(blogDTO.getQuickReview());
         blog.setTitle(blogDTO.getTitle());
         blog.setCreatedTime(blogDTO.getCreatedTime());
-        User user= new User();
+        User user = new User();
         user.setUserId(blogDTO.getAuthor().getUserId());
         blog.setAuthor(user);
         blog.setIsActivated(false);
         return blog;
     }
-    
-    
-    public static QuestionDTO toDTO(Question q)
-    {
-        QuestionDTO qdto= new QuestionDTO();
+
+    public static QuestionDTO toDTO(Question q) {
+        QuestionDTO qdto = new QuestionDTO();
         qdto.setQuestionId(q.getQuestionId());
         qdto.setContent(q.getContent());
-        LessonDTO ldto= new LessonDTO();
+        LessonDTO ldto = new LessonDTO();
         ldto.setLessonId(q.getLesson().getLessonId());
         qdto.setLesson(ldto);
-        
+
         return qdto;
     }
-    
-    public static AnswerDTO toDTO(Answer a)
-    {
-        AnswerDTO adto= new AnswerDTO();
+
+    public static AnswerDTO toDTO(Answer a) {
+        AnswerDTO adto = new AnswerDTO();
         adto.setAnswerId(a.getAnswerId());
         adto.setContent(a.getContent());
         adto.setIsTrue(a.isIsTrue());
-        QuestionDTO qdto= new QuestionDTO();
+        QuestionDTO qdto = new QuestionDTO();
         qdto.setQuestionId(a.getQuestion().getQuestionId());
         adto.setQuestion(qdto);
-        
+
         return adto;
     }
-    
-    public static TempQuiz toDomain(TempQuizDTO tqdto)
-    {
-        TempQuiz t= new TempQuiz();
+
+    public static TempQuiz toDomain(TempQuizDTO tqdto) {
+        TempQuiz t = new TempQuiz();
         t.setTempId(tqdto.getTempId());
         t.setResult(tqdto.getResult());
-        Lesson l= new Lesson();
+        Lesson l = new Lesson();
         l.setLessonId(tqdto.getLesson().getLessonId());
         t.setLesson(l);
-        User u= new User();
+        User u = new User();
         u.setUserId(tqdto.getUser().getUserId());
         t.setUser(u);
         return t;
     }
-    public static TempQuizDTO toDTO(TempQuiz t)
-    {
+
+    public static TempQuizDTO toDTO(TempQuiz t) {
         TempQuizDTO quiz = new TempQuizDTO();
         quiz.setTempId(t.getTempId());
         quiz.setResult(t.getResult());
-        LessonDTO l= new LessonDTO();
+        LessonDTO l = new LessonDTO();
         l.setLessonId(t.getLesson().getLessonId());
         quiz.setLesson(l);
-        UserDTO u= new UserDTO();
+        UserDTO u = new UserDTO();
         u.setUserId(t.getUser().getUserId());
         quiz.setUser(u);
         return quiz;
     }
-    public static Answer toDomain(AnswerDTO adto)
-    {
+
+    public static Answer toDomain(AnswerDTO adto) {
         Answer a = new Answer();
         a.setAnswerId(adto.getAnswerId());
-        
+
         return a;
     }
-    public static TempQuiz toDomain2(TempQuizDTO tqdto)
-    {
-        TempQuiz t= new TempQuiz();
+
+    public static TempQuiz toDomain2(TempQuizDTO tqdto) {
+        TempQuiz t = new TempQuiz();
         t.setTempId(tqdto.getTempId());
-        
+
         return t;
     }
-    public static TempQuiz toDomain3(TempQuizDTO tqdto)
-    {
-        TempQuiz t= new TempQuiz();
+
+    public static TempQuiz toDomain3(TempQuizDTO tqdto) {
+        TempQuiz t = new TempQuiz();
         t.setTempId(tqdto.getTempId());
         t.setResult(tqdto.getResult());
-        
+
         return t;
     }
+
     public static UserLessonDTO toDto2(UserLesson ul) {
         UserLessonDTO dto = new UserLessonDTO();
         LessonDTO l = new LessonDTO();
         l.setLessonId(ul.getLesson().getLessonId());
         dto.setLesson(l);
-        
+
         UserDTO udto = new UserDTO();
         udto.setUserId(ul.getUser().getUserId());
         dto.setUser(udto);
-        
+
         dto.setUserLessonId(ul.getUserLessonId());
         dto.setFinish(ul.isFinish());
         return dto;
     }
+
+    public static Course toDomain1(CourseDTO courseDTO) {
+        Course course = new Course();
+        course.setName(courseDTO.getName());
+        if (courseDTO.getCourseId() != -1) {
+            course.setCourseId(courseDTO.getCourseId());
+        }
+        CourseCategory category = new CourseCategory();
+        category.setCourseCategoryId(courseDTO.getCategory().getCourseCategoryId());
+
+        course.setPrice(courseDTO.getPrice());
+
+        Level level = new Level();
+        level.setLevelId(courseDTO.getLevel().getLevelId());
+
+        Duration duration = new Duration();
+        duration.setDurationId(courseDTO.getDuration().getDurationId());
+
+        User u = new User();
+        u.setUserId(courseDTO.getAuthor().getUserId());
+
+        Language language = new Language();
+        language.setLanguageId(courseDTO.getLanguage().getLanguageId());
+
+        course.setCategory(category);
+        course.setDuration(duration);
+        course.setLevel(level);
+        course.setAuthor(u);
+        course.setLanguage(language);
+        course.setDescription(courseDTO.getDescription());
+        course.setImg(courseDTO.getImg());
+        course.setCreatedTime(courseDTO.getCreatedTime());
+        course.setIsActivated(courseDTO.isIsActivated());
+        return course;
+    }
+
 }

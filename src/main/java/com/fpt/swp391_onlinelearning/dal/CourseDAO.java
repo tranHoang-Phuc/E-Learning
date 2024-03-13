@@ -140,12 +140,63 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
 
     @Override
     public boolean update(Course t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println(t.getCourseId());
+        Connection connection = DBContext.getConnection();
+        String sql = "UPDATE course\n"
+                + "SET `name` = ?, courseCategoryId = ?, price = ?, levelId = ?, \n"
+                + "durationId = ?, authorId = ?, languageId = ?, `description` = ? ";
+        if (t.getImg() != null) {
+            sql += ", img = ? ";
+        }
+        sql += "WHERE courseId = ?;";
+        PreparedStatement stm;
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, t.getName());
+            stm.setInt(2, t.getCategory().getCourseCategoryId());
+            stm.setLong(3, t.getPrice());
+            stm.setInt(4, t.getLevel().getLevelId());
+            stm.setInt(5, t.getDuration().getDurationId());
+            stm.setInt(6, t.getAuthor().getUserId());
+            stm.setInt(7, t.getLanguage().getLanguageId());
+            stm.setString(8, t.getDescription());
+            if (t.getImg() != null) {
+                stm.setString(9, t.getImg());
+                stm.setInt(10, t.getCourseId());
+            } else {
+                stm.setInt(9, t.getCourseId());
+            }
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     @Override
     public boolean insert(Course t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Connection connection = DBContext.getConnection();
+        String sql = "INSERT INTO course (`name`, courseCategoryId, price, levelId, durationId, authorId, languageId, `description`, img, createdTime, isActivated)\n"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,NOW(), 0)";
+        PreparedStatement stm;
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, t.getName());
+            stm.setInt(2, t.getCategory().getCourseCategoryId());
+            stm.setLong(3, t.getPrice());
+            stm.setInt(4, t.getLevel().getLevelId());
+            stm.setInt(5, t.getDuration().getDurationId());
+            stm.setInt(6, t.getAuthor().getUserId());
+            stm.setInt(7, t.getLanguage().getLanguageId());
+            stm.setString(8, t.getDescription());
+            stm.setString(9, t.getImg());
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     @Override
@@ -356,9 +407,11 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         }
         return course;
     }
+
     public static void main(String[] args) {
         System.out.println(new CourseDAO().getCourseDetail(10).isIsActivated());
     }
+
     @Override
     public Course getCourseDetail(int courseId) {
         Connection connection = DBContext.getConnection();
@@ -1024,5 +1077,5 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         }
         return false;
     }
-    
+
 }
