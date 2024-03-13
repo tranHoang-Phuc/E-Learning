@@ -314,6 +314,18 @@
                 border: 5px solid;
                 border-radius: 5px;
             }
+            .answered-question{
+                padding: 3px;
+                border: 1px solid;
+                border-radius: 5px;
+                background-color: #dedfe0;
+            }
+            .selected-answer-question{
+                padding: 3px;
+                border: 5px solid;
+                border-radius: 5px;
+                background-color: #dedfe0;
+            }
             a {
                 text-decoration: none; /* Loại bỏ gạch dưới mặc định của liên kết */
                 transition: text-decoration 0.3s; /* Tạo hiệu ứng chuyển động cho gạch dưới */
@@ -454,12 +466,23 @@
                         <c:forEach items="${requestScope.questionList}" var="q">
                             <c:set var="i" value="${i+1}"/>
                             <a href="quizlesson?courseId=${param.courseId}&lessonId=${param.lessonId}&tempId=${requestScope.tempId}&questionId=${q.questionId}" class="submitLink" onclick="showUrl(this)">
-                                <c:if test="${q.questionId eq questionId}">
-                                    <div class="selected-question">${i}</div>
-                                </c:if>
-                                <c:if test="${q.questionId ne questionId}">
-                                    <div class="quiz-navigation">${i}</div>
-                                </c:if>
+                                <c:forEach items="${requestScope.answerOfEachQuestion}" var="aq">
+                                    <c:if test="${aq.key.questionId eq q.questionId}">
+                                        <c:if test="${q.questionId eq questionId and aq.value.size()eq 0}">
+                                            <div class="selected-question">${i}</div>
+                                        </c:if>
+                                        <c:if test="${q.questionId eq questionId and aq.value.size()>0}">
+                                            <div class="selected-answer-question">${i}</div>
+                                        </c:if>
+                                        <c:if test="${q.questionId ne questionId and aq.value.size() eq 0}">
+                                            <div class="quiz-navigation">${i}</div>
+                                        </c:if>
+                                        <c:if test="${q.questionId ne questionId and aq.value.size()>0}">
+                                            <div class="answered-question">${i}</div>
+                                        </c:if>
+                                    </c:if>
+                                    
+                                </c:forEach>
                                 
                             </a>
                         </c:forEach>

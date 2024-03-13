@@ -18,4 +18,5 @@ public interface ITempQuizDAO {
     public TempQuiz getLastUserTempQuiz(int userId, int lessonId);
     public void updateResult(TempQuiz t);
     public List<TempQuiz> getTempQuizsByUserLesson(int userId, int lessonid);
+    public TempQuiz getTempQuizById(int tempId);
 }

@@ -73,6 +73,11 @@ public class TempQuizService implements ITempQuizService{
         }
         return tempQuizDTOs;
     }
+
+    @Override
+    public TempQuizDTO getTempQuizById(int tempId) {
+        return Converter.toDTO(_iTempQuizDAO.getTempQuizById(tempId));
+    }
     
     
 }

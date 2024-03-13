@@ -335,11 +335,11 @@
                         ${requestScope.l.content}
                     </div>
                 </c:if>
-                <c:if test="${requestScope.tempQuizList ne null}">
+                <c:if test="${requestScope.tempQuizList.size() > 0}">
                     <table border="1px" >
                         <thead>
                           <tr>
-                            <th>Attmept</th>
+                            <th>Attempt</th>
                             <th>State</th>
                             <th>Grade</th>
                             <th>Review</th>
@@ -376,6 +376,13 @@
                 </c:if>
                 <div class="status-button">
                     <c:if test="${requestScope.l.type.typeId eq 3 and requestScope.tempQuiz.result>=0 and not requestScope.userlesson.finish}">
+                        <form action="generatequiz" method="get">
+                            <input type="hidden" name="courseId" value="${param.courseId}">
+                            <input type="hidden" name="lessonId" value="${param.lessonId}">
+                            <button class="btn" type="submit" id="mark">Attempt quiz</button>
+                        </form>
+                    </c:if>
+                    <c:if test="${requestScope.tempQuizList.size() eq 0}">
                         <form action="generatequiz" method="get">
                             <input type="hidden" name="courseId" value="${param.courseId}">
                             <input type="hidden" name="lessonId" value="${param.lessonId}">

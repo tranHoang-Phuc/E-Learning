@@ -27,6 +27,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -67,6 +68,7 @@ public class DoQuizLessonController extends BaseRequiredEnrollmentController{
         int questionIndex= _iQuestionService.getIndexOfQuestion(qdto, attemptQuestionList);
         List<AnswerDTO> answerInTempQuestion= _iAnswerService.getAnswerInTemp(tempId, questionId);
         int numberOfTrueAnswer= _iAnswerService.numberOfTrueAnswer(questionId);
+        Map<QuestionDTO, List<AnswerDTO>> getAnswerOfEachQuestion= _iAnswerService.getNumOfAnswerInEachQuestion(tempId);
         
         req.setAttribute("courseId", courseId);
         req.setAttribute("questionId", questionId);
@@ -77,6 +79,7 @@ public class DoQuizLessonController extends BaseRequiredEnrollmentController{
         req.setAttribute("questionList", attemptQuestionList);
         req.setAttribute("answersQuestion", answerInTempQuestion);
         req.setAttribute("numOfAnswer", numberOfTrueAnswer);
+        req.setAttribute("answerOfEachQuestion", getAnswerOfEachQuestion);
         req.getRequestDispatcher("view/doQuiz.jsp").forward(req, resp);
     }
 

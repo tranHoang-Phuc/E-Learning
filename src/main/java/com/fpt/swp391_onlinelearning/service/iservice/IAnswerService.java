@@ -8,6 +8,7 @@ import com.fpt.swp391_onlinelearning.dto.AnswerDTO;
 import com.fpt.swp391_onlinelearning.dto.QuestionDTO;
 import com.fpt.swp391_onlinelearning.dto.TempQuizDTO;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -25,4 +26,6 @@ public interface IAnswerService {
     public float getTotalMark(int tempId, List<QuestionDTO> qdtos);
     public List<AnswerDTO> getTrueAnswerInQuestion(int questionId);
     public int trueAnswerInTemp(int tempId, List<QuestionDTO> qdtos);
+    public Map<QuestionDTO, List<AnswerDTO>> getNumOfAnswerInEachQuestion (int tempId);
+
 }

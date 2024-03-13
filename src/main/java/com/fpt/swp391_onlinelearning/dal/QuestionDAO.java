@@ -95,6 +95,8 @@ public class QuestionDAO implements IDAO<Question>, IQuestionDAO {
             return questionList;
         } catch (SQLException ex) {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return null;
     }
@@ -197,6 +199,35 @@ public class QuestionDAO implements IDAO<Question>, IQuestionDAO {
         }
 
         return questionId;
+    }
+
+    @Override
+    public List<Question> getQuestionByTempId(int tempId) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT q.questionId,q.content,q.lessonId\n"
+                + "FROM question q, tempquestion tq\n"
+                + "WHERE q.questionId=tq.questionId AND tq.tempId=?";
+        List<Question> questionList = new ArrayList<>();
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, tempId);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Question q = new Question();
+                q.setQuestionId(rs.getInt("questionId"));
+                q.setContent(rs.getString("content"));
+                Lesson l = new Lesson();
+                l.setLessonId(rs.getInt("lessonId"));
+                q.setLesson(l);
+                questionList.add(q);
+            }
+            return questionList;
+        } catch (SQLException ex) {
+            Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return null;
     }
 
 }

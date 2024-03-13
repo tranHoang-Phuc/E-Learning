@@ -44,9 +44,19 @@ public class GenerateQuizController extends BaseRequiredEnrollmentController {
         ldto.setLessonId(lessonId);
         tdto.setLesson(ldto);
         tdto.setUser(udto);
-        if(_itempQuizService.getLastUserTempQuiz(udto.getUserId(), lessonId).getResult()<0)
+        if(!_itempQuizService.getTempByUserLesson(courseId, lessonId).isEmpty())
         {
-            resp.sendRedirect("quizlesson?courseId="+courseId+"&lessonId="+lessonId+"&tempId="+_itempQuizService.getLastUserTempQuiz(udto.getUserId(), lessonId).getTempId());
+            if(_itempQuizService.getLastUserTempQuiz(udto.getUserId(), lessonId).getResult()<0)
+            {
+                resp.sendRedirect("quizlesson?courseId="+courseId+"&lessonId="+lessonId+"&tempId="+_itempQuizService.getLastUserTempQuiz(udto.getUserId(), lessonId).getTempId());
+            }
+            else
+            {
+                _itempQuizService.insertTempQuiz(tdto);
+                _itempQuizService.insertRandomTempQuestion(tdto, 4);
+                int tempId= _itempQuizService.getLastUserTempQuiz(udto.getUserId(), lessonId).getTempId();
+                resp.sendRedirect("quizlesson?courseId="+courseId+"&lessonId="+lessonId+"&tempId="+tempId);
+            }    
         }
         else
         {
@@ -54,7 +64,7 @@ public class GenerateQuizController extends BaseRequiredEnrollmentController {
             _itempQuizService.insertRandomTempQuestion(tdto, 4);
             int tempId= _itempQuizService.getLastUserTempQuiz(udto.getUserId(), lessonId).getTempId();
             resp.sendRedirect("quizlesson?courseId="+courseId+"&lessonId="+lessonId+"&tempId="+tempId);
-        }    
+        }
     }
 
     @Override

@@ -26,6 +26,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -66,9 +67,10 @@ public class ReviewQuizController extends BaseRequiredEnrollmentController {
         int questionIndex= _iQuestionService.getIndexOfQuestion(qdto, attemptQuestionList);
         List<AnswerDTO> answerInTempQuestion= _iAnswerService.getAnswerInTemp(tempId, questionId);
         List<AnswerDTO> trueAnswerList= _iAnswerService.getTrueAnswerInQuestion(questionId);
-        TempQuizDTO currentTempQuiz= _iTempQuizService.getLastUserTempQuiz(udto.getUserId(), lessonId);
+        TempQuizDTO currentTempQuiz= _iTempQuizService.getTempQuizById(tempId);
         int trueAnswersInTemp= _iAnswerService.trueAnswerInTemp(tempId, attemptQuestionList);
         int numberOfTrueAnswer= _iAnswerService.numberOfTrueAnswer(questionId);
+        Map<QuestionDTO, List<AnswerDTO>> getAnswerOfEachQuestion= _iAnswerService.getNumOfAnswerInEachQuestion(tempId);
         
         req.setAttribute("trueAnswers", trueAnswersInTemp);
         req.setAttribute("questionSize", attemptQuestionList.size());
@@ -83,6 +85,7 @@ public class ReviewQuizController extends BaseRequiredEnrollmentController {
         req.setAttribute("trueAnswerList", trueAnswerList);
         req.setAttribute("tempQuiz", currentTempQuiz);
         req.setAttribute("numOfAnswer", numberOfTrueAnswer);
+        req.setAttribute("answerOfEachQuestion", getAnswerOfEachQuestion);
         req.getRequestDispatcher("view/quizreview.jsp").forward(req, resp);
     }
 

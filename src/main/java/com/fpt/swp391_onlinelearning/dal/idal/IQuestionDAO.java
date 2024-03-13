@@ -20,4 +20,6 @@ public interface IQuestionDAO {
     public int insertQuestionAndGetId(String content, int lessonId);
     
     public void insertAnswers(List<String> answerContents, int questionId, List<Boolean> isTrueArray);
+    
+    public List<Question> getQuestionByTempId(int tempId);
 }

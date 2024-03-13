@@ -94,6 +94,8 @@ public class TempQuizDAO implements ITempQuizDAO {
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(TempQuizDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
     }
 
@@ -122,6 +124,8 @@ public class TempQuizDAO implements ITempQuizDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(TempQuizDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return null;
     }
@@ -140,6 +144,8 @@ public class TempQuizDAO implements ITempQuizDAO {
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(TempQuizDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
     }
 
@@ -171,6 +177,37 @@ public class TempQuizDAO implements ITempQuizDAO {
             return tempQuizs;
         } catch (SQLException ex) {
             Logger.getLogger(TempQuizDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
+        }
+        return null;
+    }
+
+    @Override
+    public TempQuiz getTempQuizById(int tempId) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT quiz.tempId,quiz.result,quiz.userId,quiz.lessonId\n"
+                + "FROM tempquiz AS quiz WHERE quiz.tempId =?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, tempId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                TempQuiz tq = new TempQuiz();
+                tq.setTempId(rs.getInt("tempId"));
+                tq.setResult(rs.getFloat("result"));
+                User u = new User();
+                u.setUserId(rs.getInt("userId"));
+                Lesson l = new Lesson();
+                l.setLessonId(rs.getInt("lessonId"));
+                tq.setLesson(l);
+                tq.setUser(u);
+                return tq;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TempQuizDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return null;
     }

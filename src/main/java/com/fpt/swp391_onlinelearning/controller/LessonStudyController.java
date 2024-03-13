@@ -80,12 +80,15 @@ public class LessonStudyController extends BaseRequiredEnrollmentController {
             req.getRequestDispatcher("view/lesson.jsp").forward(req, resp);
         } else {
             // chỗ này dispatcher sáng trang quizzes
-            TempQuizDTO tempQuizDTO= iTempQuizService.getLastUserTempQuiz(userDTO.getUserId(), lessonId);
             List<TempQuizDTO> tempQuizList= iTempQuizService.getTempByUserLesson(userDTO.getUserId(), lessonId);
+            if(!iTempQuizService.getTempByUserLesson(userDTO.getUserId(), lessonId).isEmpty())
+            {
+                TempQuizDTO tempQuizDTO= iTempQuizService.getLastUserTempQuiz(userDTO.getUserId(), lessonId);     
+                req.setAttribute("tempQuiz", tempQuizDTO);
+            }
             UserLessonDTO uldto= iUserLessonService.getByUserAndLesson(userDTO.getUserId(), lessonId);
             req.setAttribute("userlesson", uldto);
             req.setAttribute("tempQuizList", tempQuizList);
-            req.setAttribute("tempQuiz", tempQuizDTO);
             req.getRequestDispatcher("view/lesson.jsp").forward(req, resp);
         }
     }

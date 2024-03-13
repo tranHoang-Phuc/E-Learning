@@ -17,7 +17,9 @@ import com.fpt.swp391_onlinelearning.model.TempQuiz;
 import com.fpt.swp391_onlinelearning.service.iservice.IAnswerService;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -221,6 +223,20 @@ public class AnswerService implements IAnswerService{
             }
         }
         return count;
+    }
+
+    @Override
+    public Map<QuestionDTO, List<AnswerDTO>> getNumOfAnswerInEachQuestion(int tempId) {
+        Map<QuestionDTO, List<AnswerDTO>> numOfAnswer= new HashMap<>();
+        List<Question> questions= _iQuestionDAO.getQuestionByTempId(tempId);
+        for(Question q: questions)
+        {
+            QuestionDTO qdto= new QuestionDTO();
+            qdto= Converter.toDTO(q);
+            numOfAnswer.put(qdto, getAnswerInTemp(tempId, qdto.getQuestionId()));
+                    
+        }
+        return numOfAnswer;
     }
     
     

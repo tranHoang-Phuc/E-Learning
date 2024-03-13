@@ -17,4 +17,5 @@ public interface ITempQuizService {
     public TempQuizDTO getLastUserTempQuiz(int userId, int lessonId);
     public void updateResult(TempQuizDTO tqdto);
     public List<TempQuizDTO> getTempByUserLesson(int userId, int lessonId);
+    public TempQuizDTO getTempQuizById(int tempId);
 }

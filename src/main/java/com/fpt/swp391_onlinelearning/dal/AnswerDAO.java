@@ -66,6 +66,8 @@ public class AnswerDAO implements IAnswerDAO {
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(AnswerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
     }
 
@@ -82,6 +84,8 @@ public class AnswerDAO implements IAnswerDAO {
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(AnswerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
     }
 
@@ -111,6 +115,8 @@ public class AnswerDAO implements IAnswerDAO {
             return answerList;
         } catch (SQLException ex) {
             Logger.getLogger(AnswerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBContext.close(connection);
         }
         return null;
     }
