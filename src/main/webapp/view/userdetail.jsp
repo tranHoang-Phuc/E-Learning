@@ -477,9 +477,15 @@
                                                     <td>Role:</td>
                                                     <td>
                                                         <select id="roleid" name="roleid">
-                                                            <option value="${requestScope.user.account.role.roleId}" ${param.roleid eq requestScope.user.account.role.roleId ? 'selected' : ''}>${requestScope.user.account.role.name}</option>
+                                                            <option value="${requestScope.user.account.role.roleId}" ${param.roleid eq requestScope.user.account.role.roleId ? 'selected' : ''}>
+                                                                ${requestScope.user.account.role.name}
+                                                            </option>
                                                             <c:forEach items="${requestScope.role}" var="role">
-                                                                <option value="${role.roleId}" ${param.roleid eq requestScope.user.account.role.roleId ? 'selected' : ''}>${role.name}</option>
+                                                                <c:if test="${role.roleId ne requestScope.user.account.role.roleId}">
+                                                                    <option value="${role.roleId}" ${param.roleid eq role.roleId ? 'selected' : ''}>
+                                                                        ${role.name}
+                                                                    </option>
+                                                                </c:if>
                                                             </c:forEach>
                                                         </select>
                                                     </td>

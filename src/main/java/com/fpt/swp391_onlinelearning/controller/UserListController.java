@@ -93,33 +93,16 @@ public class UserListController extends BaseRequiredAuthorizationController {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp, AccountDTO user, boolean isActivated, Set<FeatureDTO> features) throws ServletException, IOException {
         //Xử lý phân trang
-        String info = req.getParameter("info");
-        int pagesize = 2;
+
         String action = req.getParameter("action");
-        String pageindex_raw = req.getParameter("page");
-        if (pageindex_raw == null || pageindex_raw.trim().length() == 0) {
-            pageindex_raw = "1";
-        }
-        int pageindex = Integer.parseInt(pageindex_raw);
 
-        String role_raw = req.getParameter("role");
-        if (role_raw == null || role_raw.trim().length() == 0) {
-            role_raw = "0";
-        }
-        int rolept = Integer.parseInt(role_raw);
+        String actionback = req.getParameter("actionback");
+        String roleback = req.getParameter("roleback");
+        String pageback = req.getParameter("pageback");
+        String statusback = req.getParameter("statusback");
 
-        String status_raw = req.getParameter("status");
-        if (status_raw == null || status_raw.length() == 0) {
-            status_raw = "0";
-        }
-        int status = Integer.parseInt(status_raw);
-
-        int total = _iUserService.getCount(info, rolept, status);
-        int totalpage = (total % pagesize == 0) ? total / pagesize : total / pagesize + 1;
-
-        List<UserDTO> u = _iUserService.getAllUser(pageindex, pagesize, info, rolept, status);
         List<RoleDTO> roles = _iRoleService.getAll();
-        req.setAttribute("users", u);
+
         req.setAttribute("role", roles);
 
         if (action != null && !action.isEmpty()) {
@@ -151,12 +134,13 @@ public class UserListController extends BaseRequiredAuthorizationController {
                     resp.sendRedirect(req.getContextPath() + "/dashboard/userList");
                 } else {
                     req.setAttribute("error", "Account was registered");
-                    resp.sendRedirect(req.getContextPath() + "/dashboard/userList");
+                    String redirectURL = req.getContextPath() + "/dashboard/userList?action=" + actionback + "&role=" + roleback + "&status=" + statusback + "&page=" + pageback + "&error=Account%20was%20registered";
+                    resp.sendRedirect(redirectURL);
+
                 }
-            }
-            else if (action.equals("block")) {
+            } else if (action.equals("block")) {
                 String roleblock_raw = req.getParameter("roleblock");
-                int roleblock = Integer.parseInt(roleblock_raw);         
+                int roleblock = Integer.parseInt(roleblock_raw);
                 _iUserService.blockAccountByRoleId(roleblock);
                 resp.sendRedirect(req.getContextPath() + "/dashboard/userList");
             }

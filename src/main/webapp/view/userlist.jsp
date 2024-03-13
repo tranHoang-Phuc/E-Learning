@@ -586,7 +586,10 @@
                         <form class="addenrollments" action="userList" method="post" id="registerd">
 
                             <table style="border: 1px solid " >
-
+                                <input type="hidden" name="actionback" value="${param.action}" /><br>
+                                <input type="hidden" name="roleback" value="${param.role}" /><br>
+                                <input type="hidden" name="pageback" value="${param.page}" /><br>
+                                <input type="hidden" name="statusback" value="${param.status}" /><br>
                                 <input type="hidden" name="action" value="add">
                                 <tr>
                                     <td>Full Name:</td>
@@ -640,7 +643,12 @@
                                     <td>
                                         <button type="button" onclick="checkBeforeSend()">ADD</button>
                                     </td>
-                                    <td><div style="color:red;" id="error">${requestScope.message}</div></td>
+                                    <td><div style="color:red;" id="error"><% 
+String error = request.getParameter("error"); 
+if (error != null) {
+out.println("<p>Error: " + error + "</p>");
+}
+                                            %></div></td>
                                 </tr>
                             </table>
                         </form>
