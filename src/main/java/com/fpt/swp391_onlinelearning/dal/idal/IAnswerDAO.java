@@ -18,4 +18,5 @@ public interface IAnswerDAO {
     public void insertQuizAnswer(Answer a, TempQuiz t);
     public void deleteRemainAnswer(Question q, TempQuiz t);
     public List<Answer> getAnswerInTemp(int tempId, int questionId);
+    public List<Answer>getAll(int lessonId);
 }

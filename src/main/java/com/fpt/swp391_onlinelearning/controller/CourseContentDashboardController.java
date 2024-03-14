@@ -5,18 +5,23 @@
 package com.fpt.swp391_onlinelearning.controller;
 
 import com.fpt.swp391_onlinelearning.baseController.BaseRequiredAuthorizationController;
+import com.fpt.swp391_onlinelearning.dal.AnswerDAO;
 import com.fpt.swp391_onlinelearning.dal.CourseDAO;
 import com.fpt.swp391_onlinelearning.dal.LessonDAO;
+import com.fpt.swp391_onlinelearning.dal.QuestionDAO;
 import com.fpt.swp391_onlinelearning.dal.UserDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
+import com.fpt.swp391_onlinelearning.dto.AnswerDTO;
 import com.fpt.swp391_onlinelearning.dto.ChapterDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
 import com.fpt.swp391_onlinelearning.dto.LessonDTO;
 import com.fpt.swp391_onlinelearning.dto.UserDTO;
+import com.fpt.swp391_onlinelearning.service.AnswerService;
 import com.fpt.swp391_onlinelearning.service.CourseService;
 import com.fpt.swp391_onlinelearning.service.LessonService;
 import com.fpt.swp391_onlinelearning.service.UserService;
+import com.fpt.swp391_onlinelearning.service.iservice.IAnswerService;
 import com.fpt.swp391_onlinelearning.service.iservice.ICourseService;
 import com.fpt.swp391_onlinelearning.service.iservice.ILessonService;
 import com.fpt.swp391_onlinelearning.service.iservice.IService;
@@ -39,13 +44,15 @@ public class CourseContentDashboardController extends BaseRequiredAuthorizationC
     private ILessonService iLessonService;
     private IUserService iUserService;
     private IService<LessonDTO> iService;
-
+private IAnswerService _iAnswerService;
     @Override
     public void init() throws ServletException {
         iCourseService = CourseService.getInstance(new CourseDAO(), new CourseDAO());
         iLessonService = LessonService.getInstance(new LessonDAO(), new LessonDAO());
         iUserService = UserService.getInstace(new UserDAO(), new UserDAO());
         iService = LessonService.getInstance(new LessonDAO(), new LessonDAO());
+                _iAnswerService = AnswerService.getInstance(new AnswerDAO(), new QuestionDAO(), new QuestionDAO());
+
     }
 
     @Override
@@ -64,7 +71,13 @@ public class CourseContentDashboardController extends BaseRequiredAuthorizationC
         } else {
             int lessonId = Integer.parseInt(req.getParameter("lessonId"));
             lessonDTO = iService.get(lessonId);
-            req.setAttribute("l", lessonDTO);
+            if (lessonDTO.getType().getTypeId() == 3) {
+                List<AnswerDTO> a = _iAnswerService.getAll(lessonId);
+                req.setAttribute("answer", a);
+                req.setAttribute("l", lessonDTO);
+            } else {
+                req.setAttribute("l", lessonDTO);
+            }
         }
         CourseDTO cdto = iCourseService.getCourseDetail(courseId);
         req.setAttribute("lesson", lessons);

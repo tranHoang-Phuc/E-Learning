@@ -239,6 +239,11 @@ public class AnswerService implements IAnswerService{
         return numOfAnswer;
     }
     
+        @Override
+    public List<AnswerDTO> getAll(int lessonId) {
+        List<Answer> answer = _iAnswerDAO.getAll(lessonId);
+        return Converter.answertoDTO(answer);
+    }
     
 
     

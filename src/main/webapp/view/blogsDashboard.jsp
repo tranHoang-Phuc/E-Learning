@@ -483,22 +483,24 @@
                             <c:if test="${requestScope.roleId == 2}">
                                 <tr>
                                     <td style="padding: 0 10px 10px 10px;"><label for="title">Title:</label></td>
-                                    <td style="padding: 0 10px 10px 10px;"><input type="text" id="title" name="title" placeholder="Title" value="${requestScope.title}"></td>
+                                    <td style="padding: 0 10px 10px 10px;"><input type="text" id="title" style="width: 71%;" name="title" placeholder="Title" value="${requestScope.title}"></td>
                                     <td style="padding: 10px 10px;"><label for="blog_category">Category:</label></td>
-                                    <td style="padding: 10px 10px;"><select id="blog_category" name="blog_category">
+                                    <td style="padding: 10px 10px;"><select id="blog_category" name="blog_category" style="    width: 99%;">
                                             <option value="0" ${requestScope.blogCategory eq 0 ? "selected": ""}>All category </option>
                                             <c:forEach var="b" items="${requestScope.blogCategoryList}">
                                                 <option value="${b.blogCategoryId}" ${requestScope.blogCategory eq b.blogCategoryId ? "selected": ""}>${b.name}</option>
                                             </c:forEach>
                                         </select></td>
+                                        <td></td>
                                 </tr>
                                 <tr>
                                     <td style="padding: 10px 10px;"><label for="date_from">Date From:</label></td>
                                     <td style="padding: 10px 10px;"><input type="date" id="date_from" name="date_from" value="${requestScope.dateFrom}"></td>
                                     <td style="padding: 10px 10px;"><label for="date_to">Date To:</label></td>
                                     <td style="padding: 10px 10px;"><input type="date" id="date_to" name="date_to" value="${requestScope.dateTo}">
-                                        <button type="submit" style="color:white; background-color: black;margin-bottom: 0;
-                                                height: 30px; margin-left: 2%; padding: 0px 5px;margin: 0 0 0 120px" class="fa fa-search text-primary"></button></td>
+                                        </td>
+                                <td><button type="submit" style="color:white; background-color: black;margin-bottom: 0;
+                                                height: 30px;; padding: 0px 5px;" class="fa fa-search text-primary"></button></td>
                                 </tr>
                                 </tbody>
                             </c:if>

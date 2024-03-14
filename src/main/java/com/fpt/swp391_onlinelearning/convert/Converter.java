@@ -1265,16 +1265,28 @@ public class Converter {
         return qdto;
     }
 
-    public static AnswerDTO toDTO(Answer a) {
-        AnswerDTO adto = new AnswerDTO();
+    public static AnswerDTO toDTO(Answer a)
+    {
+        AnswerDTO adto= new AnswerDTO();
         adto.setAnswerId(a.getAnswerId());
         adto.setContent(a.getContent());
         adto.setIsTrue(a.isIsTrue());
-        QuestionDTO qdto = new QuestionDTO();
+        QuestionDTO qdto= new QuestionDTO();
         qdto.setQuestionId(a.getQuestion().getQuestionId());
+        qdto.setContent(a.getQuestion().getContent());
         adto.setQuestion(qdto);
-
+        
         return adto;
+    }
+    public static List<AnswerDTO> answertoDTO(List<Answer> answer) {
+        List<AnswerDTO> answerdtos = new ArrayList<>();
+
+        for (int i = 0; i < answer.size(); i++) {
+            AnswerDTO cdto = toDTO(answer.get(i));
+            answerdtos.add(cdto);
+        }
+
+        return answerdtos;
     }
 
     public static TempQuiz toDomain(TempQuizDTO tqdto) {

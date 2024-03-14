@@ -27,5 +27,5 @@ public interface IAnswerService {
     public List<AnswerDTO> getTrueAnswerInQuestion(int questionId);
     public int trueAnswerInTemp(int tempId, List<QuestionDTO> qdtos);
     public Map<QuestionDTO, List<AnswerDTO>> getNumOfAnswerInEachQuestion (int tempId);
-
+    public List<AnswerDTO>getAll(int lessonId);
 }

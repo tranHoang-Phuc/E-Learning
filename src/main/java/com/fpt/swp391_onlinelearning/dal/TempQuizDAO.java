@@ -31,7 +31,7 @@ public class TempQuizDAO implements ITempQuizDAO {
             
             connection.setAutoCommit(false);
             
-            String numQuestSql = "SELECT COUNT(*) AS num FROM question where lessonId = ?";
+            String numQuestSql = "SELECT COUNT(*) AS num FROM question where lessonId = ? and isActivated=true";
             PreparedStatement numQuestStm = connection.prepareStatement(numQuestSql);
             numQuestStm.setInt(1, quiz.getLesson().getLessonId());
             ResultSet rs = numQuestStm.executeQuery();
@@ -49,7 +49,7 @@ public class TempQuizDAO implements ITempQuizDAO {
                     + "FROM (\n"
                     + "    SELECT questionId\n"
                     + "    FROM question\n"
-                    + "    WHERE lessonId = ?\n"
+                    + "    WHERE lessonId = ? and isActivated=true\n"
                     + "    ORDER BY RAND()\n"
                     + "    LIMIT ?\n"
                     + ") AS q\n"

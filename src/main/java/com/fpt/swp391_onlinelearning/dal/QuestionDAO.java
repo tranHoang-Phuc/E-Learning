@@ -175,7 +175,7 @@ public class QuestionDAO implements IDAO<Question>, IQuestionDAO {
     @Override
     public int insertQuestionAndGetId(String content, int lessonId) {
         Connection connection = DBContext.getConnection();
-        String insertSql = "INSERT INTO question(content, lessonId) VALUES (?, ?)";
+        String insertSql = "INSERT INTO question(content, lessonId,isActived) VALUES (?, ?,1)";
         String selectSql = "SELECT @@IDENTITY";
         int questionId = -1;
         try {

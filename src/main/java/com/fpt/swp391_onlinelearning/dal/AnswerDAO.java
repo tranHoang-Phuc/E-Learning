@@ -120,5 +120,37 @@ public class AnswerDAO implements IAnswerDAO {
         }
         return null;
     }
+    @Override
+    public List<Answer> getAll(int lessonId) {
+        Connection connection = DBContext.getConnection();
+        String sql = "SELECT q.questionId, q.content AS questionContent, a.answerId, a.content AS answerContent, a.isTrue "
+                + "FROM question AS q "
+                + "LEFT JOIN answer AS a ON q.questionId = a.questionId "
+                + "WHERE q.lessonId = ? AND q.isActived =1";
+        List<Answer> answerList = new ArrayList<>();
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, lessonId);
 
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Answer a = new Answer();
+                a.setAnswerId(rs.getInt("answerId"));
+                a.setContent(rs.getString("answerContent"));
+                a.setIsTrue(rs.getBoolean("isTrue"));
+
+                Question q = new Question();
+                q.setQuestionId(rs.getInt("questionId"));
+                q.setContent(rs.getString("questionContent"));
+
+                a.setQuestion(q);
+
+                answerList.add(a);
+            }
+            return answerList;
+        } catch (SQLException ex) {
+            Logger.getLogger(AnswerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return answerList;
+    }
 }
