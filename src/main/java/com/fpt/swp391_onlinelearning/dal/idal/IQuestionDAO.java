@@ -7,6 +7,7 @@ package com.fpt.swp391_onlinelearning.dal.idal;
 import com.fpt.swp391_onlinelearning.model.Answer;
 import com.fpt.swp391_onlinelearning.model.Question;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -22,4 +23,7 @@ public interface IQuestionDAO {
     public void insertAnswers(List<String> answerContents, int questionId, List<Boolean> isTrueArray);
     
     public List<Question> getQuestionByTempId(int tempId);
+    
+    public Map<Question, List<Answer>> getAllQuestionByLesson(int lessonId);
+    public void deleteQuestion(int questionId);
 }

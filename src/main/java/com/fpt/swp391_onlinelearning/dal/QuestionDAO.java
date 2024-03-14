@@ -15,7 +15,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -107,7 +110,6 @@ public class QuestionDAO implements IDAO<Question>, IQuestionDAO {
         String sql = "SELECT a.answerId, q.questionId\n"
                 + "FROM answer AS a, question AS q\n"
                 + "WHERE a.questionId=q.questionId AND a.answerId=?";
-
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, a.getAnswerId());
@@ -175,11 +177,8 @@ public class QuestionDAO implements IDAO<Question>, IQuestionDAO {
         Connection connection = DBContext.getConnection();
         String insertSql = "INSERT INTO question(content, lessonId) VALUES (?, ?)";
         String selectSql = "SELECT @@IDENTITY";
-
         int questionId = -1;
-
         try {
-
             PreparedStatement insertStatement = connection.prepareStatement(insertSql);
             insertStatement.setString(1, content);
             insertStatement.setInt(2, lessonId);
@@ -229,5 +228,68 @@ public class QuestionDAO implements IDAO<Question>, IQuestionDAO {
         }
         return null;
     }
+
+    @Override
+    public Map<Question, List<Answer>> getAllQuestionByLesson(int lessonId) {
+        Connection connection = DBContext.getConnection();
+        Map<Question, List<Answer>> questionTest = new LinkedHashMap<>();
+        try {
+            String questionSql = "SELECT questionId, content FROM question WHERE lessonId = ? AND isActivated = true";
+            connection.setAutoCommit(false);
+            PreparedStatement questionStm = connection.prepareStatement(questionSql);
+            questionStm.setInt(1, lessonId);
+            ResultSet rs = questionStm.executeQuery();
+            while (rs.next()) {                
+                Question q = new Question();
+                q.setQuestionId(rs.getInt("questionId"));
+                q.setContent(rs.getString("content"));
+                
+                String answerSql = "SELECT content, isTrue FROM answer where questionId = ?";
+                PreparedStatement stm = connection.prepareStatement(answerSql);
+                stm.setInt(1, q.getQuestionId());
+                ResultSet rs1 = stm.executeQuery();
+                List<Answer> answers = new ArrayList<>();
+                while (rs1.next()) {                    
+                    Answer a = new Answer();
+                    a.setContent(rs1.getString("content"));
+                    a.setIsTrue(rs1.getBoolean("isTrue"));
+                    answers.add(a);
+                }
+                questionTest.put(q, answers);
+            }
+            connection.commit();
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            DBContext.close(connection);
+
+        }
+        return questionTest;
+    }
+
+    @Override
+    public void deleteQuestion(int questionId) {
+        Connection connection = DBContext.getConnection();
+        String sql = "UPDATE question SET isActivated = false WHERE questionId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, questionId);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
 
 }

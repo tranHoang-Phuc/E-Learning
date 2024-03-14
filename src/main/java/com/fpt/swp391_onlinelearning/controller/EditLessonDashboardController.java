@@ -12,11 +12,13 @@ import com.fpt.swp391_onlinelearning.dal.LessonDAO;
 import com.fpt.swp391_onlinelearning.dal.LessonTypeDAO;
 import com.fpt.swp391_onlinelearning.dal.QuestionDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
+import com.fpt.swp391_onlinelearning.dto.AnswerDTO;
 import com.fpt.swp391_onlinelearning.dto.ChapterDTO;
 import com.fpt.swp391_onlinelearning.dto.CourseDTO;
 import com.fpt.swp391_onlinelearning.dto.FeatureDTO;
 import com.fpt.swp391_onlinelearning.dto.LessonDTO;
 import com.fpt.swp391_onlinelearning.dto.LessonTypeDTO;
+import com.fpt.swp391_onlinelearning.dto.QuestionDTO;
 import com.fpt.swp391_onlinelearning.service.ChapterService;
 import com.fpt.swp391_onlinelearning.service.CourseService;
 import com.fpt.swp391_onlinelearning.service.LessonService;
@@ -160,27 +162,22 @@ public class EditLessonDashboardController extends BaseRequiredActivationControl
                 iLessonService.updateLessonSequece(lessonName, sequence, position,
                         chapterId, typeId, duration, "", currentLesson, index, lessonIds);
                 int totalIndex = Integer.parseInt(req.getParameter("numOfIndex"));
-
                 for (int i = 1; i <= totalIndex; i++) {
                     String question = req.getParameter("q" + i);
                     if (question != null) {
-                        resp.getWriter().println(question);
                         int indexAns = Integer.parseInt(req.getParameter("indexAns" + i));
                         List<String> answers = new ArrayList<>(); // Danh sách câu trả lời
                         List<Boolean> isTrueArray = new ArrayList<>();
                         for (int j = 1; j <= indexAns; j++) {
                             String answer = req.getParameter("q" + i + "-answer" + j);
                             String isTrue = req.getParameter("question" + i + "-" + j);
-                            resp.getWriter().println(isTrue);
                             if (answer != null) {
                                 answers.add(answer);
                                 isTrueArray.add(Boolean.valueOf(isTrue));
                             }
                         }
-
                         int recentId = _iQuestionService.insertQuestionAndGetId(question, lessonIds[0]);
                         _iQuestionService.insertAnswers(answers, recentId, isTrueArray);
-
                     }
                 }
             } else {
@@ -190,20 +187,17 @@ public class EditLessonDashboardController extends BaseRequiredActivationControl
                 for (int i = 1; i <= totalIndex; i++) {
                     String question = req.getParameter("q" + i);
                     if (question != null) {
-                        resp.getWriter().println(question);
                         int indexAns = Integer.parseInt(req.getParameter("indexAns" + i));
                         List<String> answers = new ArrayList<>(); // Danh sách câu trả lời
                         List<Boolean> isTrueArray = new ArrayList<>();
                         for (int j = 1; j <= indexAns; j++) {
                             String answer = req.getParameter("q" + i + "-answer" + j);
                             String isTrue = req.getParameter("question" + i + "-" + j);
-                            resp.getWriter().println(isTrue);
                             if (answer != null) {
                                 answers.add(answer);
                                 isTrueArray.add(Boolean.valueOf(isTrue));
                             }
                         }
-
                         int recentId = _iQuestionService.insertQuestionAndGetId(question, lessonIds[0]);
                         _iQuestionService.insertAnswers(answers, recentId, isTrueArray);
 
@@ -211,8 +205,15 @@ public class EditLessonDashboardController extends BaseRequiredActivationControl
                 }
 
             }
-
             resp.sendRedirect(req.getContextPath() + "/dashboard/editlesson?courseId=" + courseId);
+        } else if (action.equals("deleteQuiz")) {
+            String courseId = req.getParameter("courseId");
+            String lessonId = req.getParameter("lessonId");
+            String lst = req.getParameter("lst");
+            int questionId = Integer.parseInt(req.getParameter("idDelete"));
+            _iQuestionService.deleteQuestion(questionId);
+            resp.sendRedirect(req.getContextPath() + "/dashboard/editlesson?action=editLesson&courseId=" + courseId + "&lessonId=" +lessonId + "&lst=" +lst);
+
         }
     }
 
@@ -271,6 +272,12 @@ public class EditLessonDashboardController extends BaseRequiredActivationControl
                     req.setAttribute("courseId", courseId);
                     req.setAttribute("lesson", lesson);
                     req.getRequestDispatcher("../view/addArticleLesson.jsp").forward(req, resp);
+                    return;
+                }
+                if (lessonType == 3) {
+                    Map<QuestionDTO, List<AnswerDTO>> dtos = _iQuestionService.getQuestionByLesson(lessonId);
+                    req.setAttribute("map", dtos);
+                    req.getRequestDispatcher("../view/deleteQuiz.jsp").forward(req, resp);
                     return;
                 }
             }

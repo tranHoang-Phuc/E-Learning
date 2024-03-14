@@ -45,7 +45,7 @@ function displayQuestions(questions) {
         questionsList.innerHTML += `<div class="question-container question${indexQ}" style="margin-top:30px;">
                             <input type="hidden" value="${indexQ}" class="numOfQuesInside">
                             <input type="hidden" value="${questionObj.answers.length}" class="numOfAns">
-                            <input type="hidden" value="${questionObj.answers.length}" class="indexAns">
+                            <input type="hidden" value="${questionObj.answers.length}" class="indexAns" name="indexAns${indexQ}">
                             <div class="question-text" style="position: relative; display: flex">
                                 Question 1:
                                 <textarea style="width: 88%; margin:0 1.2% 1.5% 1%; border: none;" name="q${indexQ}">${questionObj.question}</textarea>
@@ -64,7 +64,7 @@ function displayQuestions(questions) {
         var currentAnswerIndex = 0;
         questionObj.answers.forEach(function (answer) {
             answerList.innerHTML += `<div style="display: flex" id="answerBox${indexQ}${currentAnswerIndex + 1}">
-                                    <td><input type="checkbox" name="question-${indexQ}" id="answer-${indexQ}-${currentAnswerIndex + 1}" ${questionObj.isTrue[currentAnswerIndex] ? "checked" : ""}>
+                                    <td><input type="checkbox" name="question${indexQ}-${currentAnswerIndex + 1}" id="answer-${indexQ}-${currentAnswerIndex + 1}" ${questionObj.isTrue[currentAnswerIndex] ? "checked" : ""}>
                                         <label for="answer-${indexQ}-${currentAnswerIndex + 1}" class="custom-checkbox"></label></td>
                                     <td style="width: 50%;"><div class="answer-box">
                                             <textarea style="width: 95%; margin:0 1.2% 0 1%; border: none;" name="q${indexQ}-answer${currentAnswerIndex + 1}">${answer}</textarea>

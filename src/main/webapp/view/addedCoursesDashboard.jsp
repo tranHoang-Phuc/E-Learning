@@ -399,7 +399,7 @@
                 margin-left: 10px;
                 line-height: 40px;
             }
-            
+
             * {
                 margin: 0;
                 padding: 0;
@@ -722,7 +722,7 @@
                 margin-left: 10px;
                 line-height: 40px;
             }
-            
+
         </style>
     </head>
     <body>
@@ -781,7 +781,7 @@
             </div>
             <div class="content">
                 <form action="addedCourse?action=${requestScope.action eq null ? "add": requestScope.action}" method="post" enctype="multipart/form-data" id="addCourse" >
-              
+
                     <input type="hidden" name="courseId" value="${requestScope.courseEdit.courseId}">
                     <div class="top" style="margin-top: 2%; display: flex;">
                         <div class="top-left" style="width: 30%;">
@@ -848,7 +848,7 @@
                     <div class="bottom" style="width: 90%; margin-left: 5.5%;">
                         <div>
                             <textarea id="content" cols="30" rows="30" style="width: 100%;" onclick="hideError()" name="content">    
-                            ${requestScope.content eq null? requestScope.courseEdit.description: requestScope.content}
+                                ${requestScope.content eq null? requestScope.courseEdit.description: requestScope.content}
                             </textarea><br>
                         </div>
                     </div>
@@ -861,7 +861,7 @@
 
                     </c:if>
                     <div style="margin-left: 5.5%; width: 48%">
-                        <button type="button" class="btn" onclick="sendForm()">Save</button>
+                        <button id="saveButton" type="button" class="btn" onclick="sendForm()">Save</button>
                     </div>
                 </form>
             </div>
@@ -874,8 +874,11 @@
                     window.location = "course";
                 }
             }
+            var mesString = document.getElementById("mesString");
+            if (mesString !== null) {
+               document.getElementById('saveButton').disabled = true;
+            }
             setTimeout('Redirect()', 3000);
-
 
             function goTo(url) {
                 window.location = url;

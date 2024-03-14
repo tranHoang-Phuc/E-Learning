@@ -101,8 +101,6 @@
                         <input type="hidden" name="courseId" value="${c.courseId}">
                         <c:set var="price" scope="page" value="${price + c.price}"/>
                     </c:forEach>
-                        ${pageScope.price}
-                        ${sessionScope.user.balance}
                     <c:if test="${pageScope.price > sessionScope.user.balance}">
                         <input type="hidden" name="amount" value="${pageScope.price - sessionScope.user.balance}">
                     </c:if>
