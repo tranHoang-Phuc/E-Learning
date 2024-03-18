@@ -64,7 +64,7 @@ function displayQuestions(questions) {
         var currentAnswerIndex = 0;
         questionObj.answers.forEach(function (answer) {
             answerList.innerHTML += `<div style="display: flex" id="answerBox${indexQ}${currentAnswerIndex + 1}">
-                                    <td><input type="checkbox" name="question${indexQ}-${currentAnswerIndex + 1}" id="answer-${indexQ}-${currentAnswerIndex + 1}" ${questionObj.isTrue[currentAnswerIndex] ? "checked" : ""}>
+                                    <td><input type="checkbox" name="question${indexQ}-${currentAnswerIndex + 1}" id="answer-${indexQ}-${currentAnswerIndex + 1}" ${questionObj.isTrue[currentAnswerIndex] ? "checked" : ""} value="true">
                                         <label for="answer-${indexQ}-${currentAnswerIndex + 1}" class="custom-checkbox"></label></td>
                                     <td style="width: 50%;"><div class="answer-box">
                                             <textarea style="width: 95%; margin:0 1.2% 0 1%; border: none;" name="q${indexQ}-answer${currentAnswerIndex + 1}">${answer}</textarea>

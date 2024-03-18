@@ -135,17 +135,17 @@ public class QuestionDAO implements IDAO<Question>, IQuestionDAO {
     public void insertAnswers(List<String> answerContents, int questionId, List<Boolean> isTrueArray) {
         Connection connection = DBContext.getConnection();
         String sql = "INSERT INTO answer(content, questionId, isTrue) VALUES (?, ?, ?)";
-
+        
         try {
-            PreparedStatement stm = connection.prepareStatement(sql);
             connection.setAutoCommit(false);
+            PreparedStatement stm = connection.prepareStatement(sql);
 
             // Lặp qua từng câu trả lời trong danh sách
             for (int i = 0; i < answerContents.size(); i++) {
                 // Thêm câu trả lời vào batch
                 stm.setString(1, answerContents.get(i));
                 stm.setInt(2, questionId);
-                stm.setBoolean(3, isTrueArray.get(i));
+                stm.setBoolean(3, isTrueArray.get(i).booleanValue());
                 stm.addBatch();
             }
 
@@ -175,7 +175,7 @@ public class QuestionDAO implements IDAO<Question>, IQuestionDAO {
     @Override
     public int insertQuestionAndGetId(String content, int lessonId) {
         Connection connection = DBContext.getConnection();
-        String insertSql = "INSERT INTO question(content, lessonId,isActived) VALUES (?, ?,1)";
+        String insertSql = "INSERT INTO question(content, lessonId,isActivated) VALUES (?, ?,1)";
         String selectSql = "SELECT @@IDENTITY";
         int questionId = -1;
         try {
@@ -239,17 +239,17 @@ public class QuestionDAO implements IDAO<Question>, IQuestionDAO {
             PreparedStatement questionStm = connection.prepareStatement(questionSql);
             questionStm.setInt(1, lessonId);
             ResultSet rs = questionStm.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 Question q = new Question();
                 q.setQuestionId(rs.getInt("questionId"));
                 q.setContent(rs.getString("content"));
-                
+
                 String answerSql = "SELECT content, isTrue FROM answer where questionId = ?";
                 PreparedStatement stm = connection.prepareStatement(answerSql);
                 stm.setInt(1, q.getQuestionId());
                 ResultSet rs1 = stm.executeQuery();
                 List<Answer> answers = new ArrayList<>();
-                while (rs1.next()) {                    
+                while (rs1.next()) {
                     Answer a = new Answer();
                     a.setContent(rs1.getString("content"));
                     a.setIsTrue(rs1.getBoolean("isTrue"));
@@ -289,7 +289,5 @@ public class QuestionDAO implements IDAO<Question>, IQuestionDAO {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
 
 }

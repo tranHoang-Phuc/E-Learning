@@ -596,19 +596,23 @@
                             <div id="questions">
                                 <div class="question-container question1">
                                     <c:set var="previousQuestionId" value=""/>
+
                                     <c:forEach items="${requestScope.answer}" var="answer">
-                                        <c:if test="${!answer.question.questionId.equals(previousQuestionId)}">
-                                            <div class="question-text" style="position: relative; display: flex">
-                                                <textarea style="width: 100%; margin:1% 1.2% 1.5% 5.5%; border: none;" name="q1" value="${answer.question.questionId}">${answer.question.content}</textarea>
-                                            </div>
-                                            <c:set var="previousQuestionId" value="${answer.question.questionId}"/>
-                                        </c:if>
-                                        <div class="answers1">
-                                            <div style="display: flex" id="answerBox11">
-                                                <textarea style="width: 100%; margin:1% 1.2% 1.5% 5.5%; border: none; color: ${answer.isTrue ? 'green' : 'black'};" name="q1-answer1">${answer.content}</textarea>
+                                        <div class="question">
+                                            <c:if test="${!answer.question.questionId.equals(previousQuestionId)}">
+                                                <div class="question-text" style="position: relative; display: flex">
+                                                    <textarea style="width: 100%; margin:1% 1.2% 1.5% 5.5%; border: none;" name="q1" value="${answer.question.questionId}">${answer.question.content}</textarea>
+                                                </div>
+                                                <c:set var="previousQuestionId" value="${answer.question.questionId}"/>
+                                            </c:if>
+                                            <div class="answers1">
+                                                <div style="display: flex" id="answerBox11">
+                                                    <textarea style="width: 100%; margin:1% 1.2% 1.5% 5.5%; border: none; color: ${answer.isTrue ? 'green' : 'black'};" name="q1-answer1">${answer.content}</textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </c:forEach>
+
                                 </div>
                             </div>
                         </div>

@@ -5,6 +5,7 @@
 package com.fpt.swp391_onlinelearning.service;
 
 import com.fpt.swp391_onlinelearning.convert.Converter;
+import com.fpt.swp391_onlinelearning.dal.CourseDAO;
 import com.fpt.swp391_onlinelearning.dal.idal.ICourseDAO;
 import com.fpt.swp391_onlinelearning.dal.idal.IDAO;
 import com.fpt.swp391_onlinelearning.dto.AccountDTO;
@@ -166,7 +167,7 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
     @Override
     public int getTotalRecord(String searchInfor, String level, String category, String duration, String language) {
         String dataSearch = "";
-        if (searchInfor != null && searchInfor.trim().length() == 0) {
+        if (searchInfor != null) {
             dataSearch = searchInfor;
         }
         int levelId = level == null || level.trim().length() == 0 ? 0 : Integer.parseInt(level);
@@ -206,7 +207,7 @@ public class CourseService implements IService<CourseDTO>, ICourseService {
     @Override
     public int getTotalRecordByAuthor(String pageIndex, String searchInfor, String level, String category, String duration, String language, int userId) {
         String dataSearch = "";
-        if (searchInfor != null && searchInfor.trim().length() == 0) {
+        if (searchInfor!=null) {
             dataSearch = searchInfor;
         }
         int levelId = level == null || level.trim().length() == 0 ? 0 : Integer.parseInt(level);

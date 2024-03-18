@@ -126,7 +126,7 @@ public class AnswerDAO implements IAnswerDAO {
         String sql = "SELECT q.questionId, q.content AS questionContent, a.answerId, a.content AS answerContent, a.isTrue "
                 + "FROM question AS q "
                 + "LEFT JOIN answer AS a ON q.questionId = a.questionId "
-                + "WHERE q.lessonId = ? AND q.isActived =1";
+                + "WHERE q.lessonId = ? AND q.isActivated =1";
         List<Answer> answerList = new ArrayList<>();
         try {
             PreparedStatement stm = connection.prepareStatement(sql);

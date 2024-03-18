@@ -965,7 +965,7 @@
                         <table class="search">
                             <tr>
                                 <td>Information:</td>
-                                <td><input type="text" name="info" value="${requestScope.info}" placeholder="Information of course"></td>
+                                <td><input type="text" style="width: 170px;" name="info" value="${requestScope.info}" placeholder="Information of course"></td>
                                 <td>Level: </td>
                                 <td>
                                     <select name="level" style="width: 116px;">
@@ -989,7 +989,7 @@
                             <tr>
                                 <td>Category:</td>
                                 <td>
-                                    <select name="category" style="width: 203px;">
+                                    <select name="category" style="width: 170px;">
                                         <option value="0" ${requestScopes.category eq 0 or requestScopes.category eq null ? "selected":""}>All category</option>
                                         <c:forEach items="${requestScope.cate}" var="c">
                                             <option value="${c.courseCategoryId}" ${requestScope.category eq c.courseCategoryId ? "selected":""}>${c.name}</option>
@@ -1023,31 +1023,31 @@
                             <table border="1" class="table-sortable">
                                 <thead>
                                     <tr style="background-color: #f2f2f2;">
-                                        <th>#</th>
-                                        <th>Course name</th>
-                                        <th>Category</th>
-                                        <th>Duration</th>
-                                        <th>Language</th>
-                                        <th>Level</th>
+                                        <th style="padding: 5px 10px;">#</th>
+                                        <th style="padding: 5px 10px;">Course name</th>
+                                        <th style="padding: 5px 10px;">Category</th>
+                                        <th style="padding: 5px 10px;">Duration</th>
+                                        <th style="padding: 5px 10px;">Language</th>
+                                        <th style="padding: 5px 10px;">Level</th>
                                             <c:if test="${sessionScope.session.role.roleId eq 4}">
                                             <th>Author</th>
                                             </c:if>
-                                        <th>Status</th>
+                                        <th style="padding: 5px 10px;">Status</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${requestScope.course}" var="c" varStatus="loop">
                                         <tr style="cursor: pointer;" ${c.courseId eq requestScope.chosenCourse.courseId?"id=\"choose\"":""}>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${loop.count}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.category.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.duration.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.language.name}</td>
-                                            <td onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.level.name}</td>
+                                            <td style="padding: 10px 10px;" onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${loop.count}</td>
+                                            <td style="padding: 10px 10px;" onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.name}</td>
+                                            <td style="padding: 10px 10px;" onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.category.name}</td>
+                                            <td style="padding: 10px 10px;" onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.duration.name}</td>
+                                            <td style="padding: 10px 10px;" onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.language.name}</td>
+                                            <td style="padding: 10px 10px;" onclick="chooseCourse(${c.courseId}, '${requestScope.page}', '${requestScope.info}', '${requestScope.level}', '${requestScope.duration}', '${requestScope.category}', '${requestScope.languagge}')">${c.level.name}</td>
                                             <c:if test="${sessionScope.session.role.roleId eq 4}">
-                                                <td onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.author.name}</td>
-                                                <td>
+                                                <td style="padding: 10px 10px;" onclick="chooseCourse(${c.courseId}, '${param.page}', '${param.info}', '${param.level}', '${param.duration}', '${param.category}', '${param.languagge}')">${c.author.name}</td>
+                                                <td style="padding: 10px 10px;">
                                                     <form action="course" method="post" id="form${c.courseId}">
                                                         <input type="hidden" name="info" value="${param.infor}">
                                                         <input type="hidden" name="level" value="${param.level}">
@@ -1067,7 +1067,7 @@
 
                                                 </td>
                                             </c:if>
-                                            <c:if test="${sessionScope.session.role.roleId eq 2}"><td>
+                                            <c:if test="${sessionScope.session.role.roleId eq 2}"><td style="padding: 10px 10px;">
                                                     <c:if test="${c.isActivated eq true}">
                                                         <div style="text-align: center;color: green">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -1108,7 +1108,7 @@
                     </div>
                 </div>
                 <c:if test="${requestScope.chosenCourse ne null}">
-                    <div style="width: 40%;">
+                    <div style="width: 39%;">
                         <div>
                             <div class="course-detail">
                                 <div class="course-introduction">

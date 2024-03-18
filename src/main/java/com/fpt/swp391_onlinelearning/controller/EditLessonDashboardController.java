@@ -171,6 +171,7 @@ public class EditLessonDashboardController extends BaseRequiredActivationControl
                         for (int j = 1; j <= indexAns; j++) {
                             String answer = req.getParameter("q" + i + "-answer" + j);
                             String isTrue = req.getParameter("question" + i + "-" + j);
+                            System.out.println(isTrue);
                             if (answer != null) {
                                 answers.add(answer);
                                 isTrueArray.add(Boolean.valueOf(isTrue));

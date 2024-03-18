@@ -535,15 +535,15 @@
                             <table class="listEnrollTable">
                                 <tbody>
                                     <tr>
-                                        <td><label for="searchInput">Search input:</label></td>
+                                        <td>Search input:</td>
                                         <td><input type="text" id="searchInput" name="searchInput" placeholder="Input..." value="${requestScope.searchInput}"></td>
                                     </tr>
                                     <tr>
-                                        <td><label for="date_from">From:</label></td>
+                                        <td>From:</td>
                                         <td><input type="date" id="timeFrom" name="timeFrom" value="${requestScope.timeFrom}"></td>
                                     </tr>
                                     <tr>
-                                        <td><label for="date_to">To:</label></td>
+                                        <td>To:</td>
                                         <td style="display:flex;" ><input type="date" id="timeTo" name="timeTo" value="${requestScope.timeTo}">
                                             <span style="margin-left: 5%;">
                                                 <button type="submit" style="color:white; background-color: black;margin-bottom: 11px;

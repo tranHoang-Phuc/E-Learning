@@ -117,7 +117,7 @@ public class CourseDashboardController extends BaseRequiredAuthorizationControll
         int page = pageIndex == null || pageIndex.trim().length() == 0 ? 1 : Integer.parseInt(pageIndex);
         int totalRecord = courseService.getTotalRecord(searchInfor, levelString, categoryString, durationString, languageId);
         List<CourseDTO> course = courseService.getAllCoursesPagger(pageIndex, searchInfor, levelString, categoryString, durationString, languageId);
-        int totalPage = totalRecord % 9 == 0 ? (totalRecord / 9) : ((totalRecord / 9) + 1);
+        int totalPage = totalRecord % 8 == 0 ? (totalRecord / 8) : ((totalRecord / 8) + 1);
         List<CourseCategoryDTO> cate = courseCategoryService.getAll();
         List<LevelDTO> level = levelService.getAllLevel();
         List<DurationDTO> duration = durationService.getAllDuration();

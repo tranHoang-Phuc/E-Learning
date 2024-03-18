@@ -451,20 +451,20 @@
                         <table class="listEnrollTable">
                             <tbody>
                                 <tr>
-                                    <td><label for="email">Email:</label></td>
+                                    <td>Email:</td>
                                     <td><input type="text" id="email" name="email" placeholder="All" value="${param.email}"></td>
-                                    <td><label for="course_name">Course Name:</label></td>
+                                    <td>Course Name:</td>
                                     <td><input type="text" id="course_name" name="course_name" placeholder="All" value="${param.course_name}"></td>
                                 </tr>
                                 <tr>
-                                    <td><label for="course_category">Course Category:</label></td>
+                                    <td>Course Category:</td>
                                     <td><select id="course_category" name="course_category">
                                             <option value="0" ${param.course_category eq 0 ? "selected": ""}>All category </option>
                                             <c:forEach var="c" items="${requestScope.courseCategoryList}">
                                                 <option value="${c.courseCategoryId}" ${param.course_category eq c.courseCategoryId ? "selected": ""}>${c.name}</option>
                                             </c:forEach>
                                         </select></td>
-                                    <td><label for="course_duration">Course Duration:</label></td>
+                                    <td>Course Duration:</td>
                                     <td><select id="course_duration" name="course_duration">
                                             <option value="0" ${param.course_duration eq 0 ? "selected": ""}>All duration </option>
                                             <c:forEach var="d" items="${requestScope.durationList}">
@@ -473,9 +473,9 @@
                                         </select></td>
                                 </tr>
                                 <tr>
-                                    <td><label for="date_from">Date From:</label></td>
+                                    <td>Date From:</td>
                                     <td><input type="date" id="date_from" name="date_from" value="${requestScope.dateFrom}"><span></span></td>
-                                    <td><label for="date_to">Date To:</label></td>
+                                    <td>Date To:</td>
                                     <td><input type="date" id="date_to" name="date_to" value="${requestScope.dateTo}">
                                         <span style="margin-left: 5%;">
                                             <button type="submit" style="color:white; background-color: black;margin-bottom: 0px;

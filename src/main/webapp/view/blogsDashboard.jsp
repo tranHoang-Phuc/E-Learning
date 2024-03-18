@@ -442,7 +442,7 @@
             </div>
             <!--Code nội dung cm vào đây-->
             <div class="content">
-                <div class="leftPage" style="width: 40%">
+                <div class="leftPage" style="width: 55%">
                     <c:if test="${requestScope.roleId == 2}">
                         <form action="blogs?action=add" method="get">
                             <input type="hidden" name="action" value="add" />
@@ -454,30 +454,29 @@
                             <tbody>
                                 <c:if test="${requestScope.roleId == 4}">
                                     <tr>
-                                        <td style="padding: 0 10px 10px 10px;"><label for="title">Title:</label></td>
-                                        <td style="padding: 0 10px 10px 10px;"><input type="text" id="title" name="title" placeholder="Title" value="${requestScope.title}"></td>
-                                        <td style="padding: 0 10px 10px 10px;"><label for="author">Author Name:</label></td>
-                                        <td style="padding: 0 10px 10px 10px;"><input type="text" id="author" name="author" placeholder="Author" value="${requestScope.author}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 10px 10px;"><label for="date_from">Date From:</label></td>
-                                        <td style="padding: 10px 10px;"><input type="date" id="date_from" name="date_from" value="${requestScope.dateFrom}"></td>
-                                        <td style="padding: 10px 10px;"><label for="date_to">Date To:</label></td>
-                                        <td style="padding: 10px 10px;"><input type="date" id="date_to" name="date_to" value="${requestScope.dateTo}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 10px 10px;"><label for="blog_category">Category:</label></td>
-                                        <td style="padding: 10px 10px;"><select id="blog_category" name="blog_category">
+                                        <td style="padding: 0 10px 10px 10px;">Title:</td>
+                                        <td style="padding: 0 10px 10px 10px;"><input style="width: 148px;" type="text" id="title" name="title" placeholder="Title" value="${requestScope.title}"></td>
+                                        <td style="padding: 0 10px 10px 10px;">Author Name:</td>
+                                        <td style="padding: 0 10px 10px 10px;"><input style="width: 148px;" type="text" id="author" name="author" placeholder="Author" value="${requestScope.author}"></td>
+                                        <td style="padding: 0 10px 10px 10px;">Category:</td>
+                                        <td style="padding: 0 10px 10px 10px;"><select style="padding: 2.5px;" id="blog_category" name="blog_category">
                                                 <option value="0" ${requestScope.blogCategory eq 0 ? "selected": ""}>All category </option>
                                                 <c:forEach var="b" items="${requestScope.blogCategoryList}">
                                                     <option value="${b.blogCategoryId}" ${requestScope.blogCategory eq b.blogCategoryId ? "selected": ""}>${b.name}</option>
                                                 </c:forEach>
                                             </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px 10px;">Date From:</td>
+                                        <td style="padding: 10px 10px;"><input type="date" id="date_from" name="date_from" value="${requestScope.dateFrom}"></td>
+                                        <td style="padding: 10px 10px;">Date To:</td>
+                                        <td style="padding: 10px 10px;"><input type="date" id="date_to" name="date_to" value="${requestScope.dateTo}"></td>
                                         <td style="margin-left: 5%;padding: 10px 10px;">
                                             <button type="submit" style="color:white; background-color: black;margin-bottom: 0;
                                                     height: 30px; margin-left: 2%; padding: 0px 5px;" class="fa fa-search text-primary"></button>
                                         </td>
                                     </tr>
+
                                 </tbody>
                             </c:if>
                             <c:if test="${requestScope.roleId == 2}">
@@ -491,15 +490,15 @@
                                                 <option value="${b.blogCategoryId}" ${requestScope.blogCategory eq b.blogCategoryId ? "selected": ""}>${b.name}</option>
                                             </c:forEach>
                                         </select></td>
-                                        <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td style="padding: 10px 10px;"><label for="date_from">Date From:</label></td>
                                     <td style="padding: 10px 10px;"><input type="date" id="date_from" name="date_from" value="${requestScope.dateFrom}"></td>
                                     <td style="padding: 10px 10px;"><label for="date_to">Date To:</label></td>
                                     <td style="padding: 10px 10px;"><input type="date" id="date_to" name="date_to" value="${requestScope.dateTo}">
-                                        </td>
-                                <td><button type="submit" style="color:white; background-color: black;margin-bottom: 0;
+                                    </td>
+                                    <td><button type="submit" style="color:white; background-color: black;margin-bottom: 0;
                                                 height: 30px;; padding: 0px 5px;" class="fa fa-search text-primary"></button></td>
                                 </tr>
                                 </tbody>
@@ -587,7 +586,7 @@
                         <h3 class="not_found" style="margin: 0 0 0 200px"> The system has no blog</h3>
                     </c:if>
                 </div>
-                <div class="rightPage" style="width: 50%">
+                <div class="rightPage" style="width: 39%">
                     <!-- blog start -->
                     <c:if test="${not empty requestScope.blog}">
                         <c:if test="${requestScope.roleId == 4}">
@@ -602,7 +601,7 @@
                                     </ul>
                                     <h5 class="post-title">${blog.title}</h5>
                                     <span>${blog.content}</span>
-                                    <div class="ttr-divider bg-gray" style="margin: 25px 0;"><i class="icon-dot c-square"></i></div>
+                                    <div class="ttr-divider bg-gray" style="margin: 20px 0;"><i class="icon-dot c-square"></i></div>
                                     <div class="widget_tag_cloud">
                                         <h6>TAGS</h6>
                                         <div class="tagcloud"> 
@@ -619,7 +618,7 @@
                                     <img style="width: 500px" src="${requestScope.blog.img}" alt="" id="imagePreview" onclick="triggerFileInput()"/>
                                     <input type="file" name="imageFile" accept="image/*" style="display: none" id="uploadInput" onchange="uploadImage(event)">
                                 </div>
-                                    <div class="infor" style="margin: 10px 0 0 0">
+                                <div class="infor" style="margin: 10px 0 0 0">
                                     <div class="form-group">
                                         Title: <input type="text"  value="${requestScope.blog.title}" id="title1" name="title1" style="width: 100%" placeholder="Input your title" onclick="hideError()" class="form-control">
                                     </div>

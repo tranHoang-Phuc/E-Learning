@@ -408,10 +408,6 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
         return course;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new CourseDAO().getCourseDetail(10).isIsActivated());
-    }
-
     @Override
     public Course getCourseDetail(int courseId) {
         Connection connection = DBContext.getConnection();
@@ -1033,6 +1029,10 @@ public class CourseDAO implements IDAO<Course>, ICourseDAO {
             DBContext.close(connection);
         }
         return 0;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(new CourseDAO().getTotalRecordByAuthor("zero", 0, 0, 0, 0, 18));
     }
 
     @Override
